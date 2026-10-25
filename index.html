@@ -294,6 +294,11 @@ h1 .seal{font-family:var(--brush);font-weight:400;font-size:1.05em;padding:3px 6
 .wlist button[aria-current="true"]{background:var(--jade-soft)}
 .toast{border-radius:4px}
 .inapp button{border-radius:4px;background:var(--ink);color:var(--paper)}
+/* 그림: 테두리 없이 가장자리가 종이에 스며들게 */
+.pic{background:transparent;padding:0;border:0;box-shadow:none;border-radius:0;overflow:visible}
+.pic canvas{box-shadow:none;border-radius:0;-webkit-mask-image:radial-gradient(ellipse 62% 60% at 50% 50%,#000 48%,transparent 100%);mask-image:radial-gradient(ellipse 62% 60% at 50% 50%,#000 48%,transparent 100%)}
+.pic .tag{top:6px;left:2px;background:transparent;border-color:var(--line)}
+.pic .tag.ex{left:auto;right:2px}
 @media (prefers-reduced-motion:reduce){.sheet,.wd{transition:none}}
 </style>
 
@@ -715,7 +720,7 @@ function paintScene(){const cv=$("#pic");const w=R.w;if(!w)return;const dpr=Math
     g.strokeStyle=C(ink,.22);g.lineWidth=1;const n=S.has("sea")||S.has("waves")?14:9;for(let i=0;i<n;i++){const y=hz+6+(H-hz)*i/n;const x0=R_(-20,W*.6),len=R_(W*.15,W*.5);g.beginPath();g.moveTo(x0,y);for(let x=0;x<=len;x+=8)g.lineTo(x0+x,y+Math.sin(x*.08+i)*(S.has("waves")?3:1.2));g.stroke()}
     if(S.has("moon")&&!S.has("sea")){for(let i=0;i<6;i++){g.fillStyle=C(gold,.35-i*.04);g.fillRect(mx-mr*R_(.4,1),hz+8+i*((H-hz)/7),mr*R_(.8,2),2)}}
     if(S.has("moon")&&S.has("sea")){for(let i=0;i<7;i++){g.fillStyle=C(gold,.4-i*.05);g.fillRect(mx-mr*(.3+i*.15),hz+5+i*((H-hz)/8),mr*(.6+i*.3),2)}}
-    g.strokeStyle=C(ink,.35);g.lineWidth=1.2;g.beginPath();g.moveTo(0,hz);g.lineTo(W,hz);g.stroke()}
+    g.strokeStyle=C(ink,.14);g.lineWidth=1;g.beginPath();g.moveTo(0,hz);g.lineTo(W,hz);g.stroke()}
   else if(!desert){g.fillStyle=C(GREEN,.10);g.fillRect(0,hz,W,H-hz);g.strokeStyle=C(ink,.18);g.beginPath();g.moveTo(0,hz);for(let x=0;x<=W;x+=12)g.lineTo(x,hz+Math.sin(x*.02)*3);g.stroke()}
   if(S.has("pond")){g.strokeStyle=C(ink,.55);g.lineWidth=3;g.beginPath();g.moveTo(W*.08,H*.97);g.lineTo(W*.2,hz+4);g.lineTo(W*.8,hz+4);g.lineTo(W*.92,H*.97);g.stroke();for(let i=0;i<3;i++)cloud(W*R_(.3,.7),hz+(H-hz)*R_(.3,.7),W*.12,6,.9)}
   if(S.has("waves")){g.strokeStyle=C(paper,.9);g.lineWidth=2;for(let i=0;i<7;i++){const x=R_(0,W),y=R_(hz+10,H-6);g.beginPath();g.arc(x,y,R_(6,12),Math.PI*1.1,Math.PI*1.9);g.stroke()}}
@@ -801,7 +806,7 @@ function paintScene(){const cv=$("#pic");const w=R.w;if(!w)return;const dpr=Math
     g.fillStyle=C(OCHRE,.95);for(let i=0;i<9;i++){g.beginPath();g.arc(x+R_(-u*.6,u*.6),y-u*.55+R_(-2,2),3,0,7);g.fill()}
     g.strokeStyle=C(OCHRE,.9);g.lineWidth=2;for(let i=0;i<5;i++){g.beginPath();g.moveTo(x-u*.8+i*u*.4,H);g.lineTo(x-u*.6+i*u*.3,y+u*.15);g.stroke()}}
   // 낙관
-  g.fillStyle=C(RED,.85);const ss=Math.max(14,Math.min(W,H)*.075);g.fillRect(W-ss-10,H-ss-10,ss,ss);g.fillStyle=C(paper,1);g.font=`400 ${ss*.78}px ${tok("--brush")||tok("--hz")}`;g.textAlign="center";g.textBaseline="middle";g.fillText(w.poet[0],W-10-ss/2,H-10-ss/2+1);
+  g.fillStyle=C(RED,.85);const ss=Math.max(14,Math.min(W,H)*.075);const sx0=W*.8-ss/2,sy0=H*.7-ss/2;g.fillRect(sx0,sy0,ss,ss);g.fillStyle=C(paper,1);g.font=`400 ${ss*.78}px ${tok("--brush")||tok("--hz")}`;g.textAlign="center";g.textBaseline="middle";g.fillText(w.poet[0],sx0+ss/2,sy0+ss/2+1);
 }
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if(!rd.hidden)paintScene()});
 

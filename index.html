@@ -193,7 +193,10 @@ h1{margin:0;font-family:var(--kod);font-weight:700;font-size:min(5.4vw,22px);dis
 :root{--d0:#B5372C;--d1:#2D5FA8;--d2:#A9740A;--d3:#7A4AA6}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--d0:#EE8A7E;--d1:#86AEEB;--d2:#E6BC5C;--d3:#C3A0E6}}
 :root[data-theme="dark"]{--d0:#EE8A7E;--d1:#86AEEB;--d2:#E6BC5C;--d3:#C3A0E6}
-.du{border-bottom:.09em solid currentColor;padding-bottom:.02em}
+.du{border-bottom:.07em solid currentColor;padding-bottom:.03em}
+/* 밑줄이 풀이와 겹치지 않도록 한자 줄 아래 여유 */
+.ln .zh{padding-bottom:.2em}
+.reader.nodui .ln .zh{padding-bottom:.06em}
 .du.d0{color:var(--d0)}.du.d1{color:var(--d1)}.du.d2{color:var(--d2)}.du.d3{color:var(--d3)}
 .reader.nodui .du{color:inherit;border-bottom-color:transparent}
 @media (prefers-reduced-motion:reduce){.sheet,.wd{transition:none}}

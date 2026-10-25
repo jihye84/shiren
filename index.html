@@ -805,8 +805,6 @@ function paintScene(){const cv=$("#pic");const w=R.w;if(!w)return;const dpr=Math
   if(S.has("pot")){const x=W*.62,y=H*.84;g.fillStyle=C(ink,.85);g.beginPath();g.ellipse(x,y-u*.5,u*.9,u*.2,0,0,7);g.fill();g.beginPath();g.moveTo(x-u*.9,y-u*.5);g.quadraticCurveTo(x,y+u*.5,x+u*.9,y-u*.5);g.fill();
     g.fillStyle=C(OCHRE,.95);for(let i=0;i<9;i++){g.beginPath();g.arc(x+R_(-u*.6,u*.6),y-u*.55+R_(-2,2),3,0,7);g.fill()}
     g.strokeStyle=C(OCHRE,.9);g.lineWidth=2;for(let i=0;i<5;i++){g.beginPath();g.moveTo(x-u*.8+i*u*.4,H);g.lineTo(x-u*.6+i*u*.3,y+u*.15);g.stroke()}}
-  // 낙관
-  g.fillStyle=C(RED,.85);const ss=Math.max(14,Math.min(W,H)*.075);const sx0=W*.8-ss/2,sy0=H*.7-ss/2;g.fillRect(sx0,sy0,ss,ss);g.fillStyle=C(paper,1);g.font=`400 ${ss*.78}px ${tok("--brush")||tok("--hz")}`;g.textAlign="center";g.textBaseline="middle";g.fillText(w.poet[0],sx0+ss/2,sy0+ss/2+1);
 }
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if(!rd.hidden)paintScene()});
 

@@ -8,7 +8,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@500;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap">
 <style>
 /* 한 화면 고정: 머리줄 / 연표 캔버스(끌어서 이동·집어서 확대) / 상세는 아래 서랍 */
 :root{
@@ -199,6 +199,101 @@ h1{margin:0;font-family:var(--kod);font-weight:700;font-size:min(5.4vw,22px);dis
 .reader.nodui .ln .zh{padding-bottom:.06em}
 .du.d0{color:var(--d0)}.du.d1{color:var(--d1)}.du.d2{color:var(--d2)}.du.d3{color:var(--d3)}
 .reader.nodui .du{color:inherit;border-bottom-color:transparent}
+
+/* ── 문인화 테마: 화선지 · 먹 · 석청 · 주사 인주 · 비단 표구 ──
+   붓글씨(马善政)는 제목·시인·왕조 한자에만 쓰고, 시 본문은 명조(宋体)로 읽기 쉽게 둔다 */
+:root{
+  --paper:#E9E8E1; --card:#F4F3EE; --ink:#23221F; --muted:#6A675F; --line:#CFCCC1;
+  --jade:#2F6672; --jade-soft:#DCE6E6; --seal:#A8352A; --gold:#B48A2C; --gold-soft:#EFE3BF;
+  --bar:#3B3934; --bar-line:#3B3934; --band1:#DEDCD3; --band2:#D2CFC4; --silk:#CFC8B5; --event:rgba(168,53,42,.07);
+  --brush:"Ma Shan Zheng","Noto Serif SC","STKaiti","KaiTi",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#171714; --card:#1F1F1B; --ink:#E9E6DC; --muted:#A29E92; --line:#3A3832;
+  --jade:#7DB4BC; --jade-soft:#22302F; --seal:#E07C6E; --gold:#DDB858; --gold-soft:#3A3219;
+  --bar:#CFCBBF; --bar-line:#CFCBBF; --band1:#22221E; --band2:#2A2925; --silk:#3E3A30; --event:rgba(224,124,110,.09); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#171714; --card:#1F1F1B; --ink:#E9E6DC; --muted:#A29E92; --line:#3A3832;
+  --jade:#7DB4BC; --jade-soft:#22302F; --seal:#E07C6E; --gold:#DDB858; --gold-soft:#3A3219;
+  --bar:#CFCBBF; --bar-line:#CFCBBF; --band1:#22221E; --band2:#2A2925; --silk:#3E3A30; --event:rgba(224,124,110,.09); color-scheme:dark}
+/* 화선지 결 */
+body{background-color:var(--paper);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .48  0 0 0 0 .42  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* 머리 */
+h1{font-family:var(--kod);letter-spacing:-.01em}
+h1 .seal{font-family:var(--brush);font-weight:400;font-size:1.05em;padding:3px 6px 1px;border-radius:3px;background:var(--seal);color:var(--card);box-shadow:inset 0 0 0 2px var(--seal),inset 0 0 0 3px rgba(255,255,255,.35)}
+.legend{gap:12px}
+.chip{border-radius:4px;border-color:var(--line);background:transparent;padding:5px 12px}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chip.toggle[aria-pressed="true"]{background:var(--jade-soft);color:var(--jade);border-color:var(--jade)}
+
+/* 연표 바탕 */
+.tl{background:var(--card);border-radius:6px;border-color:var(--line)}
+.tick{border-left:1px solid var(--line);opacity:.55}
+.tick span{opacity:1}
+.dyn{font-size:12px;color:var(--muted);border-right:1px solid var(--card)}
+.dyn b{font-family:var(--brush);font-weight:400;font-size:17px;color:var(--ink);margin-right:4px}
+.sub{font-size:10.5px}
+.ev{background:var(--event);border-left:1px dashed var(--seal);border-right:1px dashed var(--seal)}
+
+/* 생존 막대 = 먹선: 붓을 대고 떼는 양 끝을 가늘게 */
+.bar{border:0;border-radius:999px;background-repeat:no-repeat;background-position:center;background-size:100% 55%;background-image:linear-gradient(90deg,transparent,var(--bar) 5%,var(--bar) 95%,transparent);opacity:.7}
+.bar.mine{background-image:linear-gradient(90deg,transparent,var(--jade) 5%,var(--jade) 95%,transparent);opacity:1;background-size:100% 75%}
+.bar.circa{background-image:repeating-linear-gradient(90deg,var(--bar) 0 5px,transparent 5px 8px);opacity:.5}
+.bar.mine.circa{background-image:repeating-linear-gradient(90deg,var(--jade) 0 5px,transparent 5px 8px);opacity:.85}
+.bar.sel{outline:2px solid var(--seal);outline-offset:2px;opacity:1}
+.lab .kn{color:var(--ink)}
+.lab .hzs{font-family:var(--brush);font-weight:400;font-size:1.12em;color:var(--muted)}
+.lab.sel .kn{color:var(--seal)}
+.dot{background:var(--seal);border-radius:1px;transform:rotate(45deg);width:6px;height:6px}
+.lg .dot{margin:0 1px}
+.zoom button{border-radius:4px;background:var(--card)}
+.hint{background:transparent}
+
+/* 시인 서랍 = 족자 */
+.sheet{background:var(--card);border-radius:4px 4px 0 0;border-top:0;box-shadow:0 -1px 0 var(--line),0 -10px 30px rgba(0,0,0,.12)}
+.sheet::before{content:"";display:block;height:8px;background:var(--silk);border-bottom:1px solid var(--line)}
+@media (min-width:900px){.sheet{border-radius:0}.sheet::before{display:none}.sheet{border-left:8px solid var(--silk)}}
+.sh-name .hz{font-family:var(--brush);font-weight:400;font-size:40px;line-height:1}
+.sh-name .kr{font-size:16px;font-weight:700}
+.close{border-radius:4px}
+.desc{font-size:15.5px;line-height:1.75}
+.qbox{background:transparent;border-left:3px solid var(--seal);border-radius:0}
+.works li{border-radius:4px;background:transparent}
+.works li.sel{background:var(--gold-soft);border-color:var(--gold)}
+.works .t{font-family:var(--brush);font-weight:400;font-size:20px}
+.go{border-radius:4px;border-color:var(--ink);color:var(--ink);font-weight:400}
+.go:hover{background:var(--ink);color:var(--paper)}
+
+/* 감상 화면 */
+.reader{background-color:var(--paper);background-image:inherit}
+.ib{border-radius:4px;background:transparent}
+.rt .t1{font-family:var(--brush);font-weight:400;font-size:min(7.4vw,30px);line-height:1.15}
+.rt .t3{font-size:14px}
+/* 그림 = 비단으로 표구한 족자 */
+.pic{border:0;border-radius:2px;background:var(--silk);padding:7px;box-sizing:border-box;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.pic canvas{border-radius:1px;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+.pic .tag{border-radius:3px;top:15px;left:15px;background:var(--card)}
+.pic .tag.ex{left:auto;right:15px}
+.ln{border-radius:4px}
+.ln:hover{background:rgba(127,120,100,.08)}
+.ln.on{background:var(--gold-soft)}
+.ln .zh rt{color:var(--jade)}
+.rf .nav{border-radius:4px;background:transparent;border-color:var(--line)}
+.rf .nav.wk{color:var(--ink)}
+.play{border-radius:4px;background:var(--ink);color:var(--paper)}
+.play small{opacity:.7}
+.wd{background:var(--card)}
+.wd h2{font-family:var(--kod)}
+.vseg{border-radius:4px}.vseg button{border-radius:3px}
+.vseg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);box-shadow:none}
+.set select{border-radius:4px}
+.wlist .g{font-family:var(--kod)}
+.wlist button{border-radius:4px}
+.wlist button .wt{font-family:var(--brush);font-size:18px}
+.wlist button[aria-current="true"]{background:var(--jade-soft)}
+.toast{border-radius:4px}
+.inapp button{border-radius:4px;background:var(--ink);color:var(--paper)}
 @media (prefers-reduced-motion:reduce){.sheet,.wd{transition:none}}
 </style>
 
@@ -706,7 +801,7 @@ function paintScene(){const cv=$("#pic");const w=R.w;if(!w)return;const dpr=Math
     g.fillStyle=C(OCHRE,.95);for(let i=0;i<9;i++){g.beginPath();g.arc(x+R_(-u*.6,u*.6),y-u*.55+R_(-2,2),3,0,7);g.fill()}
     g.strokeStyle=C(OCHRE,.9);g.lineWidth=2;for(let i=0;i<5;i++){g.beginPath();g.moveTo(x-u*.8+i*u*.4,H);g.lineTo(x-u*.6+i*u*.3,y+u*.15);g.stroke()}}
   // 낙관
-  g.fillStyle=C(RED,.85);const ss=Math.max(14,Math.min(W,H)*.075);g.fillRect(W-ss-10,H-ss-10,ss,ss);g.fillStyle=C(paper,1);g.font=`700 ${ss*.62}px ${tok("--hz")}`;g.textAlign="center";g.textBaseline="middle";g.fillText(w.poet[0],W-10-ss/2,H-10-ss/2+1);
+  g.fillStyle=C(RED,.85);const ss=Math.max(14,Math.min(W,H)*.075);g.fillRect(W-ss-10,H-ss-10,ss,ss);g.fillStyle=C(paper,1);g.font=`400 ${ss*.78}px ${tok("--brush")||tok("--hz")}`;g.textAlign="center";g.textBaseline="middle";g.fillText(w.poet[0],W-10-ss/2,H-10-ss/2+1);
 }
 matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if(!rd.hidden)paintScene()});
 

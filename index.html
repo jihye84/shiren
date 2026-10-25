@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+<title>중국 시인 연표</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap">
+<style>
+/* 한 화면 고정: 머리줄 / 연표 캔버스(끌어서 이동·집어서 확대) / 상세는 아래 서랍 */
+:root{
+  --paper:#F2F4EF; --card:#FBFCF9; --ink:#1A231F; --muted:#5D6A64; --line:#D5DCD5;
+  --jade:#1E6A58; --jade-soft:#DCEBE5; --bar:#E4EDE8; --bar-line:#9FBDB2; --seal:#B5372C;
+  --gold:#C89B1E; --gold-soft:#F5E7B8; --band1:#E3E8E1; --band2:#D4DDD5; --event:rgba(181,55,44,.08);
+  --hz:"Noto Serif SC","Songti SC","STSong",serif;
+  --ko:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --kod:"Gowun Batang","AppleMyungjo","Batang",serif;
+  --py:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#111714; --card:#18201C; --ink:#E5ECE7; --muted:#97A59E; --line:#2C3832;
+  --jade:#6CBCA4; --jade-soft:#1F3229; --bar:#1E2A24; --bar-line:#3D5A4F; --seal:#E2766A;
+  --gold:#E3BE4F; --gold-soft:#3A3218; --band1:#1A231F; --band2:#222D27; --event:rgba(226,118,106,.10); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111714; --card:#18201C; --ink:#E5ECE7; --muted:#97A59E; --line:#2C3832;
+  --jade:#6CBCA4; --jade-soft:#1F3229; --bar:#1E2A24; --bar-line:#3D5A4F; --seal:#E2766A;
+  --gold:#E3BE4F; --gold-soft:#3A3218; --band1:#1A231F; --band2:#222D27; --event:rgba(226,118,106,.10); color-scheme:dark}
+html,body{height:100%;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--ko);-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--jade);outline-offset:2px}
+.app{height:100%;display:grid;grid-template-rows:auto auto 1fr;gap:8px;box-sizing:border-box;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
+header{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h1{margin:0;font-family:var(--kod);font-weight:700;font-size:min(5.4vw,22px);display:flex;align-items:center;gap:8px}
+.seal{font-family:var(--hz);background:var(--seal);color:var(--card);border-radius:4px;padding:2px 5px;font-size:.78em;line-height:1.1}
+.legend{font-size:12px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lg{display:inline-flex;align-items:center;gap:4px}
+.dia{width:9px;height:9px;transform:rotate(45deg);display:inline-block;background:var(--gold);border:1.5px solid var(--gold);box-sizing:border-box}
+.dia.est{background:transparent}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--seal);display:inline-block}
+.tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:13px}
+.chip[aria-pressed="true"]{background:var(--jade);border-color:var(--jade);color:var(--card)}
+.chip.toggle[aria-pressed="true"]{background:var(--jade-soft);color:var(--jade);border-color:var(--jade)}
+.spacer{flex:1}
+
+.tl{position:relative;min-height:0;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:14px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.tl.drag{cursor:grabbing}
+.tl > *{position:absolute}
+.tick{top:0;bottom:0;border-left:1px dashed var(--line)}
+.tick span{position:absolute;top:4px;left:4px;font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.dyn{display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;font-size:12px;border-right:1px solid var(--card)}
+.dyn b{font-family:var(--hz);font-weight:700;margin-right:3px}
+.sub{display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;font-size:10.5px;color:var(--muted);border-right:1px solid var(--line)}
+.dynline{border-left:1px solid var(--line)}
+.ev{background:var(--event);border-left:1px solid var(--seal);border-right:1px solid var(--seal);opacity:.9}
+.ev span{position:absolute;bottom:4px;left:4px;font-size:10.5px;color:var(--seal);white-space:nowrap}
+.bar{background:var(--bar);border:1px solid var(--bar-line);border-radius:999px;box-sizing:border-box;cursor:pointer}
+.bar.mine{background:var(--jade-soft);border-color:var(--jade)}
+.bar.sel{outline:2px solid var(--jade);outline-offset:1px}
+.bar.circa{border-style:dashed}
+.lab{white-space:nowrap;overflow:hidden;display:flex;align-items:center;gap:4px;cursor:pointer;line-height:1}
+.lab.sel .hz{color:var(--jade)}
+.lab .hz{font-family:var(--hz);font-weight:700}
+.lab .kr{color:var(--muted)}
+.lab .kn{font-family:var(--kod);font-weight:700}
+.lab .hzs{font-family:var(--hz);color:var(--muted);font-weight:500}
+.lab.sel .kn{color:var(--jade)}
+.gm{width:var(--s);height:var(--s);transform:translate(-50%,-50%) rotate(45deg);background:var(--gold);border:1.5px solid var(--gold);box-sizing:border-box;cursor:pointer;z-index:2}
+.gm.est{background:var(--card)}
+.gm:hover,.gm.sel{box-shadow:0 0 0 3px var(--gold-soft)}
+.zoom{right:max(10px,env(safe-area-inset-right,0px));bottom:10px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.zoom button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:18px;line-height:1}
+.bar::before,.gm::before{content:"";position:absolute;inset:-9px -2px}
+.gm::before{inset:-7px}
+.hint{left:10px;bottom:10px;pointer-events:none;font-size:11px;color:var(--muted);z-index:4;background:var(--card);padding:2px 6px;border-radius:6px}
+
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);border-radius:18px 18px 0 0;
+  box-shadow:0 -8px 24px rgba(0,0,0,.14);max-height:58%;display:flex;flex-direction:column;transform:translateY(105%);transition:transform .22s ease}
+.sheet.open{transform:none}
+.sheet-in{overflow:auto;padding:12px max(18px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(18px,env(safe-area-inset-left,0px));display:grid;gap:10px;max-width:680px;margin:0 auto;width:100%;box-sizing:border-box}
+@media (min-width:900px){.sheet{left:auto;top:0;width:400px;max-height:none;border-radius:18px 0 0 18px;border-top:0;border-left:1px solid var(--line);transform:translateX(105%)}
+  .sheet-in{padding-top:calc(env(safe-area-inset-top,0px) + 16px)}}
+.sh-top{display:flex;align-items:flex-start;gap:10px}
+.sh-name{display:grid;gap:2px}
+.sh-name .hz{font-family:var(--hz);font-weight:700;font-size:28px;line-height:1.1}
+.sh-name .kr{font-family:var(--kod);font-size:15px}
+.sh-name .py{font-family:var(--py);color:var(--jade);font-size:13px}
+.close{margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:10px;width:36px;height:36px;flex:none}
+.meta{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.desc{font-family:var(--kod);font-size:15px;line-height:1.65;margin:0}
+.works{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.works li{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;padding:8px 10px;border-radius:10px;border:1px solid var(--line)}
+.works li.sel{border-color:var(--gold);background:var(--gold-soft)}
+.works .yr{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;display:flex;align-items:center;gap:6px;padding-top:3px}
+.works .t{font-family:var(--hz);font-weight:700;font-size:16px}
+.works .n{grid-column:2;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.qbox{border-left:3px solid var(--seal);padding:6px 10px;background:var(--paper);border-radius:0 8px 8px 0}
+.qbox .lbl{font-size:12px;color:var(--seal);font-weight:700}
+.qbox .q{font-family:var(--hz);font-size:17px;line-height:1.6}
+.h3{font-size:12px;letter-spacing:.06em;color:var(--muted);margin-top:4px}
+
+.inapp{position:fixed;inset:0;z-index:40;background:var(--paper);display:grid;place-items:center;padding:24px;text-align:center}
+.inapp div{max-width:320px;display:grid;gap:12px;font-size:15px;line-height:1.6}
+.inapp button{border:0;background:var(--jade);color:var(--card);border-radius:10px;padding:10px}
+.inapp .skip{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.go{grid-column:2;justify-self:start;margin-top:2px;border:1px solid var(--jade);background:transparent;color:var(--jade);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700}
+/* 감상 화면: 머리줄 / 그림 / 구절(쪽 넘김) / 조작줄 — 스크롤 없음 */
+.reader{position:fixed;inset:0;z-index:30;background:var(--paper);display:grid;grid-template-rows:auto auto 1fr auto;gap:8px;box-sizing:border-box;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:calc(env(safe-area-inset-top,0px) + 10px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 10px)}
+.reader > *{max-width:720px;width:100%;margin:0 auto;box-sizing:border-box}
+.rh{display:flex;align-items:center;gap:10px;min-width:0}
+.ib{border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;flex:none;display:grid;place-items:center;font-size:17px}
+.ib svg{width:20px;height:20px}
+.rt{min-width:0;flex:1;display:grid;gap:1px}
+.rt .t1{font-family:var(--hz);font-weight:700;font-size:min(5.6vw,22px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rt .t2{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rt .t2 b{font-weight:400;color:var(--jade);font-family:var(--py)}
+.pic{position:relative;height:clamp(110px,28vh,300px);border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.pic canvas{width:100%;height:100%;display:block}
+.pic .tag{position:absolute;left:10px;top:10px;font-size:12px;background:var(--card);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.pic .tag.ex{left:auto;right:10px;color:var(--seal);border-color:var(--seal)}
+.lines{position:relative;min-height:0;overflow:hidden;container-type:inline-size}
+.ln{display:grid;gap:3px;width:100%;text-align:center;border:0;background:transparent;border-radius:12px;padding:6px 6px 8px;cursor:pointer;margin-bottom:4px}
+.ln:hover{background:var(--card)}
+.ln.on{background:var(--gold-soft)}
+.ln .zh{font-family:var(--hz);font-weight:700;line-height:1;font-size:var(--fz);letter-spacing:.02em}
+.ln .zh ruby{ruby-position:over;margin:0 .07em}
+.ln .zh rt{font-family:var(--py);font-weight:500;font-size:max(.33em,10px);color:var(--jade);padding-bottom:.18em;letter-spacing:0}
+.ln .zh .pu{color:var(--muted);font-weight:500}
+.ln .ko{font-family:var(--kod);font-size:min(3.9vw,15px);line-height:1.45;color:var(--ink);text-wrap:balance}
+.reader.nopy .ln rt{visibility:hidden}
+.reader.noko .ln .ko{visibility:hidden}
+.rf{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.rf .nav{border:1px solid var(--line);background:var(--card);border-radius:12px;height:48px;padding:0 16px;font-size:15px}
+.rf .nav:disabled{opacity:.35;cursor:default}
+.play{border:0;background:var(--jade);color:var(--card);border-radius:12px;height:48px;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px}
+.play small{font-weight:400;opacity:.85;font-variant-numeric:tabular-nums}
+.wd-scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:34}
+.wd{position:fixed;top:0;right:0;bottom:0;width:min(88vw,380px);z-index:35;background:var(--card);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:12px;box-sizing:border-box;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) 16px;transform:translateX(105%);transition:transform .22s ease}
+.wd.open{transform:none}
+.wd h2{margin:0;font-family:var(--kod);font-size:17px;display:flex;align-items:center}
+.wd h2 .ib{margin-left:auto}
+.wd .about{font-size:13.5px;line-height:1.6;color:var(--ink);font-family:var(--kod)}
+.wd .about .m{color:var(--muted);font-family:var(--ko);font-size:12.5px}
+.set{display:grid;gap:8px;font-size:14px}
+.set label{display:flex;align-items:center;gap:8px}
+.set input[type=checkbox]{accent-color:var(--jade);width:18px;height:18px}
+.set input[type=range]{flex:1;accent-color:var(--jade)}
+.wlist{flex:1;min-height:0;overflow:auto;border-top:1px solid var(--line);padding-top:6px;display:flex;flex-direction:column;gap:1px}
+.wlist > *{flex:none}
+.wlist .g{font-size:13px;font-weight:700;color:var(--ink);margin:12px 0 2px;padding:0 8px;letter-spacing:.02em}
+.wlist .g:first-child{margin-top:4px}
+.wlist button{border:0;background:transparent;text-align:left;padding:7px 8px;border-radius:8px;display:grid;gap:2px;min-height:44px;align-content:center}
+.wlist button .wt{font-family:var(--hz);font-size:15.5px;line-height:1.3}
+.wlist button .wk{font-family:var(--kod);font-size:12.5px;color:var(--muted);line-height:1.35}
+.wlist button[aria-current="true"] .wk{color:var(--jade)}
+.wlist button[aria-current="true"]{background:var(--jade-soft);color:var(--jade)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 72px);z-index:50;background:var(--ink);color:var(--paper);border-radius:10px;padding:9px 14px;font-size:13px;line-height:1.5;width:min(86vw,420px);text-align:center;box-sizing:border-box}
+.vrow{display:flex;align-items:center;gap:10px}
+.vseg{display:flex;background:var(--jade-soft);border-radius:999px;padding:3px}
+.vseg button{border:0;background:transparent;padding:5px 14px;border-radius:999px;font-size:13.5px;color:var(--muted)}
+.vseg button[aria-pressed="true"]{background:var(--card);color:var(--jade);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.set select{flex:1;min-width:0;font:inherit;font-size:13px;padding:5px 6px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.set .m{font-size:12px;color:var(--muted);line-height:1.5}
+.rt .t1,.rt .t2{cursor:pointer;border-radius:6px;transition:background .15s}
+.rt .t1.on,.rt .t2.on{background:var(--gold-soft)}
+.rt .t3{font-family:var(--kod);font-size:13.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rt .t4{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.rt .t4 .pk{font-family:var(--kod);font-weight:700}
+.rt .t4 .ph{font-family:var(--hz)}
+.rt .t4 b{font-weight:500;color:var(--jade);font-family:var(--py)}
+.rt .t4 .m{color:var(--muted)}
+.rt .t4{cursor:pointer;border-radius:6px}
+.rt .t4.on{background:var(--gold-soft)}
+.rf .nav.wk{font-size:13.5px;padding:0 12px;color:var(--jade)}
+@media (orientation:landscape) and (max-height:540px){
+  .reader{grid-template-columns:minmax(0,36%) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;column-gap:14px}
+  .reader > *{max-width:none}
+  .rh,.rf{grid-column:1/-1}
+  .pic{grid-row:2;grid-column:1;height:auto}
+  .lines{grid-row:2;grid-column:2}
+  .rt .t3{display:none}
+  .rf .nav,.play{height:42px}
+}
+@media (prefers-reduced-motion:reduce){.sheet,.wd{transition:none}}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1><span class="seal">詩</span>중국 시인 연표</h1>
+    <div class="legend">
+      <span class="lg"><i class="dia"></i>작품 연도</span>
+      <span class="lg"><i class="dia est"></i>추정 연도</span>
+      <span class="lg"><i class="dot"></i>받아치기 수록</span>
+    </div>
+  </header>
+  <div class="tools" id="tools">
+    <button class="chip" data-r="-600,1930">전체</button>
+    <button class="chip" data-r="-600,460">선진~육조</button>
+    <button class="chip" data-r="640,880" aria-pressed="true">당</button>
+    <button class="chip" data-r="930,1300">송</button>
+    <button class="chip" data-r="1230,1930">원·명·청</button>
+    <span class="spacer"></span>
+    <button class="chip toggle" id="onlyApp" aria-pressed="false">수록 시인만</button>
+  </div>
+  <div class="tl" id="tl" aria-label="연표: 끌어서 이동, 두 손가락이나 휠로 확대"></div>
+</div>
+
+<aside class="sheet" id="sheet" aria-live="polite"><div class="sheet-in" id="sheetIn"></div></aside>
+
+<section class="reader" id="reader" hidden aria-label="작품 감상">
+  <header class="rh">
+    <button class="ib" id="rBack" aria-label="연표로 돌아가기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="rt"><div class="t1" id="rTitle"></div><div class="t3" id="rKt"></div><div class="t2" id="rSub"></div><div class="t4" id="rPoet"></div></div>
+    <button class="ib" id="rMenu" aria-label="작품 목록과 설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </header>
+  <div class="pic"><canvas id="pic" aria-hidden="true"></canvas><span class="tag" id="rKind"></span><span class="tag ex" id="rEx" hidden>발췌</span></div>
+  <div class="lines" id="lines"></div>
+  <footer class="rf">
+    <button class="nav" id="pPrev" aria-label="앞쪽">◀</button>
+    <button class="play" id="pPlay"><span id="pPlayT">▶ 전체 듣기</span><small id="pPage"></small></button>
+    <button class="nav" id="pNext" aria-label="뒤쪽">▶</button>
+  </footer>
+</section>
+<div class="wd-scrim" id="wdScrim" hidden></div>
+<aside class="wd" id="wd" aria-label="작품 목록과 설정">
+  <h2>작품 · 설정<button class="ib" id="wdClose" aria-label="닫기">✕</button></h2>
+  <div class="about" id="wdAbout"></div>
+  <div class="set">
+    <label><input type="checkbox" id="oPy" checked> 병음 보이기</label>
+    <label><input type="checkbox" id="oKo" checked> 우리말 풀이 보이기 (끄고 외워 보기)</label>
+    <div class="vrow"><span>목소리</span><div class="vseg" id="oVmode" role="group" aria-label="목소리"><button data-v="f">여자</button><button data-v="m">남자</button></div></div>
+    <label>음성 <select id="oVoice"></select></label>
+    <div class="m" id="oVoiceNote"></div>
+    <label>속도 <input type="range" id="oRate" min="0.5" max="1.1" step="0.05" value="0.75"><span id="oRateV" class="m">0.75</span></label>
+  </div>
+  <div class="wlist" id="wlist"></div>
+</aside>
+
+<div class="inapp" id="inapp" hidden><div>
+  <b>기본 브라우저에서 열어 주세요</b>
+  <span>앱 안 브라우저에서는 화면이 제대로 보이지 않을 수 있어요. ⋯ 메뉴에서 <b>다른 브라우저로 열기</b>를 눌러 주세요.</span>
+  <button id="copyLink">링크 복사</button>
+  <button class="skip" id="skipInapp">그냥 여기서 보기</button>
+</div></div>
+
+<script>
+const DYN=[[-770,-476,"춘추","春秋"],[-475,-221,"전국","战国"],[-221,-206,"진","秦"],[-206,8,"전한","西汉"],[9,23,"신","新"],[25,220,"후한","东汉"],[220,280,"삼국","三国"],[280,420,"진","晋"],[420,581,"남북조","南北朝"],[581,618,"수","隋"],[618,907,"당","唐"],[907,960,"오대","五代"],[960,1127,"북송","北宋"],[1127,1279,"남송","南宋"],[1279,1368,"원","元"],[1368,1644,"명","明"],[1644,1912,"청","清"]];
+const SUB=[[618,712,"초당 初唐"],[713,766,"성당 盛唐"],[766,835,"중당 中唐"],[836,907,"만당 晚唐"]];
+const EV=[[755,763,"안사의 난"],[1127,1128,"정강의 변 · 남송으로"],[1276,1279,"남송 멸망"]];
+const P=[
+ {h:"孔子",k:"공자",py:"Kǒng Zǐ",b:-551,d:-479,era:"춘추",desc:"유가의 시조예요. 시인은 아니지만 제자들이 그의 말을 모은 《논어》는 중국 사람들이 가장 많이 인용하는 고전이고, 《시경》을 엮었다는 전승도 있어요.",
+  w:[{t:"论语",n:"사후에 제자들이 엮은 어록. 학이(学而) 편 첫머리에 손님맞이 단골 구절이 나와요."}],q:[["有朋自远方来","不亦乐乎"]]},
+ {h:"屈原",k:"굴원",py:"Qū Yuán",b:-340,d:-278,cb:1,era:"전국 · 초",desc:"초나라의 귀족 정치가예요. 모함으로 쫓겨난 뒤 멱라강에 몸을 던졌고, 단오의 쭝쯔와 용선 경주가 그를 기리는 풍습에서 나왔다고 전해요. 《초사(楚辞)》의 대표 작가예요.",
+  w:[{t:"离骚",y:-305,est:1,n:"추방된 뒤 지은 장편 서정시. 연도는 학설마다 달라요."},{t:"天问",n:"하늘에 던지는 170여 개의 질문으로 이루어진 시."}],q:[["路漫漫其修远兮","吾将上下而求索"]]},
+ {h:"曹操",k:"조조",py:"Cáo Cāo",b:155,d:220,era:"후한 말",desc:"삼국지의 그 조조예요. 위나라의 기초를 세운 정치가이자, 아들 조비·조식과 함께 건안문학을 이끈 시인이에요.",
+  w:[{t:"观沧海",y:207,n:"오환 원정에서 돌아오는 길에 갈석산에 올라 바다를 보고 지음. 东临碣石，以观沧海."},{t:"短歌行",y:208,est:1,n:"对酒当歌，人生几何 — 술자리에서 지금도 자주 읊는 구절."}]},
+ {h:"曹植",k:"조식",py:"Cáo Zhí",b:192,d:232,era:"삼국 · 위",desc:"조조의 아들이에요. 형 조비의 견제 속에 살았고, '일곱 걸음 안에 시를 지어라'는 칠보시(七步诗) 전설의 주인공이에요.",
+  w:[{t:"洛神赋",y:222,est:1,n:"낙수의 여신을 만난 꿈을 그린 부(賦). 서문의 연도와 실제 연도를 두고 설이 갈려요."},{t:"七步诗",n:"煮豆燃豆萁 — 콩대로 콩을 삶는다. 연대와 진위 모두 불확실한 전설."}]},
+ {h:"陶渊明",k:"도연명",py:"Táo Yuānmíng",b:365,d:427,era:"동진 ~ 남조 송",desc:"관직을 버리고 고향에 돌아가 농사지으며 산 은거 시인이에요. 전원시의 시조로 불려요.",
+  w:[{t:"归去来兮辞",y:405,n:"팽택 현령이 된 지 80여 일 만에 사직하며 지음(서문에 연도 명시)."},{t:"饮酒 其五",y:417,est:1,n:"采菊东篱下，悠然见南山 — 동쪽 울타리 아래 국화를 따다 남산을 본다."},{t:"桃花源记",y:421,est:1,n:"무릉도원 이야기의 원전."}]},
+ {h:"王勃",k:"왕발",py:"Wáng Bó",b:650,d:676,cb:1,era:"초당",desc:"초당사걸(初唐四杰) 중 한 명이에요. 귀양 간 아버지를 뵈러 가던 길에 바다에 빠져 스물대여섯에 세상을 떠났어요.",
+  w:[{t:"送杜少府之任蜀州",y:668,est:1,n:"장안에서 촉 땅으로 부임하는 벗 두 소부를 배웅하며."},{t:"滕王阁序",y:675,n:"등왕각 잔치에서 즉석으로 지었다는 명문. 落霞与孤鹜齐飞."}],q:[["海内存知己","天涯若比邻"]]},
+ {h:"陈子昂",k:"진자앙",py:"Chén Zǐ'áng",b:659,d:700,era:"초당",desc:"육조의 화려하기만 한 문풍을 비판하고 기개 있는 시를 주장해 성당 시의 길을 연 시인이에요.",
+  w:[{t:"登幽州台歌",y:696,n:"前不见古人，后不见来者 — 원정 중 유주대에 올라."}]},
+ {h:"贺知章",k:"하지장",py:"Hè Zhīzhāng",b:659,d:744,era:"초당 ~ 성당",desc:"이백을 처음 보고 '하늘에서 귀양 온 신선(谪仙人)'이라 부른 사람이에요. 여든이 넘어 벼슬을 내려놓고 고향으로 돌아갔어요.",
+  w:[{t:"回乡偶书",y:744,n:"少小离家老大回 — 50여 년 만에 고향에 돌아와."},{t:"咏柳",n:"二月春风似剪刀 — 봄바람을 가위에 빗댄 시."}]},
+ {h:"张若虚",k:"장약허",py:"Zhāng Ruòxū",b:660,d:720,cb:1,cd:1,era:"초당",desc:"전하는 시가 단 두 수뿐인데, 그중 한 편으로 '한 편으로 당 전체를 덮었다(孤篇盖全唐)'는 평을 받아요.",
+  w:[{t:"春江花月夜",n:"봄 강, 꽃, 달, 밤을 한데 엮은 장편. 연대 미상."}]},
+ {h:"张九龄",k:"장구령",py:"Zhāng Jiǔlíng",b:678,d:740,era:"성당",desc:"현종 때의 명재상이에요. 이임보에게 밀려 형주로 좌천됐어요.",
+  w:[{t:"望月怀远",y:737,est:1,n:"海上生明月，天涯共此时 — 바다 위로 달이 뜨니 하늘 끝에서도 지금 함께 보리. 千里共婵娟과 통하는 달 노래."}]},
+ {h:"王翰",k:"왕한",py:"Wáng Hàn",b:687,d:726,cb:1,cd:1,era:"성당",desc:"호방한 성격의 부잣집 출신 시인이에요. 전하는 작품은 적지만 〈량주사〉 한 수로 이름을 남겼어요. 생몰년은 대략이에요.",
+  w:[{t:"凉州词",n:"서북 변방 량주의 술자리 노래. 연대 미상."}],q:[["葡萄美酒夜光杯","欲饮琵琶马上催"]]},
+ {h:"王之涣",k:"왕지환",py:"Wáng Zhīhuàn",b:688,d:742,era:"성당",desc:"왕창령·고적과 술집에 갔다가 기생들이 누구 시를 많이 부르나 내기했다는 '기정화벽(旗亭画壁)' 일화로 유명해요.",
+  w:[{t:"登鹳雀楼",n:"관작루에 올라. 연대 미상."},{t:"凉州词",n:"黄河远上白云间 — 왕한과 같은 제목의 다른 시. 연대 미상."}],q:[["欲穷千里目","更上一层楼"]]},
+ {h:"孟浩然",k:"맹호연",py:"Mèng Hàorán",b:689,d:740,era:"성당",desc:"평생 벼슬 없이 산 전원·산수 시인이에요. 이백이 그를 존경해 〈황학루에서 광릉 가는 맹호연을 보내며〉를 지었어요.",
+  w:[{t:"春晓",n:"春眠不觉晓 — 봄잠에 새벽 오는 줄 몰랐네. 연대 미상."}]},
+ {h:"王昌龄",k:"왕창령",py:"Wáng Chānglíng",b:698,d:756,cb:1,era:"성당",desc:"칠언절구의 대가라 '칠절성수(七绝圣手)'로 불려요. 변방을 노래한 시가 특히 유명해요.",
+  w:[{t:"出塞",n:"秦时明月汉时关 — 진나라 때 달, 한나라 때 관문. 연대 미상."}]},
+ {h:"王维",k:"왕유",py:"Wáng Wéi",b:701,d:761,era:"성당",desc:"독실한 불교 신자라 '시불(诗佛)'로 불려요. 화가이기도 해서, 소식은 그의 시를 '시 속에 그림이 있다(诗中有画)'고 평했어요.",
+  w:[{t:"九月九日忆山东兄弟",y:717,est:1,n:"제목 아래 '그때 나이 열일곱'이라는 본인 주석이 있어요. 출생 연도 설에 따라 1~2년 달라져요."},{t:"送元二使安西",n:"훗날 같은 구절을 세 번 되풀이하는 송별곡 '양관삼첩'이 돼요. 연대 미상."}],q:[["劝君更尽一杯酒","西出阳关无故人"],["独在异乡为异客","每逢佳节倍思亲"]]},
+ {h:"李白",k:"이백",py:"Lǐ Bái",b:701,d:762,era:"성당",desc:"'시선(诗仙)'이라 불리는, 술과 달과 방랑의 시인이에요. 현종의 궁정에 잠시 있었지만 곧 쫓겨나 평생을 떠돌았어요.",
+  w:[{t:"静夜思",y:726,est:1,n:"床前明月光 — 양주에 머물 때 지었다는 설."},{t:"行路难",y:744,est:1,n:"장안을 떠나며. 长风破浪会有时."},{t:"将进酒",y:752,est:1,n:"벗들과의 술자리. 君不见黄河之水天上来."},{t:"赠汪伦",y:755,est:1,n:"도화담에서 왕륜과 작별하며."},{t:"早发白帝城",y:759,n:"유배 길에 사면 소식을 듣고 기쁨에 차서. 千里江陵一日还."}],
+  q:[["桃花潭水深千尺","不及汪伦送我情"],["人生得意须尽欢","莫使金樽空对月"],["天生我材必有用","千金散尽还复来"],["长风破浪会有时","直挂云帆济沧海"]]},
+ {h:"高适",k:"고적",py:"Gāo Shì",b:704,d:765,cb:1,era:"성당",desc:"쉰 가까이 되어서야 출세한 변새(변방) 시인이에요. 당나라 시인 가운데 벼슬이 가장 높았다는 평을 들어요.",
+  w:[{t:"别董大",y:747,est:1,n:"금(琴) 연주의 명인 동정란과 헤어지며."}],q:[["莫愁前路无知己","天下谁人不识君"]]},
+ {h:"杜甫",k:"두보",py:"Dù Fǔ",b:712,d:770,era:"성당 ~ 중당",desc:"'시성(诗圣)'이에요. 안사의 난으로 무너지는 나라와 백성의 고통을 기록해, 그의 시를 '시로 쓴 역사(诗史)'라고 불러요.",
+  w:[{t:"望岳",y:736,est:1,n:"과거에 떨어진 뒤 태산을 바라보며. 청년 두보의 포부."},{t:"春望",y:757,n:"반란군에 함락된 장안에서. 国破山河在."},{t:"登高",y:767,n:"만년 기주에서. 无边落木萧萧下 — 칠언율시의 최고작으로 꼽혀요."}],q:[["会当凌绝顶","一览众山小"]]},
+ {h:"岑参",k:"잠삼",py:"Cén Shēn",b:715,d:770,cb:1,era:"성당",desc:"실제로 서역 변방에서 근무하며 사막과 설산을 생생하게 그린 변새 시인이에요.",
+  w:[{t:"白雪歌送武判官归京",y:754,est:1,n:"忽如一夜春风来，千树万树梨花开 — 눈 내린 나무를 배꽃에 빗대."}]},
+ {h:"韩愈",k:"한유",py:"Hán Yù",b:768,d:824,era:"중당",desc:"당송팔대가의 으뜸이에요. 꾸밈 많은 변려문 대신 옛 문장(古文)으로 돌아가자는 운동을 이끌었어요.",
+  w:[{t:"早春呈水部张十八员外",y:823,n:"天街小雨润如酥 — 이른 봄비를 노래한 절구."}]},
+ {h:"刘禹锡",k:"유우석",py:"Liú Yǔxī",b:772,d:842,era:"중당",desc:"개혁에 가담했다가 23년이나 지방을 떠돌았지만 꺾이지 않아 '시호(诗豪)'라 불려요. 백거이와 평생 시를 주고받았어요.",
+  w:[{t:"陋室铭",n:"山不在高，有仙则名 — 누추한 집에 붙인 글. 연대 미상."},{t:"酬乐天扬州初逢席上见赠",y:826,n:"양주에서 백거이를 처음 만난 술자리에서 그의 시에 답하며."}],q:[["沉舟侧畔千帆过","病树前头万木春"]]},
+ {h:"白居易",k:"백거이",py:"Bái Jūyì",b:772,d:846,era:"중당",desc:"누구나 알아듣게 쓰려고 시를 노파에게 읽어 주고 고쳤다는 일화가 있어요. 유우석의 평생 벗이에요.",
+  w:[{t:"赋得古原草送别",y:787,est:1,n:"열여섯 살 무렵, 대가 고황을 놀라게 했다는 시."},{t:"长恨歌",y:806,n:"현종과 양귀비의 사랑과 이별."},{t:"琵琶行",y:816,n:"강주로 좌천됐을 때 비파 타는 여인을 만나."}],q:[["野火烧不尽","春风吹又生"]]},
+ {h:"柳宗元",k:"유종원",py:"Liǔ Zōngyuán",b:773,d:819,era:"중당",desc:"유우석과 함께 개혁에 가담했다가 영주로 쫓겨났어요. 당송팔대가 중 한 명이에요.",
+  w:[{t:"江雪",y:808,est:1,n:"千山鸟飞绝 — 영주 유배 시절, 눈 덮인 강의 홀로 낚시하는 노인."}]},
+ {h:"李贺",k:"이하",py:"Lǐ Hè",b:790,d:816,era:"중당",desc:"기괴하고 환상적인 시풍으로 '시귀(诗鬼)'라 불려요. 스물여섯에 세상을 떠났어요.",
+  w:[{t:"李凭箜篌引",n:"공후 연주를 신화적 이미지로 그린 시. 연대 미상."}]},
+ {h:"杜牧",k:"두목",py:"Dù Mù",b:803,d:852,era:"만당",desc:"이상은과 함께 '작은 이백·두보(小李杜)'로 불려요. 산뜻한 칠언절구가 특기예요.",
+  w:[{t:"山行",n:"停车坐爱枫林晚 — 단풍 숲이 좋아 수레를 멈추네. 연대 미상."},{t:"清明",n:"清明时节雨纷纷. 작자를 두고 논란이 있어요."}]},
+ {h:"李商隐",k:"이상은",py:"Lǐ Shāngyǐn",b:813,d:858,cb:1,era:"만당",desc:"뜻이 깊고 모호한 '무제(无题)' 연작으로 유명해요. 당파 싸움 사이에 끼어 평생 불우했어요.",
+  w:[{t:"无题",n:"제목 없는 사랑시 연작. 연대 미상."},{t:"锦瑟",y:858,est:1,n:"만년작으로 보는 설이 많아요. 해석이 가장 분분한 시."}],q:[["身无彩凤双飞翼","心有灵犀一点通"]]},
+ {h:"李煜",k:"이욱",py:"Lǐ Yù",b:937,d:978,era:"오대 · 남당",desc:"남당의 마지막 임금이에요. 나라를 잃고 송에 붙잡혀 지낸 슬픔을 노래한 사(詞)로 '사의 황제(词帝)'라 불려요.",
+  w:[{t:"虞美人",y:978,est:1,n:"春花秋月何时了 — 이 사 때문에 독살당했다는 전설."}]},
+ {h:"柳永",k:"유영",py:"Liǔ Yǒng",b:984,d:1053,cb:1,cd:1,era:"북송",desc:"기방과 저잣거리에서 사랑받은 사(詞) 작가예요. '우물물 마시는 곳이면 유영의 사를 부른다'는 말이 있었어요.",
+  w:[{t:"雨霖铃",n:"杨柳岸，晓风残月 — 이별의 사. 연대 미상."}]},
+ {h:"范仲淹",k:"범중엄",py:"Fàn Zhòngyān",b:989,d:1052,era:"북송",desc:"북송의 개혁 정치가예요. 문인 관료의 이상을 한 문장으로 남겼어요.",
+  w:[{t:"岳阳楼记",y:1046,n:"先天下之忧而忧，后天下之乐而乐 — 천하의 근심을 먼저 근심하고, 즐거움은 나중에."}]},
+ {h:"欧阳修",k:"구양수",py:"Ōuyáng Xiū",b:1007,d:1072,era:"북송",desc:"북송 문단의 지도자예요. 과거 시험관으로 소식 형제를 발탁했어요.",
+  w:[{t:"醉翁亭记",y:1046,n:"저주로 좌천됐을 때. 醉翁之意不在酒."}]},
+ {h:"王安石",k:"왕안석",py:"Wáng Ānshí",b:1021,d:1086,era:"북송",desc:"신법(新法) 개혁을 이끈 재상이자 당송팔대가예요. 소식과는 정적이었지만 서로의 글재주를 인정했어요.",
+  w:[{t:"登飞来峰",y:1050,est:1,n:"서른 살, 근현 임기를 마치고 돌아가는 길에."},{t:"泊船瓜洲",y:1075,est:1,n:"春风又绿江南岸 — '绿' 한 글자를 수십 번 고쳤다는 일화."}],q:[["不畏浮云遮望眼","自缘身在最高层"]]},
+ {h:"苏轼",k:"소식(소동파)",py:"Sū Shì",b:1037,d:1101,era:"북송",desc:"호는 동파(东坡)예요. 시·사·문장·서예·그림에 요리(동파육)까지 두루 뛰어났어요. 필화로 황주에 유배된 뒤 오히려 명작을 쏟아냈어요.",
+  w:[{t:"水调歌头",y:1076,n:"밀주에서 중추절에 동생 소철을 그리며. 서문에 연도가 적혀 있어요."},{t:"念奴娇·赤壁怀古",y:1082,n:"大江东去 — 황주 유배 중 적벽에서."},{t:"赤壁赋",y:1082,n:"같은 해 가을, 적벽에서의 뱃놀이."},{t:"题西林壁",y:1084,n:"여산을 유람하며 서림사 벽에 쓴 시."}],q:[["但愿人长久","千里共婵娟"],["不识庐山真面目","只缘身在此山中"]]},
+ {h:"李清照",k:"이청조",py:"Lǐ Qīngzhào",b:1084,d:1155,cd:1,era:"북송 ~ 남송",desc:"중국 최고의 여성 사인으로 꼽혀요. 남편을 잃고 남쪽으로 피란한 뒤의 사에 슬픔이 짙어요.",
+  w:[{t:"如梦令",n:"昨夜雨疏风骤 — 绿肥红瘦 한 구절로 유명한 젊은 날의 사. 연대 미상."},{t:"声声慢",n:"寻寻觅觅，冷冷清清 — 첩어 열네 글자로 시작하는 사. 남쪽으로 피란한 뒤 작품으로 봐요."}]},
+ {h:"陆游",k:"육유",py:"Lù Yóu",b:1125,d:1210,era:"남송",desc:"남송의 애국 시인이에요. 금나라에 빼앗긴 북쪽 땅을 되찾기를 평생 꿈꾸며 1만 수 가까운 시를 남겼어요.",
+  w:[{t:"游山西村",y:1167,n:"파직되어 고향 산음에 머물 때."},{t:"示儿",y:1210,n:"임종 시. 王师北定中原日，家祭无忘告乃翁 — 북쪽을 되찾는 날 제사 때 꼭 알려다오."}],q:[["山重水复疑无路","柳暗花明又一村"]]},
+ {h:"杨万里",k:"양만리",py:"Yáng Wànlǐ",b:1127,d:1206,era:"남송",desc:"자연의 한순간을 재치 있게 포착한 '성재체(诚斋体)'로 유명해요.",
+  w:[{t:"晓出净慈寺送林子方",n:"接天莲叶无穷碧 — 서호의 연잎. 연대 미상."}]},
+ {h:"朱熹",k:"주희",py:"Zhū Xī",b:1130,d:1200,era:"남송",desc:"성리학(주자학)을 집대성한 학자예요. 조선의 국가 이념이 된 바로 그 주자예요.",
+  w:[{t:"观书有感",y:1166,est:1,n:"책을 읽다 깨달은 바를 맑은 연못에 빗대."}],q:[["问渠那得清如许","为有源头活水来"]]},
+ {h:"辛弃疾",k:"신기질",py:"Xīn Qìjí",b:1140,d:1207,era:"남송",desc:"금나라 땅에서 의병을 일으켜 남송으로 넘어온 무인 출신 사인이에요. 소식과 함께 호방파의 대표예요.",
+  w:[{t:"青玉案·元夕",n:"众里寻他千百度 — 정월 대보름 밤. 연대 미상."},{t:"永遇乐·京口北固亭怀古",y:1205,n:"예순여섯, 진강의 북고정에 올라."}]},
+ {h:"文天祥",k:"문천상",py:"Wén Tiānxiáng",b:1236,d:1283,era:"남송",desc:"남송의 마지막 충신이에요. 원에 붙잡혀 끝내 항복하지 않고 처형됐어요.",
+  w:[{t:"过零丁洋",y:1279,n:"人生自古谁无死，留取丹心照汗青 — 포로로 끌려가며."},{t:"正气歌",y:1281,n:"대도의 감옥에서."}]},
+ {h:"马致远",k:"마치원",py:"Mǎ Zhìyuǎn",b:1250,d:1321,cb:1,cd:1,era:"원",desc:"원나라의 산곡(散曲)·잡극 작가예요.",
+  w:[{t:"天净沙·秋思",n:"枯藤老树昏鸦 — 스물여덟 글자로 그린 나그네의 가을. 연대 미상."}]},
+ {h:"唐寅",k:"당인",py:"Táng Yín",b:1470,d:1524,era:"명",desc:"자는 백호(伯虎). 화가이자 시인으로 '강남 제일의 풍류 재자'라 불렸어요.",
+  w:[{t:"桃花庵歌",y:1505,est:1,n:"별장 도화암을 짓고. 别人笑我太疯癫."}]},
+ {h:"纳兰性德",k:"납란성덕",py:"Nàlán Xìngdé",b:1655,d:1685,era:"청",desc:"만주 귀족 출신의 사인이에요. 서른에 요절했지만 애절한 사로 지금도 사랑받아요.",
+  w:[{t:"木兰花令·拟古决绝词",n:"人生若只如初见 — 인생이 처음 만났을 때 같기만 하다면. 연대 미상."}]},
+ {h:"龚自珍",k:"공자진",py:"Gōng Zìzhēn",b:1792,d:1841,era:"청",desc:"청 말의 개혁 사상가이자 시인이에요.",
+  w:[{t:"己亥杂诗",y:1839,n:"落红不是无情物，化作春泥更护花 — 관직을 버리고 고향으로 가는 길에 지은 315수."}]},
+];
+P.forEach((p,i)=>{p.id=i;p.app=!!(p.q&&p.q.length)});
+
+const $=s=>document.querySelector(s);
+const tl=$("#tl");
+const BOUND=[-800,1960];
+let view={s:640,e:880},onlyApp=false,sel={p:null,w:null};
+const fy=y=>y<0?`BC ${-y}`:`${y}`;
+const fyk=y=>y<0?`기원전 ${-y}년`:`${y}년`;
+
+function lanes(list){const ends=[];const L=new Map();[...list].sort((a,b)=>a.b-b.b).forEach(p=>{let i=ends.findIndex(e=>e+14<p.b);if(i<0){i=ends.length;ends.push(0)}ends[i]=p.d;L.set(p.id,i)});return {L,n:ends.length}}
+let laneInfo;
+function vis(){return onlyApp?P.filter(p=>p.app):P}
+function relane(){laneInfo=lanes(vis())}
+relane();
+
+function niceStep(span,W){const target=span/Math.max(3,Math.floor(W/90));const st=[5,10,20,25,50,100,200,250,500,1000];return st.find(s=>s>=target)||1000}
+
+function render(){
+  const W=tl.clientWidth,H=tl.clientHeight;const span=view.e-view.s;const k=W/span;const X=y=>(y-view.s)*k;
+  const axisH=22,bandH=28,subH=16,top=axisH+bandH+subH+8;
+  const nL=laneInfo.n;const laneH=Math.max(15,Math.min(48,(H-top-14)/nL));const tight=laneH<24;
+  let h="";
+  // 사건 띠
+  EV.forEach(([a,b,t])=>{const x=X(a),w=Math.max(2,X(b)-x);if(x+w<0||x>W)return;h+=`<div class="ev" style="left:${x}px;width:${w}px;top:${axisH+bandH+subH}px;bottom:0"><span>${w>40||span<300?t:""}</span></div>`});
+  // 눈금
+  const st=niceStep(span,W);for(let y=Math.ceil(view.s/st)*st;y<=view.e;y+=st){h+=`<div class="tick" style="left:${X(y)}px"><span>${fy(y)}</span></div>`}
+  // 왕조
+  DYN.forEach(([a,b,ko,hz],i)=>{const x=X(a),w=X(b)-x;if(x+w<0||x>W)return;const lab=w>70?`<b>${hz}</b>${ko}`:w>30?`<b>${hz}</b>`:w>14?`<b>${hz[0]}</b>`:"";
+    h+=`<div class="dyn" style="left:${x}px;width:${w}px;top:${axisH}px;height:${bandH}px;background:var(${i%2?"--band2":"--band1"})" title="${ko} ${a<0?"BC "+(-a):a}–${b<0?"BC "+(-b):b}">${lab}</div>`;
+    h+=`<div class="dynline" style="left:${x}px;top:${axisH+bandH}px;bottom:0"></div>`});
+  SUB.forEach(([a,b,t])=>{const x=X(a),w=X(b)-x;if(x+w<0||x>W)return;h+=`<div class="sub" style="left:${x}px;width:${w}px;top:${axisH+bandH}px;height:${subH}px">${w>70?t:w>30?t.split(" ")[0]:""}</div>`});
+  // 시인: 이름 줄 + 가는 생존 막대
+  const list=vis();const byLane={};list.forEach(p=>{(byLane[laneInfo.L.get(p.id)]??=[]).push(p)});Object.values(byLane).forEach(a=>a.sort((x,y)=>x.b-y.b));
+  const fs=Math.max(9.5,Math.min(13.5,laneH*.36));const barH=Math.max(5,Math.min(12,laneH-fs*1.3-6));const s=Math.max(10,barH+5);
+  list.forEach(p=>{
+    const li=laneInfo.L.get(p.id);const x=X(p.b),x2=X(p.d);if(x2<-200||x>W)return;
+    const ly=top+li*laneH+2,by=ly+fs*1.3+2;const arr=byLane[li];const nx=arr[arr.indexOf(p)+1];
+    const lx=Math.max(x,2);const room=(nx?X(nx.b):W+400)-lx-6;
+    const on=sel.p===p.id?" sel":"";
+    if(room>16)h+=`<div class="lab${on}" data-p="${p.id}" style="left:${lx}px;top:${ly}px;max-width:${room}px;font-size:${fs}px;height:${fs*1.3}px">${p.app?'<i class="dot"></i>':""}${tight?`<span class="kn">${p.k.replace(/\(.*\)/,"")}</span>`:`<span class="kn">${p.k.replace(/\(.*\)/,"")}</span><span class="hzs">${p.h}</span>`}</div>`;
+    h+=`<div class="bar${p.app?" mine":""}${p.cb||p.cd?" circa":""}${on}" data-p="${p.id}" style="left:${x}px;width:${Math.max(3,x2-x)}px;top:${by}px;height:${barH}px"></div>`;
+    (p.w||[]).forEach((w,wi)=>{if(w.y==null)return;const gx=X(w.y);if(gx<-10||gx>W+10)return;
+      h+=`<div class="gm${w.est?" est":""}${sel.p===p.id&&sel.w===wi?" sel":""}" data-p="${p.id}" data-w="${wi}" title="${w.t} · ${fyk(w.y)}${w.est?" (추정)":""}" style="left:${gx}px;top:${by+barH/2}px;--s:${s}px"></div>`});
+  });
+  h+=`<div class="zoom"><button id="zin" aria-label="확대">+</button><button id="zout" aria-label="축소">−</button></div>`;
+  if(!hintSeen)h+=`<div class="hint">끌어서 이동 · 이름을 누르면 작품</div>`;
+  tl.innerHTML=h;
+  $("#zin").onclick=e=>{e.stopPropagation();zoomAt(W/2,0.7)};$("#zout").onclick=e=>{e.stopPropagation();zoomAt(W/2,1/0.7)};
+}
+let raf=0;const req=()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;render()})};
+function clamp(){let span=Math.min(Math.max(view.e-view.s,24),BOUND[1]-BOUND[0]);let s=view.s;s=Math.max(BOUND[0],Math.min(s,BOUND[1]-span));view={s,e:s+span}}
+function zoomAt(px,f){const W=tl.clientWidth;const yr=view.s+px/W*(view.e-view.s);const span=(view.e-view.s)*f;view={s:yr-px/W*span,e:yr-px/W*span+span};clamp();req();markPreset()}
+
+// 포인터: 끌기·집기·누르기
+const pts=new Map();let start=null,moved=false,downTarget=null;
+let hintSeen=false;
+tl.addEventListener("pointerdown",e=>{if(e.target.closest(".zoom"))return;hintSeen=true;tl.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=false;downTarget=e.target;snap()});
+function snap(){const a=[...pts.values()];start={view:{...view},a:a.map(p=>({...p})),W:tl.clientWidth,left:tl.getBoundingClientRect().left}}
+tl.addEventListener("pointermove",e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const a=[...pts.values()];const sp=start.view.e-start.view.s,W=start.W;
+  if(a.length===1&&start.a.length===1){const dx=a[0].x-start.a[0].x;if(Math.abs(dx)>5||Math.abs(a[0].y-start.a[0].y)>5)moved=true;if(moved){tl.classList.add("drag");const d=-dx/W*sp;view={s:start.view.s+d,e:start.view.e+d};clamp();req()}}
+  else if(a.length>=2&&start.a.length>=2){moved=true;const d0=Math.abs(start.a[0].x-start.a[1].x)||1,d1=Math.abs(a[0].x-a[1].x)||1;const c0=(start.a[0].x+start.a[1].x)/2-start.left,c1=(a[0].x+a[1].x)/2-start.left;
+    const yr=start.view.s+c0/W*sp;const span=sp*d0/d1;const s=yr-c1/W*span;view={s,e:s+span};clamp();req()}});
+function up(e){if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);tl.classList.remove("drag");
+  if(!moved&&pts.size===0&&downTarget){const g=downTarget.closest(".gm"),b=downTarget.closest(".bar,.lab");if(g)openP(+g.dataset.p,+g.dataset.w);else if(b)openP(+b.dataset.p,null);else closeSheet()}
+  if(pts.size){snap()}else markPreset()}
+tl.addEventListener("pointerup",up);tl.addEventListener("pointercancel",up);
+tl.addEventListener("wheel",e=>{e.preventDefault();const r=tl.getBoundingClientRect();if(Math.abs(e.deltaX)>Math.abs(e.deltaY)||e.shiftKey){const d=(e.shiftKey?e.deltaY:e.deltaX)/r.width*(view.e-view.s);view={s:view.s+d,e:view.e+d};clamp();req()}else zoomAt(e.clientX-r.left,Math.exp(e.deltaY*0.0015))},{passive:false});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet();const sp=view.e-view.s;if(e.key==="ArrowRight"){view={s:view.s+sp*.15,e:view.e+sp*.15};clamp();req()}if(e.key==="ArrowLeft"){view={s:view.s-sp*.15,e:view.e-sp*.15};clamp();req()}if(e.key==="+"||e.key==="=")zoomAt(tl.clientWidth/2,.7);if(e.key==="-")zoomAt(tl.clientWidth/2,1/.7)});
+
+// 상단 단추
+const chips=[...document.querySelectorAll("#tools [data-r]")];
+chips.forEach(c=>c.onclick=()=>{const [a,b]=c.dataset.r.split(",").map(Number);view={s:a,e:b};clamp();req();markPreset()});
+function markPreset(){chips.forEach(c=>{const [a,b]=c.dataset.r.split(",").map(Number);c.setAttribute("aria-pressed",Math.abs(view.s-a)<1&&Math.abs(view.e-b)<1)})}
+$("#onlyApp").onclick=e=>{onlyApp=!onlyApp;e.currentTarget.setAttribute("aria-pressed",onlyApp);relane();req()};
+
+// 상세 서랍
+function openP(pid,wi){sel={p:pid,w:wi};const p=P[pid];
+  if(p.d<view.s+(view.e-view.s)*.05||p.b>view.e-(view.e-view.s)*.3){const sp=view.e-view.s;const mid=(p.b+p.d)/2;const shift=innerWidth>=900?sp*.15:0;view={s:mid-sp/2+shift,e:mid+sp/2+shift};clamp();markPreset()}
+  const life=`${fyk(p.b)}${p.cb?"경":""} – ${fyk(p.d)}${p.cd?"경":""}`;
+  const works=(p.w||[]).map((w,i)=>`<li class="${i===wi?"sel":""}"><span class="yr">${w.y!=null?`<i class="dia${w.est?" est":""}"></i>${w.est?"약 ":""}${fy(w.y)}`:"연대 미상"}</span><span class="t">${w.t}</span><span class="n">${w.n}</span>${w.k?`<button class="go" data-k="${w.k}">원문 감상 ›</button>`:""}</li>`).join("");
+  const qs=(p.q||[]).map(([a,b])=>`<div class="q">${a}，${b}</div>`).join("");
+  $("#sheetIn").innerHTML=`<div class="sh-top"><div class="sh-name"><span class="hz">${p.h}</span><span class="kr">${p.k}</span><span class="py">${p.py}</span></div><button class="close" id="shClose" aria-label="닫기">✕</button></div>
+   <div class="meta">${life} · ${p.era}${p.b>0?` · 향년 약 ${p.d-p.b}세`:""}</div>
+   <p class="desc">${p.desc}</p>
+   ${qs?`<div class="qbox"><div class="lbl">한시 받아치기 수록 구절</div>${qs}</div>`:""}
+   <div class="h3">대표작</div><ul class="works">${works}</ul>`;
+  $("#shClose").onclick=closeSheet;$("#sheetIn").querySelectorAll(".go").forEach(b=>b.onclick=()=>openReader(b.dataset.k));$("#sheet").classList.add("open");
+  const li=$("#sheetIn .works li.sel");if(li)li.scrollIntoView({block:"nearest"});else $("#sheetIn").scrollTop=0;
+  req()}
+function closeSheet(){$("#sheet").classList.remove("open");sel={p:null,w:null};req()}
+
+new ResizeObserver(req).observe(tl);
+render();
+
+// ───────── 작품 원문 데이터 ─────────
+const WK=[{"key":"lunyu","poet":"孔子","title":"论语·学而","kind":"어록","ex":true,"scene":"day mtn1 pine house bamboo","tp":"lún yǔ xué ér","lines":[{"h":"学而时习之，","p":["xué","ér","shí","xí","zhī",""],"k":"배우고 때때로 익히면"},{"h":"不亦说乎？","p":["bú","yì","yuè","hū",""],"k":"또한 기쁘지 아니한가."},{"h":"有朋自远方来，","p":["yǒu","péng","zì","yuǎn","fāng","lái",""],"k":"벗이 먼 곳에서 찾아오니"},{"h":"不亦乐乎？","p":["bú","yì","lè","hū",""],"k":"또한 즐겁지 아니한가."},{"h":"人不知而不愠，","p":["rén","bù","zhī","ér","bú","yùn",""],"k":"남이 알아주지 않아도 성내지 않으니"},{"h":"不亦君子乎？","p":["bú","yì","jūn","zǐ","hū",""],"k":"또한 군자가 아니겠는가."}],"kt":"《논어》 학이 편"},{"key":"lisao","poet":"屈原","title":"离骚","kind":"초사","ex":true,"scene":"dusk mtn3 river reeds wind","tp":"lí sāo","lines":[{"h":"长太息以掩涕兮，","p":["cháng","tài","xī","yǐ","yǎn","tì","xī",""],"k":"길게 탄식하며 눈물을 훔치노니"},{"h":"哀民生之多艰。","p":["āi","mín","shēng","zhī","duō","jiān",""],"k":"백성의 삶이 고달픔을 슬퍼하노라."},{"h":"亦余心之所善兮，","p":["yì","yú","xīn","zhī","suǒ","shàn","xī",""],"k":"내 마음이 옳다고 여기는 것이라면"},{"h":"虽九死其犹未悔。","p":["suī","jiǔ","sǐ","qí","yóu","wèi","huǐ",""],"k":"아홉 번 죽더라도 뉘우치지 않으리."},{"h":"路漫漫其修远兮，","p":["lù","màn","màn","qí","xiū","yuǎn","xī",""],"k":"길은 아득하고 멀고도 멀구나,"},{"h":"吾将上下而求索。","p":["wú","jiāng","shàng","xià","ér","qiú","suǒ",""],"k":"나는 위로 아래로 오르내리며 찾으리라."}],"kt":"근심을 만나다"},{"key":"tianwen","poet":"屈原","title":"天问","kind":"초사","ex":true,"scene":"night stars mtn2 clouds","tp":"tiān wèn","lines":[{"h":"遂古之初，","p":["suì","gǔ","zhī","chū",""],"k":"아득한 태초의 일을"},{"h":"谁传道之？","p":["shuí","chuán","dào","zhī",""],"k":"누가 전하여 말했는가?"},{"h":"上下未形，","p":["shàng","xià","wèi","xíng",""],"k":"하늘과 땅이 아직 모양을 갖추지 않았거늘"},{"h":"何由考之？","p":["hé","yóu","kǎo","zhī",""],"k":"무엇으로 그것을 따져 알았는가?"}],"kt":"하늘에 묻다"},{"key":"guancanghai","poet":"曹操","title":"观沧海","kind":"시","ex":false,"scene":"day sea rocks waves pine wind sun","tp":"guān cāng hǎi","lines":[{"h":"东临碣石，","p":["dōng","lín","jié","shí",""],"k":"동쪽으로 갈석산에 다다라"},{"h":"以观沧海。","p":["yǐ","guān","cāng","hǎi",""],"k":"푸른 바다를 바라본다."},{"h":"水何澹澹，","p":["shuǐ","hé","dàn","dàn",""],"k":"물은 어찌 이리 넘실거리는가,"},{"h":"山岛竦峙。","p":["shān","dǎo","sǒng","zhì",""],"k":"산 같은 섬들이 우뚝 솟았네."},{"h":"树木丛生，","p":["shù","mù","cóng","shēng",""],"k":"나무들이 빽빽이 자라고"},{"h":"百草丰茂。","p":["bǎi","cǎo","fēng","mào",""],"k":"온갖 풀이 무성하다."},{"h":"秋风萧瑟，","p":["qiū","fēng","xiāo","sè",""],"k":"가을바람 쓸쓸히 불어"},{"h":"洪波涌起。","p":["hóng","bō","yǒng","qǐ",""],"k":"큰 물결이 솟구친다."},{"h":"日月之行，","p":["rì","yuè","zhī","xíng",""],"k":"해와 달의 운행이"},{"h":"若出其中；","p":["ruò","chū","qí","zhōng",""],"k":"마치 그 속에서 나오는 듯하고"},{"h":"星汉灿烂，","p":["xīng","hàn","càn","làn",""],"k":"찬란한 은하수도"},{"h":"若出其里。","p":["ruò","chū","qí","lǐ",""],"k":"마치 그 안에서 나오는 듯하다."},{"h":"幸甚至哉，","p":["xìng","shèn","zhì","zāi",""],"k":"이 얼마나 다행한 일인가,"},{"h":"歌以咏志。","p":["gē","yǐ","yǒng","zhì",""],"k":"노래로 내 뜻을 읊노라."}],"kt":"푸른 바다를 바라보며"},{"key":"duangexing","poet":"曹操","title":"短歌行","kind":"시","ex":true,"scene":"night moon wine cup birds mtn1","tp":"duǎn gē xíng","lines":[{"h":"对酒当歌，","p":["duì","jiǔ","dāng","gē",""],"k":"술을 마주하면 노래해야지,"},{"h":"人生几何！","p":["rén","shēng","jǐ","hé",""],"k":"인생이 얼마나 된다고!"},{"h":"譬如朝露，","p":["pì","rú","zhāo","lù",""],"k":"비유하자면 아침 이슬 같아"},{"h":"去日苦多。","p":["qù","rì","kǔ","duō",""],"k":"지나간 날만 괴롭도록 많구나."},{"h":"慨当以慷，","p":["kǎi","dāng","yǐ","kāng",""],"k":"북받치는 마음 격하게 토해도"},{"h":"忧思难忘。","p":["yōu","sī","nán","wàng",""],"k":"근심은 잊기 어려워라."},{"h":"何以解忧？","p":["hé","yǐ","jiě","yōu",""],"k":"무엇으로 이 근심을 풀까?"},{"h":"唯有杜康。","p":["wéi","yǒu","dù","kāng",""],"k":"오직 술(두강)이 있을 뿐."},{"h":"山不厌高，","p":["shān","bú","yàn","gāo",""],"k":"산은 높음을 마다하지 않고"},{"h":"海不厌深。","p":["hǎi","bú","yàn","shēn",""],"k":"바다는 깊음을 마다하지 않네."},{"h":"周公吐哺，","p":["zhōu","gōng","tǔ","bǔ",""],"k":"주공이 먹던 밥을 뱉고 인재를 맞으니"},{"h":"天下归心。","p":["tiān","xià","guī","xīn",""],"k":"천하의 마음이 그에게 돌아갔도다."}],"kt":"짧은 노래"},{"key":"luoshenfu","poet":"曹植","title":"洛神赋","kind":"부","ex":true,"scene":"dawn river mist geese chrys pine","tp":"luò shén fù","lines":[{"h":"翩若惊鸿，","p":["piān","ruò","jīng","hóng",""],"k":"날렵하기는 놀라 나는 기러기 같고"},{"h":"婉若游龙。","p":["wǎn","ruò","yóu","lóng",""],"k":"부드럽기는 헤엄치는 용 같네."},{"h":"荣曜秋菊，","p":["róng","yào","qiū","jú",""],"k":"빛나기는 가을 국화 같고"},{"h":"华茂春松。","p":["huá","mào","chūn","sōng",""],"k":"무성하기는 봄 소나무 같구나."}],"kt":"낙수 여신의 노래"},{"key":"qibushi","poet":"曹植","title":"七步诗","kind":"시","ex":false,"scene":"night pot fire beans","tp":"qī bù shī","lines":[{"h":"煮豆燃豆萁，","p":["zhǔ","dòu","rán","dòu","qí",""],"k":"콩을 삶는데 콩대를 태우니"},{"h":"豆在釜中泣。","p":["dòu","zài","fǔ","zhōng","qì",""],"k":"솥 안의 콩이 우는구나."},{"h":"本是同根生，","p":["běn","shì","tóng","gēn","shēng",""],"k":"본디 한 뿌리에서 났거늘"},{"h":"相煎何太急。","p":["xiāng","jiān","hé","tài","jí",""],"k":"어찌 이리 급하게 볶아 대는가."}],"kt":"일곱 걸음의 시"},{"key":"guiqulai","poet":"陶渊明","title":"归去来兮辞","kind":"사부","ex":true,"scene":"dusk mtn2 house fence willow field","tp":"guī qù lái xī cí","lines":[{"h":"归去来兮，","p":["guī","qù","lái","xī",""],"k":"돌아가련다,"},{"h":"田园将芜胡不归？","p":["tián","yuán","jiāng","wú","hú","bù","guī",""],"k":"전원이 묵어 가는데 어찌 돌아가지 않으랴?"},{"h":"既自以心为形役，","p":["jì","zì","yǐ","xīn","wéi","xíng","yì",""],"k":"스스로 마음을 몸의 종으로 삼았으니"},{"h":"奚惆怅而独悲？","p":["xī","chóu","chàng","ér","dú","bēi",""],"k":"어찌 홀로 슬퍼하고만 있으랴?"},{"h":"悟已往之不谏，","p":["wù","yǐ","wǎng","zhī","bú","jiàn",""],"k":"지난 일은 돌이킬 수 없음을 깨닫고"},{"h":"知来者之可追。","p":["zhī","lái","zhě","zhī","kě","zhuī",""],"k":"앞날은 따라잡을 수 있음을 알았노라."},{"h":"实迷途其未远，","p":["shí","mí","tú","qí","wèi","yuǎn",""],"k":"길을 잃었으나 아직 멀리 오지 않았으니"},{"h":"觉今是而昨非。","p":["jué","jīn","shì","ér","zuó","fēi",""],"k":"오늘이 옳고 어제가 글렀음을 깨닫네."}],"kt":"돌아가련다"},{"key":"yinjiu5","poet":"陶渊明","title":"饮酒·其五","kind":"시","ex":false,"scene":"dusk mtn2 fence chrys birds house","tp":"yǐn jiǔ qí wǔ","lines":[{"h":"结庐在人境，","p":["jié","lú","zài","rén","jìng",""],"k":"사람 사는 곳에 초가를 지었으나"},{"h":"而无车马喧。","p":["ér","wú","chē","mǎ","xuān",""],"k":"수레와 말의 시끄러움이 없네."},{"h":"问君何能尔？","p":["wèn","jūn","hé","néng","ěr",""],"k":"그대에게 묻노니 어찌 그럴 수 있는가?"},{"h":"心远地自偏。","p":["xīn","yuǎn","dì","zì","piān",""],"k":"마음이 멀어지면 땅도 절로 외지다네."},{"h":"采菊东篱下，","p":["cǎi","jú","dōng","lí","xià",""],"k":"동쪽 울타리 아래 국화를 따다가"},{"h":"悠然见南山。","p":["yōu","rán","jiàn","nán","shān",""],"k":"유유히 남산을 바라본다."},{"h":"山气日夕佳，","p":["shān","qì","rì","xī","jiā",""],"k":"산 기운은 해 질 녘에 아름답고"},{"h":"飞鸟相与还。","p":["fēi","niǎo","xiāng","yǔ","huán",""],"k":"나는 새들은 짝지어 돌아온다."},{"h":"此中有真意，","p":["cǐ","zhōng","yǒu","zhēn","yì",""],"k":"이 가운데 참뜻이 있으니"},{"h":"欲辨已忘言。","p":["yù","biàn","yǐ","wàng","yán",""],"k":"말하려다 이미 말을 잊었노라."}],"kt":"술을 마시며 · 다섯째 수"},{"key":"taohuayuan","poet":"陶渊明","title":"桃花源记","kind":"산문","ex":true,"scene":"day peach river boat mtn2 field house","tp":"táo huā yuán jì","lines":[{"h":"忽逢桃花林，","p":["hū","féng","táo","huā","lín",""],"k":"문득 복숭아꽃 숲을 만났는데"},{"h":"夹岸数百步，","p":["jiā","àn","shù","bǎi","bù",""],"k":"강 양쪽 언덕으로 수백 걸음이나 이어지고"},{"h":"中无杂树，","p":["zhōng","wú","zá","shù",""],"k":"그 사이에 다른 나무는 없으며"},{"h":"芳草鲜美，","p":["fāng","cǎo","xiān","měi",""],"k":"향긋한 풀은 곱고 싱그러운데"},{"h":"落英缤纷。","p":["luò","yīng","bīn","fēn",""],"k":"떨어지는 꽃잎이 어지러이 흩날렸다."},{"h":"土地平旷，","p":["tǔ","dì","píng","kuàng",""],"k":"땅은 평평하고 탁 트였으며"},{"h":"屋舍俨然，","p":["wū","shè","yǎn","rán",""],"k":"집들은 가지런했고"},{"h":"有良田美池桑竹之属。","p":["yǒu","liáng","tián","měi","chí","sāng","zhú","zhī","shǔ",""],"k":"기름진 밭과 고운 못, 뽕나무와 대나무가 있었다."},{"h":"阡陌交通，","p":["qiān","mò","jiāo","tōng",""],"k":"밭두렁 길은 사방으로 통하고"},{"h":"鸡犬相闻。","p":["jī","quǎn","xiāng","wén",""],"k":"닭 울음과 개 짖는 소리가 서로 들렸다."}],"kt":"복사꽃 마을 이야기"},{"key":"songdushaofu","poet":"王勃","title":"送杜少府之任蜀州","kind":"시","ex":false,"scene":"day mtn3 river wall road willow","tp":"sòng dù shào fǔ zhī rèn shǔ zhōu","lines":[{"h":"城阙辅三秦，","p":["chéng","què","fǔ","sān","qín",""],"k":"장안의 성궐은 삼진 땅이 받치고 있고"},{"h":"风烟望五津。","p":["fēng","yān","wàng","wǔ","jīn",""],"k":"바람과 안개 너머로 촉의 다섯 나루를 바라본다."},{"h":"与君离别意，","p":["yǔ","jūn","lí","bié","yì",""],"k":"그대와 헤어지는 이 마음,"},{"h":"同是宦游人。","p":["tóng","shì","huàn","yóu","rén",""],"k":"우리 둘 다 벼슬 따라 떠도는 신세라네."},{"h":"海内存知己，","p":["hǎi","nèi","cún","zhī","jǐ",""],"k":"바다 안 온 세상에 나를 알아주는 벗이 있으면,"},{"h":"天涯若比邻。","p":["tiān","yá","ruò","bǐ","lín",""],"k":"하늘 끝에 있어도 이웃 같다."},{"h":"无为在歧路，","p":["wú","wéi","zài","qí","lù",""],"k":"갈림길에서"},{"h":"儿女共沾巾。","p":["ér","nǚ","gòng","zhān","jīn",""],"k":"아녀자처럼 함께 수건을 적시지는 마세."}],"kt":"촉주로 부임하는 두 소부를 보내며"},{"key":"tengwangge","poet":"王勃","title":"滕王阁序","kind":"변문","ex":true,"scene":"dusk sun river tower geese boat","tp":"téng wáng gé xù","lines":[{"h":"落霞与孤鹜齐飞，","p":["luò","xiá","yǔ","gū","wù","qí","fēi",""],"k":"지는 노을은 외로운 들오리와 나란히 날고"},{"h":"秋水共长天一色。","p":["qiū","shuǐ","gòng","cháng","tiān","yí","sè",""],"k":"가을 강물은 긴 하늘과 한 빛이 되었다."},{"h":"渔舟唱晚，","p":["yú","zhōu","chàng","wǎn",""],"k":"고깃배는 저물녘 노래를 부르니"},{"h":"响穷彭蠡之滨；","p":["xiǎng","qióng","péng","lǐ","zhī","bīn",""],"k":"그 소리 파양호 물가 끝까지 울리고"},{"h":"雁阵惊寒，","p":["yàn","zhèn","jīng","hán",""],"k":"기러기 떼는 추위에 놀라"},{"h":"声断衡阳之浦。","p":["shēng","duàn","héng","yáng","zhī","pǔ",""],"k":"그 울음이 형양의 물가에서 끊긴다."}],"kt":"등왕각 서문"},{"key":"youzhoutai","poet":"陈子昂","title":"登幽州台歌","kind":"시","ex":false,"scene":"dusk mtn3 tower wind","tp":"dēng yōu zhōu tái gē","lines":[{"h":"前不见古人，","p":["qián","bú","jiàn","gǔ","rén",""],"k":"앞으로는 옛사람이 보이지 않고"},{"h":"后不见来者。","p":["hòu","bú","jiàn","lái","zhě",""],"k":"뒤로는 올 사람이 보이지 않네."},{"h":"念天地之悠悠，","p":["niàn","tiān","dì","zhī","yōu","yōu",""],"k":"하늘과 땅의 아득함을 생각하니"},{"h":"独怆然而涕下。","p":["dú","chuàng","rán","ér","tì","xià",""],"k":"홀로 슬퍼 눈물이 흐르는구나."}],"kt":"유주대에 올라 부르는 노래"},{"key":"huixiang","poet":"贺知章","title":"回乡偶书","kind":"시","ex":false,"scene":"day mtn1 house willow road","tp":"huí xiāng ǒu shū","lines":[{"h":"少小离家老大回，","p":["shào","xiǎo","lí","jiā","lǎo","dà","huí",""],"k":"어려서 집을 떠나 늙어서 돌아오니"},{"h":"乡音无改鬓毛衰。","p":["xiāng","yīn","wú","gǎi","bìn","máo","cuī",""],"k":"고향 말씨는 그대로인데 귀밑머리는 셌구나."},{"h":"儿童相见不相识，","p":["ér","tóng","xiāng","jiàn","bù","xiāng","shí",""],"k":"아이들은 나를 보고도 알아보지 못하고"},{"h":"笑问客从何处来。","p":["xiào","wèn","kè","cóng","hé","chù","lái",""],"k":"웃으며 묻네, 손님은 어디서 오셨어요?"}],"kt":"고향에 돌아와 문득 쓰다"},{"key":"yongliu","poet":"贺知章","title":"咏柳","kind":"시","ex":false,"scene":"day willow river wind","tp":"yǒng liǔ","lines":[{"h":"碧玉妆成一树高，","p":["bì","yù","zhuāng","chéng","yí","shù","gāo",""],"k":"푸른 옥으로 단장한 듯 한 그루 높이 섰고"},{"h":"万条垂下绿丝绦。","p":["wàn","tiáo","chuí","xià","lǜ","sī","tāo",""],"k":"만 가닥 늘어진 가지는 초록 실끈 같구나."},{"h":"不知细叶谁裁出，","p":["bù","zhī","xì","yè","shuí","cái","chū",""],"k":"가는 잎은 누가 재단해 냈을까?"},{"h":"二月春风似剪刀。","p":["èr","yuè","chūn","fēng","shì","jiǎn","dāo",""],"k":"이월 봄바람이 가위였구나."}],"kt":"버들을 노래함"},{"key":"chunjiang","poet":"张若虚","title":"春江花月夜","kind":"시","ex":true,"scene":"night moon river sea blossom mist","tp":"chūn jiāng huā yuè yè","lines":[{"h":"春江潮水连海平，","p":["chūn","jiāng","cháo","shuǐ","lián","hǎi","píng",""],"k":"봄 강의 밀물은 바다와 이어져 평평하고"},{"h":"海上明月共潮生。","p":["hǎi","shàng","míng","yuè","gòng","cháo","shēng",""],"k":"바다 위 밝은 달이 밀물과 함께 떠오른다."},{"h":"滟滟随波千万里，","p":["yàn","yàn","suí","bō","qiān","wàn","lǐ",""],"k":"반짝이는 달빛이 물결 따라 천만 리,"},{"h":"何处春江无月明！","p":["hé","chù","chūn","jiāng","wú","yuè","míng",""],"k":"어느 봄 강엔들 달빛이 없으랴!"},{"h":"江畔何人初见月？","p":["jiāng","pàn","hé","rén","chū","jiàn","yuè",""],"k":"강가에서 누가 처음 달을 보았으며"},{"h":"江月何年初照人？","p":["jiāng","yuè","hé","nián","chū","zhào","rén",""],"k":"강 위의 달은 어느 해에 처음 사람을 비추었나?"},{"h":"人生代代无穷已，","p":["rén","shēng","dài","dài","wú","qióng","yǐ",""],"k":"사람의 삶은 대대로 끝없이 이어지고"},{"h":"江月年年望相似。","p":["jiāng","yuè","nián","nián","wàng","xiāng","sì",""],"k":"강 위의 달은 해마다 그 모습 그대로네."}],"kt":"봄 강, 꽃, 달, 밤"},{"key":"wangyue_hy","poet":"张九龄","title":"望月怀远","kind":"시","ex":false,"scene":"night moon sea candle","tp":"wàng yuè huái yuǎn","lines":[{"h":"海上生明月，","p":["hǎi","shàng","shēng","míng","yuè",""],"k":"바다 위로 밝은 달이 떠오르니"},{"h":"天涯共此时。","p":["tiān","yá","gòng","cǐ","shí",""],"k":"하늘 끝에서도 지금 이 순간 함께 보리."},{"h":"情人怨遥夜，","p":["qíng","rén","yuàn","yáo","yè",""],"k":"그리운 이는 긴 밤을 원망하며"},{"h":"竟夕起相思。","p":["jìng","xī","qǐ","xiāng","sī",""],"k":"밤새도록 그리움에 젖으리."},{"h":"灭烛怜光满，","p":["miè","zhú","lián","guāng","mǎn",""],"k":"촛불을 끄니 가득한 달빛이 사랑스럽고"},{"h":"披衣觉露滋。","p":["pī","yī","jué","lù","zī",""],"k":"옷을 걸치니 이슬이 촉촉하구나."},{"h":"不堪盈手赠，","p":["bù","kān","yíng","shǒu","zèng",""],"k":"두 손 가득 담아 보낼 수 없으니"},{"h":"还寝梦佳期。","p":["huán","qǐn","mèng","jiā","qī",""],"k":"잠자리로 돌아가 만날 날을 꿈꾸리."}],"kt":"달을 보며 먼 곳의 그대를 그리다"},{"key":"liangzhouci_wh","poet":"王翰","title":"凉州词","kind":"시","ex":false,"scene":"night moon desert wine cup pipa","tp":"liáng zhōu cí","lines":[{"h":"葡萄美酒夜光杯，","p":["pú","táo","měi","jiǔ","yè","guāng","bēi",""],"k":"포도 빛 좋은 술을 야광 잔에 따랐는데"},{"h":"欲饮琵琶马上催。","p":["yù","yǐn","pí","pá","mǎ","shàng","cuī",""],"k":"마시려니 말 위의 비파 소리가 재촉하네."},{"h":"醉卧沙场君莫笑，","p":["zuì","wò","shā","chǎng","jūn","mò","xiào",""],"k":"취해 모래벌판에 눕더라도 그대여 웃지 마오,"},{"h":"古来征战几人回？","p":["gǔ","lái","zhēng","zhàn","jǐ","rén","huí",""],"k":"예로부터 전쟁에 나가 몇이나 돌아왔던가?"}],"kt":"량주의 노래"},{"key":"guanque","poet":"王之涣","title":"登鹳雀楼","kind":"시","ex":false,"scene":"dusk sun mtn2 river tower","tp":"dēng guàn què lóu","lines":[{"h":"白日依山尽，","p":["bái","rì","yī","shān","jìn",""],"k":"밝은 해는 산에 기대어 지고"},{"h":"黄河入海流。","p":["huáng","hé","rù","hǎi","liú",""],"k":"황하는 바다로 흘러든다."},{"h":"欲穷千里目，","p":["yù","qióng","qiān","lǐ","mù",""],"k":"천 리 끝까지 눈길을 다하고 싶거든"},{"h":"更上一层楼。","p":["gèng","shàng","yì","céng","lóu",""],"k":"누각을 한 층 더 오르라."}],"kt":"관작루에 올라"},{"key":"liangzhouci_wzh","poet":"王之涣","title":"凉州词","kind":"시","ex":false,"scene":"day mtn3 wall desert clouds willow","tp":"liáng zhōu cí","lines":[{"h":"黄河远上白云间，","p":["huáng","hé","yuǎn","shàng","bái","yún","jiān",""],"k":"황하는 멀리 흰 구름 사이로 거슬러 오르고"},{"h":"一片孤城万仞山。","p":["yí","piàn","gū","chéng","wàn","rèn","shān",""],"k":"외로운 성 하나가 만 길 산에 기대어 있네."},{"h":"羌笛何须怨杨柳，","p":["qiāng","dí","hé","xū","yuàn","yáng","liǔ",""],"k":"오랑캐 피리로 굳이 〈절양류〉를 원망할 것 있나,"},{"h":"春风不度玉门关。","p":["chūn","fēng","bú","dù","yù","mén","guān",""],"k":"봄바람은 옥문관을 넘지 않는 것을."}],"kt":"량주의 노래"},{"key":"chunxiao","poet":"孟浩然","title":"春晓","kind":"시","ex":false,"scene":"dawn rain blossom birds house","tp":"chūn xiǎo","lines":[{"h":"春眠不觉晓，","p":["chūn","mián","bù","jué","xiǎo",""],"k":"봄잠에 새벽 오는 줄 몰랐더니"},{"h":"处处闻啼鸟。","p":["chù","chù","wén","tí","niǎo",""],"k":"여기저기 새 우는 소리 들리네."},{"h":"夜来风雨声，","p":["yè","lái","fēng","yǔ","shēng",""],"k":"밤새 비바람 소리 있었으니"},{"h":"花落知多少。","p":["huā","luò","zhī","duō","shǎo",""],"k":"꽃은 얼마나 떨어졌을까."}],"kt":"봄 새벽"},{"key":"chusai","poet":"王昌龄","title":"出塞","kind":"시","ex":false,"scene":"night moon wall mtn3 desert","tp":"chū sài","lines":[{"h":"秦时明月汉时关，","p":["qín","shí","míng","yuè","hàn","shí","guān",""],"k":"진나라 때 밝은 달, 한나라 때 관문,"},{"h":"万里长征人未还。","p":["wàn","lǐ","cháng","zhēng","rén","wèi","huán",""],"k":"만 리 원정 떠난 이들은 아직 돌아오지 않았네."},{"h":"但使龙城飞将在，","p":["dàn","shǐ","lóng","chéng","fēi","jiàng","zài",""],"k":"용성의 비장군만 살아 있었더라도"},{"h":"不教胡马度阴山。","p":["bú","jiào","hú","mǎ","dù","yīn","shān",""],"k":"오랑캐 말이 음산을 넘게 하지 않았으리."}],"kt":"변방으로 나가며"},{"key":"jiuyuejiu","poet":"王维","title":"九月九日忆山东兄弟","kind":"시","ex":false,"scene":"day mtn3 zhuyu chrys clouds","tp":"jiǔ yuè jiǔ rì yì shān dōng xiōng dì","lines":[{"h":"独在异乡为异客，","p":["dú","zài","yì","xiāng","wéi","yì","kè",""],"k":"홀로 낯선 땅에서 낯선 손님이 되니"},{"h":"每逢佳节倍思亲。","p":["měi","féng","jiā","jié","bèi","sī","qīn",""],"k":"좋은 명절 만날 때마다 가족 생각이 곱절이네."},{"h":"遥知兄弟登高处，","p":["yáo","zhī","xiōng","dì","dēng","gāo","chù",""],"k":"멀리서도 알겠네, 형제들이 높은 곳에 올라"},{"h":"遍插茱萸少一人。","p":["biàn","chā","zhū","yú","shǎo","yì","rén",""],"k":"모두 수유를 꽂는데 한 사람이 빠졌음을."}],"kt":"9월 9일, 산동의 형제들을 그리며"},{"key":"yangguan","poet":"王维","title":"送元二使安西","kind":"시","ex":false,"scene":"dawn rain willow house wine cup road","tp":"sòng yuán èr shǐ ān xī","lines":[{"h":"渭城朝雨浥轻尘，","p":["wèi","chéng","zhāo","yǔ","yì","qīng","chén",""],"k":"위성의 아침 비가 가벼운 먼지를 적시니"},{"h":"客舍青青柳色新。","p":["kè","shè","qīng","qīng","liǔ","sè","xīn",""],"k":"객사 앞 버들은 푸르고 푸르러 새롭구나."},{"h":"劝君更尽一杯酒，","p":["quàn","jūn","gèng","jìn","yì","bēi","jiǔ",""],"k":"그대에게 권하노니 한 잔 더 비우게,"},{"h":"西出阳关无故人。","p":["xī","chū","yáng","guān","wú","gù","rén",""],"k":"서쪽으로 양관을 나서면 옛 벗이 없으리니."}],"kt":"안서로 사신 가는 원씨 둘째를 보내며"},{"key":"jingyesi","poet":"李白","title":"静夜思","kind":"시","ex":false,"scene":"night moon frost window","tp":"jìng yè sī","lines":[{"h":"床前明月光，","p":["chuáng","qián","míng","yuè","guāng",""],"k":"침상 앞에 밝은 달빛,"},{"h":"疑是地上霜。","p":["yí","shì","dì","shàng","shuāng",""],"k":"땅 위에 내린 서리인가 했네."},{"h":"举头望明月，","p":["jǔ","tóu","wàng","míng","yuè",""],"k":"고개 들어 밝은 달을 바라보다"},{"h":"低头思故乡。","p":["dī","tóu","sī","gù","xiāng",""],"k":"고개 숙여 고향을 생각하네."}],"kt":"고요한 밤의 생각"},{"key":"xinglunan","poet":"李白","title":"行路难","kind":"시","ex":false,"scene":"day sea sail waves mtn2 snow wine cup sword","tp":"xíng lù nán","lines":[{"h":"金樽清酒斗十千，","p":["jīn","zūn","qīng","jiǔ","dǒu","shí","qiān",""],"k":"금 술잔의 맑은 술은 한 말에 만 냥이요"},{"h":"玉盘珍羞直万钱。","p":["yù","pán","zhēn","xiū","zhí","wàn","qián",""],"k":"옥 쟁반의 귀한 안주는 만 전어치라."},{"h":"停杯投箸不能食，","p":["tíng","bēi","tóu","zhù","bù","néng","shí",""],"k":"잔을 멈추고 젓가락 던진 채 먹지 못하고"},{"h":"拔剑四顾心茫然。","p":["bá","jiàn","sì","gù","xīn","máng","rán",""],"k":"칼을 뽑아 사방을 둘러봐도 마음은 막막하네."},{"h":"欲渡黄河冰塞川，","p":["yù","dù","huáng","hé","bīng","sè","chuān",""],"k":"황하를 건너려니 얼음이 강을 막고"},{"h":"将登太行雪满山。","p":["jiāng","dēng","tài","háng","xuě","mǎn","shān",""],"k":"태항산에 오르려니 눈이 산에 가득하구나."},{"h":"闲来垂钓碧溪上，","p":["xián","lái","chuí","diào","bì","xī","shàng",""],"k":"한가로이 푸른 시내에 낚싯줄 드리우다가"},{"h":"忽复乘舟梦日边。","p":["hū","fù","chéng","zhōu","mèng","rì","biān",""],"k":"문득 배를 타고 해 곁에 이르는 꿈을 꾸네."},{"h":"行路难！行路难！","p":["xíng","lù","nán","","xíng","lù","nán",""],"k":"길 가기 어렵구나! 길 가기 어렵구나!"},{"h":"多歧路，今安在？","p":["duō","qí","lù","","jīn","ān","zài",""],"k":"갈림길도 많은데, 지금 나는 어디 있는가?"},{"h":"长风破浪会有时，","p":["cháng","fēng","pò","làng","huì","yǒu","shí",""],"k":"긴 바람 타고 물결을 깨뜨릴 날이 반드시 오리니"},{"h":"直挂云帆济沧海。","p":["zhí","guà","yún","fān","jì","cāng","hǎi",""],"k":"곧장 구름 돛을 달고 푸른 바다를 건너리라."}],"kt":"길 가기 어려워라"},{"key":"qiangjinjiu","poet":"李白","title":"将进酒","kind":"시","ex":true,"scene":"night moon river mtn3 wine jar cup","tp":"qiāng jìn jiǔ","lines":[{"h":"君不见黄河之水天上来，","p":["jūn","bú","jiàn","huáng","hé","zhī","shuǐ","tiān","shàng","lái",""],"k":"그대는 보지 못했는가, 황하의 물이 하늘에서 내려와"},{"h":"奔流到海不复回。","p":["bēn","liú","dào","hǎi","bú","fù","huí",""],"k":"내달려 바다에 이르면 다시 돌아오지 않음을."},{"h":"君不见高堂明镜悲白发，","p":["jūn","bú","jiàn","gāo","táng","míng","jìng","bēi","bái","fà",""],"k":"그대는 보지 못했는가, 높은 집 거울 앞에서 흰머리를 슬퍼하니"},{"h":"朝如青丝暮成雪。","p":["zhāo","rú","qīng","sī","mù","chéng","xuě",""],"k":"아침엔 검은 실 같던 머리가 저녁엔 눈이 되었음을."},{"h":"人生得意须尽欢，","p":["rén","shēng","dé","yì","xū","jìn","huān",""],"k":"인생 뜻을 이뤘거든 모름지기 즐거움을 다할 일,"},{"h":"莫使金樽空对月。","p":["mò","shǐ","jīn","zūn","kōng","duì","yuè",""],"k":"금 술잔이 빈 채로 달을 마주하게 하지 말라."},{"h":"天生我材必有用，","p":["tiān","shēng","wǒ","cái","bì","yǒu","yòng",""],"k":"하늘이 낸 내 재주는 반드시 쓰일 데 있고"},{"h":"千金散尽还复来。","p":["qiān","jīn","sàn","jìn","huán","fù","lái",""],"k":"천금은 흩어 다 써도 다시 돌아오리라."}],"kt":"술 한잔 드시게"},{"key":"zengwanglun","poet":"李白","title":"赠汪伦","kind":"시","ex":false,"scene":"day river boat peach mtn2 water deep","tp":"zèng wāng lún","lines":[{"h":"李白乘舟将欲行，","p":["lǐ","bái","chéng","zhōu","jiāng","yù","xíng",""],"k":"이백이 배를 타고 막 떠나려는데"},{"h":"忽闻岸上踏歌声。","p":["hū","wén","àn","shàng","tà","gē","shēng",""],"k":"문득 강가에서 발 구르며 부르는 노랫소리가 들리네."},{"h":"桃花潭水深千尺，","p":["táo","huā","tán","shuǐ","shēn","qiān","chǐ",""],"k":"도화담 물이 깊어 천 자라 해도"},{"h":"不及汪伦送我情。","p":["bù","jí","wāng","lún","sòng","wǒ","qíng",""],"k":"왕륜이 나를 보내는 정에는 못 미치네."}],"kt":"왕륜에게 드림"},{"key":"baidicheng","poet":"李白","title":"早发白帝城","kind":"시","ex":false,"scene":"dawn clouds mtn3 river boat","tp":"zǎo fā bái dì chéng","lines":[{"h":"朝辞白帝彩云间，","p":["zhāo","cí","bái","dì","cǎi","yún","jiān",""],"k":"아침에 오색 구름 속 백제성을 떠나"},{"h":"千里江陵一日还。","p":["qiān","lǐ","jiāng","líng","yí","rì","huán",""],"k":"천 리 강릉 길을 하루 만에 돌아가네."},{"h":"两岸猿声啼不住，","p":["liǎng","àn","yuán","shēng","tí","bú","zhù",""],"k":"양쪽 기슭에서 원숭이 울음 그치지 않는데"},{"h":"轻舟已过万重山。","p":["qīng","zhōu","yǐ","guò","wàn","chóng","shān",""],"k":"가벼운 배는 벌써 만 겹 산을 지났네."}],"kt":"아침에 백제성을 떠나며"},{"key":"biedongda","poet":"高适","title":"别董大","kind":"시","ex":false,"scene":"dusk sun clouds geese snow road","tp":"bié dǒng dà","lines":[{"h":"千里黄云白日曛，","p":["qiān","lǐ","huáng","yún","bái","rì","xūn",""],"k":"천 리에 누런 구름, 흰 해는 어스름하고"},{"h":"北风吹雁雪纷纷。","p":["běi","fēng","chuī","yàn","xuě","fēn","fēn",""],"k":"북풍에 기러기 날리고 눈은 펄펄 내리네."},{"h":"莫愁前路无知己，","p":["mò","chóu","qián","lù","wú","zhī","jǐ",""],"k":"앞길에 알아줄 벗 없을까 걱정 마오,"},{"h":"天下谁人不识君。","p":["tiān","xià","shuí","rén","bù","shí","jūn",""],"k":"천하에 그대를 모를 이 누가 있으랴."}],"kt":"동씨 맏이와 헤어지며"},{"key":"wangyue","poet":"杜甫","title":"望岳","kind":"시","ex":false,"scene":"dawn peak mtn3 clouds birds","tp":"wàng yuè","lines":[{"h":"岱宗夫如何？","p":["dài","zōng","fū","rú","hé",""],"k":"태산은 대체 어떠한가?"},{"h":"齐鲁青未了。","p":["qí","lǔ","qīng","wèi","liǎo",""],"k":"제나라 노나라에 걸쳐 푸른빛이 끝이 없네."},{"h":"造化钟神秀，","p":["zào","huà","zhōng","shén","xiù",""],"k":"조물주가 신령하고 빼어남을 모아 놓았고"},{"h":"阴阳割昏晓。","p":["yīn","yáng","gē","hūn","xiǎo",""],"k":"산의 앞뒤가 어둠과 새벽을 가르네."},{"h":"荡胸生曾云，","p":["dàng","xiōng","shēng","céng","yún",""],"k":"겹겹이 피어나는 구름에 가슴이 툭 트이고"},{"h":"决眦入归鸟。","p":["jué","zì","rù","guī","niǎo",""],"k":"눈을 크게 뜨니 둥지로 돌아가는 새가 들어오네."},{"h":"会当凌绝顶，","p":["huì","dāng","líng","jué","dǐng",""],"k":"언젠가 꼭 가장 높은 꼭대기에 올라"},{"h":"一览众山小。","p":["yì","lǎn","zhòng","shān","xiǎo",""],"k":"뭇 산이 작음을 한눈에 굽어보리라."}],"kt":"태산을 바라보며"},{"key":"chunwang","poet":"杜甫","title":"春望","kind":"시","ex":false,"scene":"day wall blossom grass birds smoke","tp":"chūn wàng","lines":[{"h":"国破山河在，","p":["guó","pò","shān","hé","zài",""],"k":"나라는 깨졌어도 산과 강은 그대로요"},{"h":"城春草木深。","p":["chéng","chūn","cǎo","mù","shēn",""],"k":"성에 봄이 오니 풀과 나무만 우거졌네."},{"h":"感时花溅泪，","p":["gǎn","shí","huā","jiàn","lèi",""],"k":"시절을 느끼니 꽃을 보아도 눈물이 흐르고"},{"h":"恨别鸟惊心。","p":["hèn","bié","niǎo","jīng","xīn",""],"k":"이별이 한스러워 새소리에도 마음이 놀라네."},{"h":"烽火连三月，","p":["fēng","huǒ","lián","sān","yuè",""],"k":"봉화는 석 달째 이어지고"},{"h":"家书抵万金。","p":["jiā","shū","dǐ","wàn","jīn",""],"k":"집에서 온 편지는 만금에 값하네."},{"h":"白头搔更短，","p":["bái","tóu","sāo","gèng","duǎn",""],"k":"흰머리는 긁을수록 더 짧아져"},{"h":"浑欲不胜簪。","p":["hún","yù","bú","shèng","zān",""],"k":"이제는 비녀도 꽂지 못할 지경이네."}],"kt":"봄날에 바라보다"},{"key":"denggao","poet":"杜甫","title":"登高","kind":"시","ex":false,"scene":"dusk river mtn3 leaves wind birds","tp":"dēng gāo","lines":[{"h":"风急天高猿啸哀，","p":["fēng","jí","tiān","gāo","yuán","xiào","āi",""],"k":"바람 세차고 하늘 높은데 원숭이 울음 슬프고"},{"h":"渚清沙白鸟飞回。","p":["zhǔ","qīng","shā","bái","niǎo","fēi","huí",""],"k":"물가는 맑고 모래 흰데 새들이 맴도네."},{"h":"无边落木萧萧下，","p":["wú","biān","luò","mù","xiāo","xiāo","xià",""],"k":"끝없이 지는 나뭇잎은 우수수 떨어지고"},{"h":"不尽长江滚滚来。","p":["bú","jìn","cháng","jiāng","gǔn","gǔn","lái",""],"k":"다함 없는 장강은 도도히 흘러오네."},{"h":"万里悲秋常作客，","p":["wàn","lǐ","bēi","qiū","cháng","zuò","kè",""],"k":"만 리 밖 슬픈 가을, 늘 나그네 신세로"},{"h":"百年多病独登台。","p":["bǎi","nián","duō","bìng","dú","dēng","tái",""],"k":"평생 병 많은 몸이 홀로 높은 대에 오르네."},{"h":"艰难苦恨繁霜鬓，","p":["jiān","nán","kǔ","hèn","fán","shuāng","bìn",""],"k":"온갖 고생에 서리 같은 귀밑머리가 늘어 한스럽고"},{"h":"潦倒新停浊酒杯。","p":["liáo","dǎo","xīn","tíng","zhuó","jiǔ","bēi",""],"k":"늙고 초라해 탁주 잔마저 막 끊었다네."}],"kt":"높은 곳에 올라"},{"key":"baixuege","poet":"岑参","title":"白雪歌送武判官归京","kind":"시","ex":true,"scene":"day snow blossom mtn3 desert wind","tp":"bái xuě gē sòng wǔ pàn guān guī jīng","lines":[{"h":"北风卷地白草折，","p":["běi","fēng","juǎn","dì","bái","cǎo","zhé",""],"k":"북풍이 땅을 휘말아 흰 풀이 꺾이고"},{"h":"胡天八月即飞雪。","p":["hú","tiān","bā","yuè","jí","fēi","xuě",""],"k":"변방의 하늘엔 팔월인데 벌써 눈이 날리네."},{"h":"忽如一夜春风来，","p":["hū","rú","yí","yè","chūn","fēng","lái",""],"k":"문득 하룻밤 사이 봄바람이 불어와"},{"h":"千树万树梨花开。","p":["qiān","shù","wàn","shù","lí","huā","kāi",""],"k":"천 그루 만 그루에 배꽃이 핀 듯하구나."},{"h":"山回路转不见君，","p":["shān","huí","lù","zhuǎn","bú","jiàn","jūn",""],"k":"산 돌고 길 꺾여 그대는 보이지 않고"},{"h":"雪上空留马行处。","p":["xuě","shàng","kōng","liú","mǎ","xíng","chù",""],"k":"눈 위엔 말 지나간 자국만 덩그러니 남았네."}],"kt":"흰 눈의 노래 — 서울로 돌아가는 무 판관을 보내며"},{"key":"zaochun","poet":"韩愈","title":"早春呈水部张十八员外","kind":"시","ex":false,"scene":"day rain willow grass wall","tp":"zǎo chūn chéng shuǐ bù zhāng shí bā yuán wài","lines":[{"h":"天街小雨润如酥，","p":["tiān","jiē","xiǎo","yǔ","rùn","rú","sū",""],"k":"장안 거리에 내리는 가랑비는 연유처럼 촉촉하고"},{"h":"草色遥看近却无。","p":["cǎo","sè","yáo","kàn","jìn","què","wú",""],"k":"풀빛은 멀리서는 보이다가 가까이 가면 없네."},{"h":"最是一年春好处，","p":["zuì","shì","yì","nián","chūn","hǎo","chù",""],"k":"한 해 중 봄이 가장 좋은 때는 바로 지금,"},{"h":"绝胜烟柳满皇都。","p":["jué","shèng","yān","liǔ","mǎn","huáng","dū",""],"k":"안개 버들 가득한 서울보다 훨씬 낫다네."}],"kt":"이른 봄, 수부의 장 원외에게 드림"},{"key":"loushiming","poet":"刘禹锡","title":"陋室铭","kind":"산문","ex":true,"scene":"day house bamboo mtn1 grass qin","tp":"lòu shì míng","lines":[{"h":"山不在高，","p":["shān","bú","zài","gāo",""],"k":"산은 높아서가 아니라"},{"h":"有仙则名。","p":["yǒu","xiān","zé","míng",""],"k":"신선이 살면 이름이 나고"},{"h":"水不在深，","p":["shuǐ","bú","zài","shēn",""],"k":"물은 깊어서가 아니라"},{"h":"有龙则灵。","p":["yǒu","lóng","zé","líng",""],"k":"용이 살면 신령하다."},{"h":"斯是陋室，","p":["sī","shì","lòu","shì",""],"k":"이곳은 누추한 집이나"},{"h":"惟吾德馨。","p":["wéi","wú","dé","xīn",""],"k":"오직 나의 덕이 향기롭도다."},{"h":"苔痕上阶绿，","p":["tái","hén","shàng","jiē","lǜ",""],"k":"이끼 자국은 섬돌에 올라 푸르고"},{"h":"草色入帘青。","p":["cǎo","sè","rù","lián","qīng",""],"k":"풀빛은 발 안으로 들어와 파랗다."},{"h":"孔子云：何陋之有？","p":["kǒng","zǐ","yún","","hé","lòu","zhī","yǒu",""],"k":"공자께서 말씀하셨지, 무슨 누추함이 있으랴?"}],"kt":"누추한 집에 새긴 글"},{"key":"chouletian","poet":"刘禹锡","title":"酬乐天扬州初逢席上见赠","kind":"시","ex":false,"scene":"day river sails tree blossom wine cup","tp":"chóu lè tiān yáng zhōu chū féng xí shàng jiàn zèng","lines":[{"h":"巴山楚水凄凉地，","p":["bā","shān","chǔ","shuǐ","qī","liáng","dì",""],"k":"파산과 초수의 쓸쓸한 땅에"},{"h":"二十三年弃置身。","p":["èr","shí","sān","nián","qì","zhì","shēn",""],"k":"스물세 해를 버려졌던 몸이라."},{"h":"怀旧空吟闻笛赋，","p":["huái","jiù","kōng","yín","wén","dí","fù",""],"k":"옛 벗 그리워 부질없이 〈문적부〉를 읊고"},{"h":"到乡翻似烂柯人。","p":["dào","xiāng","fān","shì","làn","kē","rén",""],"k":"고향에 오니 도낏자루 썩은 나무꾼 같구나."},{"h":"沉舟侧畔千帆过，","p":["chén","zhōu","cè","pàn","qiān","fān","guò",""],"k":"가라앉은 배 곁으로 천 척의 돛배가 지나가고"},{"h":"病树前头万木春。","p":["bìng","shù","qián","tóu","wàn","mù","chūn",""],"k":"병든 나무 앞에는 만 그루 나무가 봄을 맞네."},{"h":"今日听君歌一曲，","p":["jīn","rì","tīng","jūn","gē","yì","qū",""],"k":"오늘 그대의 노래 한 곡을 들으니"},{"h":"暂凭杯酒长精神。","p":["zàn","píng","bēi","jiǔ","zhǎng","jīng","shén",""],"k":"잠시 이 술잔에 기대어 기운을 내어 보리."}],"kt":"양주에서 처음 만난 술자리에서 낙천의 시에 답하다"},{"key":"yuanshangcao","poet":"白居易","title":"赋得古原草送别","kind":"시","ex":false,"scene":"day grass fire road wall","tp":"fù dé gǔ yuán cǎo sòng bié","lines":[{"h":"离离原上草，","p":["lí","lí","yuán","shàng","cǎo",""],"k":"무성한 들판의 풀은"},{"h":"一岁一枯荣。","p":["yí","suì","yì","kū","róng",""],"k":"해마다 한 번 시들고 한 번 무성하네."},{"h":"野火烧不尽，","p":["yě","huǒ","shāo","bú","jìn",""],"k":"들불이 태워도 다 태우지 못하니"},{"h":"春风吹又生。","p":["chūn","fēng","chuī","yòu","shēng",""],"k":"봄바람 불면 다시 돋아나네."},{"h":"远芳侵古道，","p":["yuǎn","fāng","qīn","gǔ","dào",""],"k":"멀리 향긋한 풀은 옛길을 덮고"},{"h":"晴翠接荒城。","p":["qíng","cuì","jiē","huāng","chéng",""],"k":"햇살 받은 초록은 황량한 성에 닿았네."},{"h":"又送王孙去，","p":["yòu","sòng","wáng","sūn","qù",""],"k":"또 그대를 떠나보내니"},{"h":"萋萋满别情。","p":["qī","qī","mǎn","bié","qíng",""],"k":"무성한 풀마다 이별의 정이 가득하구나."}],"kt":"옛 들판의 풀을 노래하며 벗을 보내다"},{"key":"changhenge","poet":"白居易","title":"长恨歌","kind":"시","ex":true,"scene":"night moon stars tree birds","tp":"cháng hèn gē","lines":[{"h":"在天愿作比翼鸟，","p":["zài","tiān","yuàn","zuò","bǐ","yì","niǎo",""],"k":"하늘에서는 날개를 나란히 한 새가 되고"},{"h":"在地愿为连理枝。","p":["zài","dì","yuàn","wéi","lián","lǐ","zhī",""],"k":"땅에서는 가지가 붙은 연리지가 되기를."},{"h":"天长地久有时尽，","p":["tiān","cháng","dì","jiǔ","yǒu","shí","jìn",""],"k":"하늘과 땅이 길고 오래도 다할 때가 있으련만"},{"h":"此恨绵绵无绝期。","p":["cǐ","hèn","mián","mián","wú","jué","qī",""],"k":"이 한은 끝없이 이어져 그칠 날이 없으리."}],"kt":"길이 한스러운 노래"},{"key":"pipaxing","poet":"白居易","title":"琵琶行","kind":"시","ex":true,"scene":"night moon river boat pipa reeds","tp":"pí pá xíng","lines":[{"h":"大弦嘈嘈如急雨，","p":["dà","xián","cáo","cáo","rú","jí","yǔ",""],"k":"굵은 줄은 소나기처럼 우렁차고"},{"h":"小弦切切如私语。","p":["xiǎo","xián","qiè","qiè","rú","sī","yǔ",""],"k":"가는 줄은 속삭임처럼 애절하네."},{"h":"嘈嘈切切错杂弹，","p":["cáo","cáo","qiè","qiè","cuò","zá","tán",""],"k":"우렁참과 애절함을 섞어 튕기니"},{"h":"大珠小珠落玉盘。","p":["dà","zhū","xiǎo","zhū","luò","yù","pán",""],"k":"큰 구슬 작은 구슬이 옥 쟁반에 떨어지는 듯."},{"h":"同是天涯沦落人，","p":["tóng","shì","tiān","yá","lún","luò","rén",""],"k":"우리 모두 하늘 끝을 떠도는 신세,"},{"h":"相逢何必曾相识。","p":["xiāng","féng","hé","bì","céng","xiāng","shí",""],"k":"만난 것이 어찌 꼭 아는 사이여야 하랴."}],"kt":"비파의 노래"},{"key":"jiangxue","poet":"柳宗元","title":"江雪","kind":"시","ex":false,"scene":"day snow mtn3 river boat fishing hat","tp":"jiāng xuě","lines":[{"h":"千山鸟飞绝，","p":["qiān","shān","niǎo","fēi","jué",""],"k":"온 산에 새 한 마리 날지 않고"},{"h":"万径人踪灭。","p":["wàn","jìng","rén","zōng","miè",""],"k":"모든 길에 사람 발자취 끊겼네."},{"h":"孤舟蓑笠翁，","p":["gū","zhōu","suō","lì","wēng",""],"k":"외로운 배엔 도롱이에 삿갓 쓴 늙은이,"},{"h":"独钓寒江雪。","p":["dú","diào","hán","jiāng","xuě",""],"k":"홀로 눈 내리는 차가운 강에 낚싯줄 드리우네."}],"kt":"눈 내리는 강"},{"key":"konghouyin","poet":"李贺","title":"李凭箜篌引","kind":"시","ex":true,"scene":"night clouds mtn2 konghou lotus bamboo","tp":"lǐ píng kōng hóu yǐn","lines":[{"h":"吴丝蜀桐张高秋，","p":["wú","sī","shǔ","tóng","zhāng","gāo","qiū",""],"k":"오나라 명주실, 촉나라 오동나무로 만든 공후가 높은 가을에 울리니"},{"h":"空山凝云颓不流。","p":["kōng","shān","níng","yún","tuí","bù","liú",""],"k":"빈 산의 구름이 엉겨 흐르지 못하네."},{"h":"江娥啼竹素女愁，","p":["jiāng","é","tí","zhú","sù","nǚ","chóu",""],"k":"강의 여신은 대나무에 눈물짓고 소녀는 시름겨운데"},{"h":"李凭中国弹箜篌。","p":["lǐ","píng","zhōng","guó","tán","kōng","hóu",""],"k":"이빙이 서울 한가운데서 공후를 타네."},{"h":"昆山玉碎凤凰叫，","p":["kūn","shān","yù","suì","fèng","huáng","jiào",""],"k":"곤륜산 옥이 부서지듯, 봉황이 울듯,"},{"h":"芙蓉泣露香兰笑。","p":["fú","róng","qì","lù","xiāng","lán","xiào",""],"k":"연꽃은 이슬에 울고 난초는 향기롭게 웃네."}],"kt":"이빙의 공후 연주"},{"key":"shanxing","poet":"杜牧","title":"山行","kind":"시","ex":false,"scene":"dusk mtn3 maple clouds road house","tp":"shān xíng","lines":[{"h":"远上寒山石径斜，","p":["yuǎn","shàng","hán","shān","shí","jìng","xié",""],"k":"멀리 가을 산에 오르니 돌길이 비스듬하고"},{"h":"白云生处有人家。","p":["bái","yún","shēng","chù","yǒu","rén","jiā",""],"k":"흰 구름 피어나는 곳에 인가가 있네."},{"h":"停车坐爱枫林晚，","p":["tíng","chē","zuò","ài","fēng","lín","wǎn",""],"k":"수레를 멈춘 것은 저무는 단풍 숲이 좋아서,"},{"h":"霜叶红于二月花。","p":["shuāng","yè","hóng","yú","èr","yuè","huā",""],"k":"서리 맞은 잎이 이월 꽃보다 붉구나."}],"kt":"산길을 가며"},{"key":"qingming","poet":"杜牧","title":"清明","kind":"시","ex":false,"scene":"day rain apricot house road willow","tp":"qīng míng","lines":[{"h":"清明时节雨纷纷，","p":["qīng","míng","shí","jié","yǔ","fēn","fēn",""],"k":"청명 무렵 비는 부슬부슬 내리고"},{"h":"路上行人欲断魂。","p":["lù","shàng","xíng","rén","yù","duàn","hún",""],"k":"길 가는 나그네는 넋이 나갈 듯하네."},{"h":"借问酒家何处有？","p":["jiè","wèn","jiǔ","jiā","hé","chù","yǒu",""],"k":"묻노니 술집은 어디쯤 있는가?"},{"h":"牧童遥指杏花村。","p":["mù","tóng","yáo","zhǐ","xìng","huā","cūn",""],"k":"목동은 멀리 살구꽃 마을을 가리키네."}],"kt":"청명"},{"key":"wuti","poet":"李商隐","title":"无题·昨夜星辰昨夜风","kind":"시","ex":false,"scene":"night stars tower candle wine cup","tp":"wú tí zuó yè xīng chén zuó yè fēng","lines":[{"h":"昨夜星辰昨夜风，","p":["zuó","yè","xīng","chén","zuó","yè","fēng",""],"k":"어젯밤의 별, 어젯밤의 바람,"},{"h":"画楼西畔桂堂东。","p":["huà","lóu","xī","pàn","guì","táng","dōng",""],"k":"단청한 누각 서쪽, 계수나무 집 동쪽."},{"h":"身无彩凤双飞翼，","p":["shēn","wú","cǎi","fèng","shuāng","fēi","yì",""],"k":"몸에는 채색 봉황의 두 날개가 없어도"},{"h":"心有灵犀一点通。","p":["xīn","yǒu","líng","xī","yì","diǎn","tōng",""],"k":"마음에는 신령한 무소뿔이 있어 한 점으로 통하네."},{"h":"隔座送钩春酒暖，","p":["gé","zuò","sòng","gōu","chūn","jiǔ","nuǎn",""],"k":"자리 건너 고리 숨기기 놀이에 봄 술은 따뜻하고"},{"h":"分曹射覆蜡灯红。","p":["fēn","cáo","shè","fù","là","dēng","hóng",""],"k":"편을 갈라 물건 맞히기에 촛불은 붉었지."},{"h":"嗟余听鼓应官去，","p":["jiē","yú","tīng","gǔ","yìng","guān","qù",""],"k":"아, 나는 북소리 듣고 관청으로 가야 하니"},{"h":"走马兰台类转蓬。","p":["zǒu","mǎ","lán","tái","lèi","zhuǎn","péng",""],"k":"말 달려 난대로 가는 신세, 굴러가는 쑥대 같구나."}],"kt":"제목 없이 · 어젯밤의 별, 어젯밤의 바람"},{"key":"jinse","poet":"李商隐","title":"锦瑟","kind":"시","ex":false,"scene":"night moon sea butterfly qin mist","tp":"jǐn sè","lines":[{"h":"锦瑟无端五十弦，","p":["jǐn","sè","wú","duān","wǔ","shí","xián",""],"k":"비단 거문고는 까닭 없이 줄이 쉰 개라"},{"h":"一弦一柱思华年。","p":["yì","xián","yí","zhù","sī","huá","nián",""],"k":"줄 하나 기러기발 하나마다 꽃다운 시절이 그립네."},{"h":"庄生晓梦迷蝴蝶，","p":["zhuāng","shēng","xiǎo","mèng","mí","hú","dié",""],"k":"장자는 새벽 꿈에 나비가 되어 헤맸고"},{"h":"望帝春心托杜鹃。","p":["wàng","dì","chūn","xīn","tuō","dù","juān",""],"k":"망제는 봄날의 마음을 두견새에 맡겼지."},{"h":"沧海月明珠有泪，","p":["cāng","hǎi","yuè","míng","zhū","yǒu","lèi",""],"k":"푸른 바다 달 밝은데 진주엔 눈물이 맺히고"},{"h":"蓝田日暖玉生烟。","p":["lán","tián","rì","nuǎn","yù","shēng","yān",""],"k":"남전 땅 해 따뜻하니 옥에서 연기가 피어나네."},{"h":"此情可待成追忆？","p":["cǐ","qíng","kě","dài","chéng","zhuī","yì",""],"k":"이 마음이 추억이 되기를 기다릴 것까지 있으랴?"},{"h":"只是当时已惘然。","p":["zhǐ","shì","dāng","shí","yǐ","wǎng","rán",""],"k":"그때 이미 망연했던 것을."}],"kt":"비단 거문고"},{"key":"yumeiren","poet":"李煜","title":"虞美人","kind":"사","ex":false,"scene":"night moon tower river blossom","tp":"yú měi rén","lines":[{"h":"春花秋月何时了？","p":["chūn","huā","qiū","yuè","hé","shí","liǎo",""],"k":"봄꽃과 가을 달은 언제나 끝나려나?"},{"h":"往事知多少。","p":["wǎng","shì","zhī","duō","shǎo",""],"k":"지난 일은 얼마나 많았던가."},{"h":"小楼昨夜又东风，","p":["xiǎo","lóu","zuó","yè","yòu","dōng","fēng",""],"k":"작은 누각에 어젯밤 또 동풍이 불어"},{"h":"故国不堪回首月明中。","p":["gù","guó","bù","kān","huí","shǒu","yuè","míng","zhōng",""],"k":"달 밝은 밤, 옛 나라는 차마 돌아볼 수 없네."},{"h":"雕栏玉砌应犹在，","p":["diāo","lán","yù","qì","yīng","yóu","zài",""],"k":"아로새긴 난간과 옥 섬돌은 그대로이련만"},{"h":"只是朱颜改。","p":["zhǐ","shì","zhū","yán","gǎi",""],"k":"다만 고운 얼굴만 변했구나."},{"h":"问君能有几多愁？","p":["wèn","jūn","néng","yǒu","jǐ","duō","chóu",""],"k":"그대에게 묻노니 시름이 얼마나 되는가?"},{"h":"恰似一江春水向东流。","p":["qià","sì","yì","jiāng","chūn","shuǐ","xiàng","dōng","liú",""],"k":"마치 강 가득 봄물이 동쪽으로 흘러가는 듯."}],"kt":"우미인 (곡조 이름)"},{"key":"yulinling","poet":"柳永","title":"雨霖铃","kind":"사","ex":true,"scene":"dawn moon willow river boat mist","tp":"yǔ lín líng","lines":[{"h":"寒蝉凄切，","p":["hán","chán","qī","qiè",""],"k":"늦가을 매미 소리 처량한데"},{"h":"对长亭晚，","p":["duì","cháng","tíng","wǎn",""],"k":"장정의 저녁을 마주하니"},{"h":"骤雨初歇。","p":["zhòu","yǔ","chū","xiē",""],"k":"소나기가 막 그쳤네."},{"h":"多情自古伤离别，","p":["duō","qíng","zì","gǔ","shāng","lí","bié",""],"k":"정 많은 이는 예로부터 이별에 아파했거늘"},{"h":"更那堪，冷落清秋节！","p":["gèng","nà","kān","","lěng","luò","qīng","qiū","jié",""],"k":"하물며 쓸쓸한 맑은 가을철이라니!"},{"h":"今宵酒醒何处？","p":["jīn","xiāo","jiǔ","xǐng","hé","chù",""],"k":"오늘 밤 술 깨면 어디일까?"},{"h":"杨柳岸，晓风残月。","p":["yáng","liǔ","àn","","xiǎo","fēng","cán","yuè",""],"k":"버들 늘어진 강 언덕, 새벽바람과 지는 달."}],"kt":"우림령 (곡조 이름)"},{"key":"yueyanglou","poet":"范仲淹","title":"岳阳楼记","kind":"산문","ex":true,"scene":"day lake tower mtn1 birds","tp":"yuè yáng lóu jì","lines":[{"h":"至若春和景明，","p":["zhì","ruò","chūn","hé","jǐng","míng",""],"k":"봄이 화창하고 경치가 밝아"},{"h":"波澜不惊，","p":["bō","lán","bù","jīng",""],"k":"물결이 일지 않을 때면"},{"h":"上下天光，","p":["shàng","xià","tiān","guāng",""],"k":"위아래 하늘빛이 하나 되어"},{"h":"一碧万顷。","p":["yí","bì","wàn","qǐng",""],"k":"만 이랑이 온통 푸르다."},{"h":"先天下之忧而忧，","p":["xiān","tiān","xià","zhī","yōu","ér","yōu",""],"k":"천하의 근심을 먼저 근심하고"},{"h":"后天下之乐而乐。","p":["hòu","tiān","xià","zhī","lè","ér","lè",""],"k":"천하의 즐거움은 나중에 즐긴다."}],"kt":"악양루에 부친 글"},{"key":"zuiwengting","poet":"欧阳修","title":"醉翁亭记","kind":"산문","ex":true,"scene":"day mtn3 pavilion pine wine jar","tp":"zuì wēng tíng jì","lines":[{"h":"醉翁之意不在酒，","p":["zuì","wēng","zhī","yì","bú","zài","jiǔ",""],"k":"취옹의 뜻은 술에 있지 않고"},{"h":"在乎山水之间也。","p":["zài","hū","shān","shuǐ","zhī","jiān","yě",""],"k":"산과 물 사이에 있다."},{"h":"山水之乐，","p":["shān","shuǐ","zhī","lè",""],"k":"산수의 즐거움은"},{"h":"得之心而寓之酒也。","p":["dé","zhī","xīn","ér","yù","zhī","jiǔ","yě",""],"k":"마음으로 얻어 술에 담을 뿐이다."}],"kt":"취옹정에 부친 글"},{"key":"feilaifeng","poet":"王安石","title":"登飞来峰","kind":"시","ex":false,"scene":"dawn sun peak tower clouds","tp":"dēng fēi lái fēng","lines":[{"h":"飞来山上千寻塔，","p":["fēi","lái","shān","shàng","qiān","xún","tǎ",""],"k":"비래산 위에 천 길 높은 탑,"},{"h":"闻说鸡鸣见日升。","p":["wén","shuō","jī","míng","jiàn","rì","shēng",""],"k":"닭 울 때면 해 뜨는 것이 보인다 하네."},{"h":"不畏浮云遮望眼，","p":["bú","wèi","fú","yún","zhē","wàng","yǎn",""],"k":"뜬구름이 바라보는 눈을 가려도 두렵지 않음은"},{"h":"自缘身在最高层。","p":["zì","yuán","shēn","zài","zuì","gāo","céng",""],"k":"내 몸이 가장 높은 층에 있기 때문이라."}],"kt":"비래봉에 올라"},{"key":"guazhou","poet":"王安石","title":"泊船瓜洲","kind":"시","ex":false,"scene":"night moon river boat mtn2 grass","tp":"pō chuán guā zhōu","lines":[{"h":"京口瓜洲一水间，","p":["jīng","kǒu","guā","zhōu","yì","shuǐ","jiān",""],"k":"경구와 과주는 강 하나 사이,"},{"h":"钟山只隔数重山。","p":["zhōng","shān","zhǐ","gé","shù","chóng","shān",""],"k":"종산은 겨우 몇 겹 산 너머에 있네."},{"h":"春风又绿江南岸，","p":["chūn","fēng","yòu","lǜ","jiāng","nán","àn",""],"k":"봄바람이 또 강남 언덕을 초록으로 물들이는데"},{"h":"明月何时照我还？","p":["míng","yuè","hé","shí","zhào","wǒ","huán",""],"k":"밝은 달은 언제쯤 돌아가는 나를 비춰 줄까?"}],"kt":"과주에 배를 대고"},{"key":"shuidiaogetou","poet":"苏轼","title":"水调歌头","kind":"사","ex":false,"scene":"night moon clouds tower river wine cup","tp":"shuǐ diào gē tóu","lines":[{"h":"明月几时有？把酒问青天。","p":["míng","yuè","jǐ","shí","yǒu","","bǎ","jiǔ","wèn","qīng","tiān",""],"k":"밝은 달은 언제부터 있었나? 술잔 들고 푸른 하늘에 묻노라."},{"h":"不知天上宫阙，今夕是何年。","p":["bù","zhī","tiān","shàng","gōng","què","","jīn","xī","shì","hé","nián",""],"k":"하늘 위 궁궐에선 오늘 밤이 어느 해일까."},{"h":"我欲乘风归去，","p":["wǒ","yù","chéng","fēng","guī","qù",""],"k":"바람 타고 돌아가고 싶지만"},{"h":"又恐琼楼玉宇，高处不胜寒。","p":["yòu","kǒng","qióng","lóu","yù","yǔ","","gāo","chù","bú","shèng","hán",""],"k":"옥으로 된 누각은 너무 높아 추위를 견디지 못할까 두렵네."},{"h":"起舞弄清影，何似在人间。","p":["qǐ","wǔ","nòng","qīng","yǐng","","hé","shì","zài","rén","jiān",""],"k":"일어나 춤추며 맑은 그림자와 노니, 인간 세상에 있는 것만 하랴."},{"h":"转朱阁，低绮户，照无眠。","p":["zhuǎn","zhū","gé","","dī","qǐ","hù","","zhào","wú","mián",""],"k":"달빛은 붉은 누각을 돌아 비단 창으로 낮게 들어 잠 못 드는 이를 비추네."},{"h":"不应有恨，何事长向别时圆？","p":["bù","yīng","yǒu","hèn","","hé","shì","cháng","xiàng","bié","shí","yuán",""],"k":"달이 무슨 한이 있으랴만, 어찌 늘 헤어져 있을 때 둥근가?"},{"h":"人有悲欢离合，月有阴晴圆缺，","p":["rén","yǒu","bēi","huān","lí","hé","","yuè","yǒu","yīn","qíng","yuán","quē",""],"k":"사람에겐 슬픔과 기쁨, 헤어짐과 만남이 있고, 달에겐 흐림과 맑음, 차고 기욺이 있으니"},{"h":"此事古难全。","p":["cǐ","shì","gǔ","nán","quán",""],"k":"이 일은 예로부터 온전하기 어려웠네."},{"h":"但愿人长久，千里共婵娟。","p":["dàn","yuàn","rén","cháng","jiǔ","","qiān","lǐ","gòng","chán","juān",""],"k":"다만 바라기는 우리 오래오래 함께하여, 천 리 떨어져도 고운 달을 함께 보는 것."}],"kt":"수조가두 (곡조 이름)"},{"key":"chibihuaigu","poet":"苏轼","title":"念奴娇·赤壁怀古","kind":"사","ex":true,"scene":"day river cliff waves mtn2","tp":"niàn nú jiāo chì bì huái gǔ","lines":[{"h":"大江东去，","p":["dà","jiāng","dōng","qù",""],"k":"큰 강은 동쪽으로 흘러가며"},{"h":"浪淘尽，千古风流人物。","p":["làng","táo","jìn","","qiān","gǔ","fēng","liú","rén","wù",""],"k":"물결은 천고의 풍류 인물들을 다 씻어 갔네."},{"h":"故垒西边，人道是，","p":["gù","lěi","xī","biān","","rén","dào","shì",""],"k":"옛 성채 서쪽은, 사람들이 말하길"},{"h":"三国周郎赤壁。","p":["sān","guó","zhōu","láng","chì","bì",""],"k":"삼국 시대 주유의 적벽이라네."},{"h":"乱石穿空，惊涛拍岸，","p":["luàn","shí","chuān","kōng","","jīng","tāo","pāi","àn",""],"k":"어지러운 바위는 하늘을 찌르고, 놀란 파도는 기슭을 때려"},{"h":"卷起千堆雪。","p":["juǎn","qǐ","qiān","duī","xuě",""],"k":"천 무더기 눈을 말아 올리네."},{"h":"江山如画，","p":["jiāng","shān","rú","huà",""],"k":"강산은 그림 같은데"},{"h":"一时多少豪杰。","p":["yì","shí","duō","shǎo","háo","jié",""],"k":"한때 얼마나 많은 영웅호걸이 있었던가."}],"kt":"염노교 (곡조 이름) · 적벽에서 옛일을 그리며"},{"key":"chibifu","poet":"苏轼","title":"赤壁赋","kind":"부","ex":true,"scene":"night moon river boat cliff","tp":"chì bì fù","lines":[{"h":"清风徐来，水波不兴。","p":["qīng","fēng","xú","lái","","shuǐ","bō","bù","xīng",""],"k":"맑은 바람 천천히 불어오나 물결은 일지 않네."},{"h":"惟江上之清风，","p":["wéi","jiāng","shàng","zhī","qīng","fēng",""],"k":"오직 강 위의 맑은 바람과"},{"h":"与山间之明月，","p":["yǔ","shān","jiān","zhī","míng","yuè",""],"k":"산 사이의 밝은 달만은"},{"h":"耳得之而为声，","p":["ěr","dé","zhī","ér","wéi","shēng",""],"k":"귀로 얻으면 소리가 되고"},{"h":"目遇之而成色。","p":["mù","yù","zhī","ér","chéng","sè",""],"k":"눈으로 만나면 빛깔이 된다."}],"kt":"적벽의 노래"},{"key":"xilinbi","poet":"苏轼","title":"题西林壁","kind":"시","ex":false,"scene":"day mtn3 peak clouds temple","tp":"tí xī lín bì","lines":[{"h":"横看成岭侧成峰，","p":["héng","kàn","chéng","lǐng","cè","chéng","fēng",""],"k":"가로로 보면 고갯마루, 옆으로 보면 봉우리,"},{"h":"远近高低各不同。","p":["yuǎn","jìn","gāo","dī","gè","bù","tóng",""],"k":"멀고 가깝고 높고 낮음에 따라 모두 다르네."},{"h":"不识庐山真面目，","p":["bù","shí","lú","shān","zhēn","miàn","mù",""],"k":"여산의 참모습을 알지 못함은"},{"h":"只缘身在此山中。","p":["zhǐ","yuán","shēn","zài","cǐ","shān","zhōng",""],"k":"다만 내 몸이 이 산 속에 있기 때문이라."}],"kt":"서림사 벽에 쓰다"},{"key":"rumengling","poet":"李清照","title":"如梦令","kind":"사","ex":false,"scene":"dawn rain begonia window wine cup","tp":"rú mèng lìng","lines":[{"h":"昨夜雨疏风骤，","p":["zuó","yè","yǔ","shū","fēng","zhòu",""],"k":"어젯밤 비는 성글고 바람은 거셌지."},{"h":"浓睡不消残酒。","p":["nóng","shuì","bù","xiāo","cán","jiǔ",""],"k":"깊은 잠에도 술기운이 가시지 않네."},{"h":"试问卷帘人，","p":["shì","wèn","juǎn","lián","rén",""],"k":"발 걷는 아이에게 물었더니"},{"h":"却道海棠依旧。","p":["què","dào","hǎi","táng","yī","jiù",""],"k":"해당화는 그대로라 하네."},{"h":"知否，知否？","p":["zhī","fǒu","","zhī","fǒu",""],"k":"아느냐, 아느냐?"},{"h":"应是绿肥红瘦。","p":["yīng","shì","lǜ","féi","hóng","shòu",""],"k":"잎은 푸르게 살찌고 꽃은 붉게 여위었을 텐데."}],"kt":"여몽령 (곡조 이름) · 꿈같은 노래"},{"key":"shengshengman","poet":"李清照","title":"声声慢","kind":"사","ex":true,"scene":"dusk rain geese window wine cup chrys","tp":"shēng shēng màn","lines":[{"h":"寻寻觅觅，冷冷清清，","p":["xún","xún","mì","mì","","lěng","lěng","qīng","qīng",""],"k":"찾고 또 찾아도, 차갑고 쓸쓸하여"},{"h":"凄凄惨惨戚戚。","p":["qī","qī","cǎn","cǎn","qī","qī",""],"k":"처량하고 참담하고 서글프구나."},{"h":"乍暖还寒时候，","p":["zhà","nuǎn","huán","hán","shí","hòu",""],"k":"잠깐 따뜻하다 다시 추워지는 때라"},{"h":"最难将息。","p":["zuì","nán","jiāng","xī",""],"k":"몸 추스르기가 가장 어렵네."},{"h":"三杯两盏淡酒，","p":["sān","bēi","liǎng","zhǎn","dàn","jiǔ",""],"k":"묽은 술 두세 잔으로"},{"h":"怎敌他、晚来风急！","p":["zěn","dí","tā","","wǎn","lái","fēng","jí",""],"k":"어찌 저녁의 세찬 바람을 막으랴!"},{"h":"雁过也，正伤心，","p":["yàn","guò","yě","","zhèng","shāng","xīn",""],"k":"기러기 지나가니 마음 아픈데"},{"h":"却是旧时相识。","p":["què","shì","jiù","shí","xiāng","shí",""],"k":"옛날에 알던 그 기러기로구나."}],"kt":"성성만 (곡조 이름) · 한 소리 한 소리 느리게"},{"key":"shanxicun","poet":"陆游","title":"游山西村","kind":"시","ex":false,"scene":"day mtn3 river willow peach house","tp":"yóu shān xī cūn","lines":[{"h":"莫笑农家腊酒浑，","p":["mò","xiào","nóng","jiā","là","jiǔ","hún",""],"k":"농가의 섣달 술이 탁하다 웃지 마오,"},{"h":"丰年留客足鸡豚。","p":["fēng","nián","liú","kè","zú","jī","tún",""],"k":"풍년이라 손님 붙잡을 닭과 돼지는 넉넉하다네."},{"h":"山重水复疑无路，","p":["shān","chóng","shuǐ","fù","yí","wú","lù",""],"k":"산 겹겹 물 굽이굽이, 길이 없나 했더니"},{"h":"柳暗花明又一村。","p":["liǔ","àn","huā","míng","yòu","yì","cūn",""],"k":"버들 짙고 꽃 환한 곳에 또 한 마을이 있네."},{"h":"箫鼓追随春社近，","p":["xiāo","gǔ","zhuī","suí","chūn","shè","jìn",""],"k":"퉁소와 북소리 이어지니 봄 제삿날이 가깝고"},{"h":"衣冠简朴古风存。","p":["yī","guān","jiǎn","pǔ","gǔ","fēng","cún",""],"k":"옷차림 소박하여 옛 풍속이 남아 있구나."},{"h":"从今若许闲乘月，","p":["cóng","jīn","ruò","xǔ","xián","chéng","yuè",""],"k":"이제부터 한가로이 달빛 타고 나서도 된다면"},{"h":"拄杖无时夜叩门。","p":["zhǔ","zhàng","wú","shí","yè","kòu","mén",""],"k":"지팡이 짚고 아무 때나 밤에 문을 두드리리."}],"kt":"산서 마을을 거닐며"},{"key":"shier","poet":"陆游","title":"示儿","kind":"시","ex":false,"scene":"night candle mtn2 river","tp":"shì ér","lines":[{"h":"死去元知万事空，","p":["sǐ","qù","yuán","zhī","wàn","shì","kōng",""],"k":"죽으면 모든 일이 헛됨을 본디 알지만"},{"h":"但悲不见九州同。","p":["dàn","bēi","bú","jiàn","jiǔ","zhōu","tóng",""],"k":"다만 천하가 하나 됨을 못 보는 게 슬프구나."},{"h":"王师北定中原日，","p":["wáng","shī","běi","dìng","zhōng","yuán","rì",""],"k":"나라 군대가 북쪽 중원을 되찾는 날"},{"h":"家祭无忘告乃翁。","p":["jiā","jì","wú","wàng","gào","nǎi","wēng",""],"k":"집안 제사 때 이 아비에게 알리는 것을 잊지 마라."}],"kt":"아들에게 보이다"},{"key":"xiaochujingci","poet":"杨万里","title":"晓出净慈寺送林子方","kind":"시","ex":false,"scene":"day lake lotus sun temple","tp":"xiǎo chū jìng cí sì sòng lín zi fāng","lines":[{"h":"毕竟西湖六月中，","p":["bì","jìng","xī","hú","liù","yuè","zhōng",""],"k":"역시 서호의 유월은"},{"h":"风光不与四时同。","p":["fēng","guāng","bù","yǔ","sì","shí","tóng",""],"k":"풍광이 다른 계절과 같지 않구나."},{"h":"接天莲叶无穷碧，","p":["jiē","tiān","lián","yè","wú","qióng","bì",""],"k":"하늘에 닿은 연잎은 끝없이 푸르고"},{"h":"映日荷花别样红。","p":["yìng","rì","hé","huā","bié","yàng","hóng",""],"k":"햇빛 받은 연꽃은 유달리 붉구나."}],"kt":"새벽에 정자사를 나서며 임자방을 보내다"},{"key":"guanshu","poet":"朱熹","title":"观书有感","kind":"시","ex":false,"scene":"day pond clouds book willow","tp":"guān shū yǒu gǎn","lines":[{"h":"半亩方塘一鉴开，","p":["bàn","mǔ","fāng","táng","yí","jiàn","kāi",""],"k":"반 이랑 네모난 못이 거울처럼 열려"},{"h":"天光云影共徘徊。","p":["tiān","guāng","yún","yǐng","gòng","pái","huái",""],"k":"하늘빛과 구름 그림자가 함께 오가네."},{"h":"问渠那得清如许？","p":["wèn","qú","nǎ","dé","qīng","rú","xǔ",""],"k":"도랑에게 묻노니 어찌 이리 맑을 수 있느냐?"},{"h":"为有源头活水来。","p":["wèi","yǒu","yuán","tóu","huó","shuǐ","lái",""],"k":"샘에서 살아 있는 물이 흘러오기 때문이라네."}],"kt":"책을 읽고 느낀 바"},{"key":"qingyuan","poet":"辛弃疾","title":"青玉案·元夕","kind":"사","ex":false,"scene":"night lanterns stars wall","tp":"qīng yù àn yuán xī","lines":[{"h":"东风夜放花千树，","p":["dōng","fēng","yè","fàng","huā","qiān","shù",""],"k":"동풍이 밤사이 천 그루에 꽃을 피운 듯"},{"h":"更吹落、星如雨。","p":["gèng","chuī","luò","","xīng","rú","yǔ",""],"k":"또 별을 비처럼 불어 떨어뜨리네."},{"h":"宝马雕车香满路。","p":["bǎo","mǎ","diāo","chē","xiāng","mǎn","lù",""],"k":"좋은 말과 꾸민 수레에 향기가 길에 가득하고"},{"h":"凤箫声动，玉壶光转，","p":["fèng","xiāo","shēng","dòng","","yù","hú","guāng","zhuǎn",""],"k":"퉁소 소리 울리고 옥 항아리 같은 달빛 돌며"},{"h":"一夜鱼龙舞。","p":["yí","yè","yú","lóng","wǔ",""],"k":"밤새 물고기 등, 용 등이 춤추네."},{"h":"众里寻他千百度，","p":["zhòng","lǐ","xún","tā","qiān","bǎi","dù",""],"k":"인파 속에서 그 사람을 천백 번 찾다가"},{"h":"蓦然回首，那人却在，","p":["mò","rán","huí","shǒu","","nà","rén","què","zài",""],"k":"문득 고개를 돌리니 그 사람은"},{"h":"灯火阑珊处。","p":["dēng","huǒ","lán","shān","chù",""],"k":"등불 드문드문한 곳에 있었네."}],"kt":"청옥안 (곡조 이름) · 정월 대보름 밤"},{"key":"yongyule","poet":"辛弃疾","title":"永遇乐·京口北固亭怀古","kind":"사","ex":true,"scene":"dusk river pavilion mtn2 grass","tp":"yǒng yù lè jīng kǒu běi gù tíng huái gǔ","lines":[{"h":"千古江山，英雄无觅，","p":["qiān","gǔ","jiāng","shān","","yīng","xióng","wú","mì",""],"k":"천고의 강산에 영웅은 찾을 길 없네,"},{"h":"孙仲谋处。","p":["sūn","zhòng","móu","chù",""],"k":"손권이 있던 이곳에."},{"h":"舞榭歌台，风流总被，","p":["wǔ","xiè","gē","tái","","fēng","liú","zǒng","bèi",""],"k":"춤추고 노래하던 누대의 풍류도"},{"h":"雨打风吹去。","p":["yǔ","dǎ","fēng","chuī","qù",""],"k":"모두 비바람에 쓸려 가 버렸네."},{"h":"凭谁问：廉颇老矣，","p":["píng","shuí","wèn","","lián","pō","lǎo","yǐ",""],"k":"누가 물어 주려나, 염파는 늙었어도"},{"h":"尚能饭否？","p":["shàng","néng","fàn","fǒu",""],"k":"아직 밥은 잘 먹느냐고."}],"kt":"영우락 (곡조 이름) · 경구 북고정에서 옛일을 그리며"},{"key":"linghding","poet":"文天祥","title":"过零丁洋","kind":"시","ex":false,"scene":"dusk sea waves boat clouds","tp":"guò líng dīng yáng","lines":[{"h":"辛苦遭逢起一经，","p":["xīn","kǔ","zāo","féng","qǐ","yì","jīng",""],"k":"경서 하나로 벼슬길에 올라 온갖 고초를 겪었고"},{"h":"干戈寥落四周星。","p":["gān","gē","liáo","luò","sì","zhōu","xīng",""],"k":"전란 속에 쓸쓸히 네 해가 지났네."},{"h":"山河破碎风飘絮，","p":["shān","hé","pò","suì","fēng","piāo","xù",""],"k":"산하는 부서져 바람에 날리는 버들솜 같고"},{"h":"身世浮沉雨打萍。","p":["shēn","shì","fú","chén","yǔ","dǎ","píng",""],"k":"이 몸은 빗발에 떠도는 부평초 같구나."},{"h":"惶恐滩头说惶恐，","p":["huáng","kǒng","tān","tóu","shuō","huáng","kǒng",""],"k":"황공탄 여울에서 두려움을 말했고"},{"h":"零丁洋里叹零丁。","p":["líng","dīng","yáng","lǐ","tàn","líng","dīng",""],"k":"영정양 바다에서 외로움을 탄식하네."},{"h":"人生自古谁无死？","p":["rén","shēng","zì","gǔ","shuí","wú","sǐ",""],"k":"예로부터 사람이 누가 죽지 않으랴?"},{"h":"留取丹心照汗青。","p":["liú","qǔ","dān","xīn","zhào","hàn","qīng",""],"k":"붉은 마음을 남겨 역사에 비추리라."}],"kt":"영정양을 지나며"},{"key":"zhengqige","poet":"文天祥","title":"正气歌","kind":"시","ex":true,"scene":"night stars mtn3 river","tp":"zhèng qì gē","lines":[{"h":"天地有正气，","p":["tiān","dì","yǒu","zhèng","qì",""],"k":"하늘과 땅에는 바른 기운이 있어"},{"h":"杂然赋流形。","p":["zá","rán","fù","liú","xíng",""],"k":"뒤섞여 온갖 모양으로 흘러드네."},{"h":"下则为河岳，","p":["xià","zé","wéi","hé","yuè",""],"k":"아래로는 강과 산이 되고"},{"h":"上则为日星。","p":["shàng","zé","wéi","rì","xīng",""],"k":"위로는 해와 별이 되었네."}],"kt":"바른 기운의 노래"},{"key":"tianjingsha","poet":"马致远","title":"天净沙·秋思","kind":"곡","ex":false,"scene":"dusk sun tree crow bridge river house road","tp":"tiān jìng shā qiū sī","lines":[{"h":"枯藤老树昏鸦，","p":["kū","téng","lǎo","shù","hūn","yā",""],"k":"마른 등나무, 늙은 나무, 저물녘 까마귀,"},{"h":"小桥流水人家，","p":["xiǎo","qiáo","liú","shuǐ","rén","jiā",""],"k":"작은 다리, 흐르는 물, 인가,"},{"h":"古道西风瘦马。","p":["gǔ","dào","xī","fēng","shòu","mǎ",""],"k":"옛길, 서풍, 여윈 말."},{"h":"夕阳西下，","p":["xī","yáng","xī","xià",""],"k":"석양은 서쪽으로 지는데"},{"h":"断肠人在天涯。","p":["duàn","cháng","rén","zài","tiān","yá",""],"k":"애끊는 나그네는 하늘 끝에 있네."}],"kt":"천정사 (곡조 이름) · 가을 생각"},{"key":"taohuaan","poet":"唐寅","title":"桃花庵歌","kind":"시","ex":true,"scene":"day peach house wine jar","tp":"táo huā ān gē","lines":[{"h":"桃花坞里桃花庵，","p":["táo","huā","wù","lǐ","táo","huā","ān",""],"k":"도화오 마을의 도화암,"},{"h":"桃花庵里桃花仙。","p":["táo","huā","ān","lǐ","táo","huā","xiān",""],"k":"도화암에는 도화 신선이 사네."},{"h":"桃花仙人种桃树，","p":["táo","huā","xiān","rén","zhòng","táo","shù",""],"k":"도화 신선은 복숭아나무를 심고"},{"h":"又摘桃花换酒钱。","p":["yòu","zhāi","táo","huā","huàn","jiǔ","qián",""],"k":"또 복숭아꽃을 따서 술값으로 바꾸네."},{"h":"别人笑我太疯癫，","p":["bié","rén","xiào","wǒ","tài","fēng","diān",""],"k":"남들은 내가 너무 미쳤다고 웃지만"},{"h":"我笑他人看不穿。","p":["wǒ","xiào","tā","rén","kàn","bù","chuān",""],"k":"나는 남들이 세상을 꿰뚫어 보지 못함을 웃노라."}],"kt":"도화암의 노래"},{"key":"mulanhua","poet":"纳兰性德","title":"木兰花令·拟古决绝词","kind":"사","ex":false,"scene":"dusk fan leaves wind tree","tp":"mù lán huā lìng nǐ gǔ jué jué cí","lines":[{"h":"人生若只如初见，","p":["rén","shēng","ruò","zhǐ","rú","chū","jiàn",""],"k":"인생이 처음 만났을 때 같기만 하다면"},{"h":"何事秋风悲画扇。","p":["hé","shì","qiū","fēng","bēi","huà","shàn",""],"k":"어찌 가을바람에 그림 부채를 슬퍼하랴."},{"h":"等闲变却故人心，","p":["děng","xián","biàn","què","gù","rén","xīn",""],"k":"무심히 옛사람의 마음이 변해 놓고는"},{"h":"却道故人心易变。","p":["què","dào","gù","rén","xīn","yì","biàn",""],"k":"오히려 옛사람의 마음은 변하기 쉽다 하네."},{"h":"骊山语罢清宵半，","p":["lí","shān","yǔ","bà","qīng","xiāo","bàn",""],"k":"여산에서 맹세를 마친 맑은 한밤,"},{"h":"泪雨霖铃终不怨。","p":["lèi","yǔ","lín","líng","zhōng","bú","yuàn",""],"k":"눈물의 〈우림령〉에도 끝내 원망하지 않았건만"},{"h":"何如薄幸锦衣郎，","p":["hé","rú","bó","xìng","jǐn","yī","láng",""],"k":"어찌 저 박정한 비단옷 사내는"},{"h":"比翼连枝当日愿。","p":["bǐ","yì","lián","zhī","dāng","rì","yuàn",""],"k":"비익조·연리지의 그날 소원만 못한가."}],"kt":"목란화령 (곡조 이름) · 옛 노래를 본떠 지은 이별의 노래"},{"key":"jihai","poet":"龚自珍","title":"己亥杂诗","kind":"시","ex":false,"scene":"dusk sun blossom petals road","tp":"jǐ hài zá shī","lines":[{"h":"浩荡离愁白日斜，","p":["hào","dàng","lí","chóu","bái","rì","xié",""],"k":"넘실대는 이별의 시름 속에 흰 해는 기울고"},{"h":"吟鞭东指即天涯。","p":["yín","biān","dōng","zhǐ","jí","tiān","yá",""],"k":"시를 읊으며 채찍으로 동쪽을 가리키니 곧 하늘 끝이라."},{"h":"落红不是无情物，","p":["luò","hóng","bú","shì","wú","qíng","wù",""],"k":"떨어진 꽃잎은 무정한 것이 아니니"},{"h":"化作春泥更护花。","p":["huà","zuò","chūn","ní","gèng","hù","huā",""],"k":"봄 진흙이 되어 다시 꽃을 지키리라."}],"kt":"기해년(1839)에 지은 여러 시"}];
+const WKmap=Object.fromEntries(WK.map(w=>[w.key,w]));
+const norm=s=>s.replace(/[·\s]/g,"");
+// 연표의 작품 → 원문 연결
+P.forEach(p=>(p.w||[]).forEach(w=>{const m=WK.find(k=>k.poet===p.h&&(norm(k.title)===norm(w.t)||norm(k.title).startsWith(norm(w.t))));if(m){w.k=m.key;m.pid=p.id;m.info=w}}));
+
+// ───────── 낭독 ─────────
+const R={w:null,page:0,pages:[],playing:false,idx:-1,rate:0.75,py:true,ko:true,vmode:"f",vuri:""};
+try{const o=JSON.parse(localStorage.getItem("shiren:opt")||"{}");Object.assign(R,{rate:o.rate??R.rate,py:o.py??true,ko:o.ko??true,vmode:o.vmode||"f",vuri:o.vuri||""})}catch(e){}
+const saveOpt=()=>{try{localStorage.setItem("shiren:opt",JSON.stringify({rate:R.rate,py:R.py,ko:R.ko,vmode:R.vmode,vuri:R.vuri}))}catch(e){}};
+let zhVoice=null;const SS=window.speechSynthesis;
+const MALE=/kangkang|yunxi|yunyang|yunjian|yunfeng|yunhao|yunze|yunye|li-?mu|liang|male|男|\bman\b/i;
+let zhVoices=[];
+function pickVoice(){try{const vs=SS.getVoices();zhVoices=vs.filter(v=>/^(zh|cmn)/i.test(v.lang)&&!/HK|TW|yue/i.test(v.lang));if(!zhVoices.length)zhVoices=vs.filter(v=>/^zh/i.test(v.lang));zhVoice=zhVoices.find(v=>/zh[-_]CN/i.test(v.lang))||zhVoices[0]||null;fillVoices()}catch(e){}}
+function voiceFor(){// 사용할 목소리와 음높이
+  if(R.vuri){const v=zhVoices.find(x=>x.voiceURI===R.vuri);if(v)return {v,pitch:R.vmode==="m"&&!MALE.test(v.name)?.62:1}}
+  if(R.vmode==="m"){const v=zhVoices.find(x=>MALE.test(x.name));return v?{v,pitch:1}:{v:zhVoice,pitch:.62}}
+  const v=zhVoices.find(x=>/zh[-_]CN/i.test(x.lang)&&!MALE.test(x.name))||zhVoice;return {v,pitch:1}}
+function fillVoices(){const sel=document.getElementById("oVoice");if(!sel)return;
+  sel.innerHTML=`<option value="">자동 선택</option>`+zhVoices.map(v=>`<option value="${v.voiceURI.replace(/"/g,"&quot;")}">${v.name}${MALE.test(v.name)?" (남)":""}</option>`).join("");
+  sel.value=zhVoices.some(v=>v.voiceURI===R.vuri)?R.vuri:"";
+  const n=document.getElementById("oVoiceNote");if(n)n.textContent=zhVoices.length?(R.vmode==="m"&&!zhVoices.some(v=>MALE.test(v.name))?"이 기기에는 남자 중국어 음성이 없어서 여자 음성의 음을 낮춰 읽어요.":""):"이 기기에서 찾은 중국어 음성이 없어요."}
+if(SS){pickVoice();SS.onvoiceschanged=pickVoice}
+let toastT=null;
+function toast(msg){let t=$("#toast");if(!t){t=document.createElement("div");t.id="toast";t.className="toast";document.body.appendChild(t)}t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,4500)}
+const muteMsg="이 화면에서는 낭독이 막혀 있어요. 크롬·사파리에서 열면 소리가 나요.";
+function say(text,onend){if(!SS){toast(muteMsg);onend&&onend(false);return}
+  let started=false,done=false;const u=new SpeechSynthesisUtterance(text.replace(/[、]/g,"，"));u.lang="zh-CN";const vf=voiceFor();if(vf.v)u.voice=vf.v;u.pitch=vf.pitch;u.rate=R.rate;
+  const fin=ok=>{if(done)return;done=true;onend&&onend(ok)};
+  u.onstart=()=>{started=true};u.onend=()=>fin(true);u.onerror=e=>{if(e.error!=="interrupted"&&e.error!=="canceled"){toast(muteMsg)}fin(false)};
+  try{SS.resume();SS.speak(u)}catch(e){toast(muteMsg);fin(false);return}
+  setTimeout(()=>{if(!started&&!SS.speaking){toast(muteMsg);fin(false)}},2200)}
+function stopAll(){R.playing=false;try{SS&&SS.cancel()}catch(e){}markLine(-1);markHead(0);setPlayBtn()}
+function markHead(k){$("#rTitle").classList.toggle("on",k===1);$("#rSub").classList.toggle("on",k===1);$("#rPoet").classList.toggle("on",k===2)}
+
+// ───────── 감상 화면 ─────────
+const rd=$("#reader");
+function openReader(key){const w=WKmap[key];if(!w)return;stopAll();R.w=w;R.page=0;
+  const p=P[w.pid]??P.find(x=>x.h===w.poet);
+  $("#rTitle").textContent=w.title;$("#rKt").textContent=w.kt||"";
+  const yr=w.info&&w.info.y!=null?` · ${w.info.est?"약 ":""}${fy(w.info.y)}`:"";
+  $("#rSub").innerHTML=`<b>${w.tp}</b>`;$("#rPoet").innerHTML=p?`<span class="pk">${p.k}</span> <span class="ph">${w.poet}</span> <b>${p.py}</b><span class="m">${yr}</span>`:w.poet;
+  $("#rKind").textContent=w.kind;$("#rEx").hidden=!w.ex;
+  $("#wdAbout").innerHTML=`<div class="m">${p?`${p.k}(${w.poet}) · ${p.era}`:""}${yr}${w.ex?" · 발췌":""}</div>${w.info?w.info.n:""}`;
+  rd.hidden=false;rd.classList.toggle("nopy",!R.py);rd.classList.toggle("noko",!R.ko);
+  renderList();closeSheet();
+  requestAnimationFrame(()=>{layoutLines();paintScene()});
+}
+function closeReader(){stopAll();rd.hidden=true;closeWd();const w=R.w;if(w&&w.pid!=null){const wi=(P[w.pid].w||[]).findIndex(x=>x.k===w.key);openP(w.pid,wi<0?null:wi)}}
+function lineHTML(l,i){const cs=[...l.h];return `<button class="ln" data-i="${i}"><div class="zh">${cs.map((c,j)=>l.p[j]?`<ruby>${c}<rt>${l.p[j]}</rt></ruby>`:`<span class="pu">${c}</span>`).join("")}</div><div class="ko">${l.k}</div></button>`}
+function layoutLines(){const box=$("#lines");const w=R.w;if(!w)return;box.style.paddingTop="0px";
+  const W=box.clientWidth,H=box.clientHeight;const maxN=Math.max(...w.lines.map(l=>[...l.h].length));
+  const fz=Math.max(16,Math.min(30,(W-24)/(Math.min(maxN,14)*1.12)));
+  box.style.setProperty("--fz",fz+"px");
+  box.innerHTML=w.lines.map(lineHTML).join("");
+  const els=[...box.children];R.pages=[];let cur=[],h=0;
+  els.forEach((el,i)=>{const eh=el.offsetHeight+4;if(cur.length&&h+eh>H){R.pages.push(cur);cur=[];h=0}cur.push(i);h+=eh});
+  if(cur.length)R.pages.push(cur);
+  // 쪽마다 세로 가운데 정렬
+  els.forEach(el=>el.hidden=true);
+  box.querySelectorAll(".ln").forEach(el=>el.onclick=()=>{const i=+el.dataset.i;stopAll();markLine(i);say(R.w.lines[i].h,()=>markLine(-1))});
+  R.page=Math.min(R.page,R.pages.length-1);showPage();
+}
+function showPage(){const box=$("#lines");const els=[...box.children];const pg=R.pages[R.page]||[];
+  els.forEach((el,i)=>el.hidden=!pg.includes(i));
+  const used=pg.reduce((a,i)=>a+els[i].offsetHeight+4,0);box.style.paddingTop=Math.max(0,(box.clientHeight-used)/2-4)+"px";
+  const first=R.page<=0,last=R.page>=R.pages.length-1;const pw=nbr(-1),nw=nbr(1);$("#pPrev").disabled=first&&!pw;$("#pNext").disabled=last&&!nw;
+  $("#pPrev").textContent=first?"‹ 앞 작품":"◀";$("#pNext").textContent=last?"다음 작품 ›":"▶";$("#pPrev").classList.toggle("wk",first);$("#pNext").classList.toggle("wk",last);
+  $("#pPrev").setAttribute("aria-label",first&&pw?`앞 작품: ${pw.title}`:"앞쪽");$("#pNext").setAttribute("aria-label",last&&nw?`다음 작품: ${nw.title}`:"뒤쪽");
+  $("#pPage").textContent=R.pages.length>1?`${R.page+1} / ${R.pages.length}쪽`:"";
+}
+function markLine(i){R.idx=i;$("#lines").querySelectorAll(".ln").forEach(el=>el.classList.toggle("on",+el.dataset.i===i));
+  if(i>=0){const pi=R.pages.findIndex(pg=>pg.includes(i));if(pi>=0&&pi!==R.page){R.page=pi;showPage()}}}
+function setPlayBtn(){$("#pPlayT").textContent=R.playing?"■ 멈춤":"▶ 전체 듣기"}
+function playFrom(i){if(!R.playing)return;if(i>=R.w.lines.length){stopAll();return}markLine(i);
+  say(R.w.lines[i].h,ok=>{if(!R.playing)return;if(!ok){stopAll();return}setTimeout(()=>playFrom(i+1),280)})}
+function playHead(){const w=R.w;if(!R.playing)return;if(R.page!==0){R.page=0;showPage()}markHead(1);
+  say(w.title.replace(/·/g,"，"),ok=>{if(!R.playing)return;if(!ok){stopAll();return}markHead(2);
+    setTimeout(()=>say(w.poet,ok2=>{if(!R.playing)return;markHead(0);if(!ok2){stopAll();return}setTimeout(()=>playFrom(0),450)}),300)})}
+$("#pPlay").onclick=()=>{if(R.playing){stopAll();return}R.playing=true;setPlayBtn();try{SS&&SS.cancel()}catch(e){}setTimeout(playHead,60)};
+$("#rTitle").onclick=()=>{stopAll();markHead(1);say(R.w.title.replace(/·/g,"，"),()=>markHead(0))};
+$("#rSub").onclick=()=>{stopAll();markHead(1);say(R.w.title.replace(/·/g,"，"),()=>markHead(0))};
+$("#rPoet").onclick=()=>{stopAll();markHead(2);say(R.w.poet,()=>markHead(0))};
+$("#pPrev").onclick=()=>{if(R.page>0){R.page--;showPage()}else{const w=nbr(-1);if(w)openReader(w.key)}};
+$("#pNext").onclick=()=>{if(R.page<R.pages.length-1){R.page++;showPage()}else{const w=nbr(1);if(w)openReader(w.key)}};
+$("#rBack").onclick=closeReader;
+let sx=null;$("#lines").addEventListener("touchstart",e=>{sx=e.touches[0].clientX},{passive:true});
+$("#lines").addEventListener("touchend",e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60){dx<0?$("#pNext").click():$("#pPrev").click()}sx=null});
+document.addEventListener("keydown",e=>{if(rd.hidden)return;if(e.key==="ArrowRight")$("#pNext").click();if(e.key==="ArrowLeft")$("#pPrev").click();if(e.key==="Escape")closeReader();if(e.key===" "){e.preventDefault();$("#pPlay").click()}},true);
+new ResizeObserver(()=>{if(!rd.hidden){layoutLines();paintScene()}}).observe(rd);
+
+// 서랍
+function openWd(){$("#wd").classList.add("open");$("#wdScrim").hidden=false;const c=$("#wlist [aria-current=true]");if(c)c.scrollIntoView({block:"center"})}
+function closeWd(){$("#wd").classList.remove("open");$("#wdScrim").hidden=true}
+$("#rMenu").onclick=openWd;$("#wdClose").onclick=closeWd;$("#wdScrim").onclick=closeWd;
+const ORDER=[...WK].sort((a,b)=>(P[a.pid]?.b??0)-(P[b.pid]?.b??0)||(a.info?.y??9999)-(b.info?.y??9999));
+const nbr=d=>{const i=ORDER.findIndex(x=>x.key===R.w.key);return ORDER[i+d]};
+function renderList(){let h="",g="";ORDER.forEach(w=>{const p=P[w.pid];if(w.poet!==g){g=w.poet;h+=`<div class="g">${p?p.k:""} ${w.poet}</div>`}
+  h+=`<button data-k="${w.key}" aria-current="${R.w&&R.w.key===w.key}"><span class="wt">${w.title}</span><span class="wk">${w.kt||""}${w.ex?" · 발췌":""}</span></button>`});
+  $("#wlist").innerHTML=h;$("#wlist").querySelectorAll("button").forEach(b=>b.onclick=()=>{closeWd();openReader(b.dataset.k)})}
+const oPy=$("#oPy"),oKo=$("#oKo"),oRate=$("#oRate");oPy.checked=R.py;oKo.checked=R.ko;oRate.value=R.rate;$("#oRateV").textContent=R.rate;
+oPy.onchange=()=>{R.py=oPy.checked;rd.classList.toggle("nopy",!R.py);saveOpt()};
+oKo.onchange=()=>{R.ko=oKo.checked;rd.classList.toggle("noko",!R.ko);saveOpt()};
+oRate.oninput=()=>{R.rate=+oRate.value;$("#oRateV").textContent=R.rate;saveOpt()};
+document.querySelectorAll("#oVmode button").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.v===R.vmode);b.onclick=()=>{R.vmode=b.dataset.v;R.vuri="";document.querySelectorAll("#oVmode button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.v===R.vmode));saveOpt();fillVoices();stopAll();say("你好，欢迎")}});
+$("#oVoice").onchange=e=>{R.vuri=e.target.value;saveOpt();fillVoices();stopAll();say("你好，欢迎")};
+fillVoices();
+
+// ───────── 수묵풍 그림 (사람 없이 풍경·소품만) ─────────
+function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function tok(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+function hex(c){c=c.replace("#","");if(c.length===3)c=[...c].map(x=>x+x).join("");const n=parseInt(c,16);return[n>>16&255,n>>8&255,n&255]}
+function paintScene(){const cv=$("#pic");const w=R.w;if(!w)return;const dpr=Math.min(2,window.devicePixelRatio||1);
+  const W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;cv.width=W*dpr;cv.height=H*dpr;const g=cv.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);
+  const S=new Set(w.scene.split(/\s+/));const rand=rng(hashStr(w.key));const R_=(a,b)=>a+(b-a)*rand();
+  const dark=matchMedia("(prefers-color-scheme: dark)").matches&&document.documentElement.dataset.theme!=="light"||document.documentElement.dataset.theme==="dark";
+  const ink=hex(tok("--ink")||"#1A231F"),paper=hex(tok("--card")||"#FBFCF9"),seal=hex(tok("--seal")||"#B5372C"),gold=hex(tok("--gold")||"#C89B1E"),jade=hex(tok("--jade")||"#1E6A58");
+  const C=(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+  const PINK=dark?[226,150,170]:[226,128,152],RED=seal,GREEN=dark?[120,170,140]:[92,140,110],OCHRE=dark?[190,160,100]:[196,160,96];
+  // 하늘
+  const sky=S.has("night")?"night":S.has("dusk")?"dusk":S.has("dawn")?"dawn":"day";
+  g.fillStyle=C(paper,1);g.fillRect(0,0,W,H);
+  let gr=g.createLinearGradient(0,0,0,H);
+  if(sky==="night"){gr.addColorStop(0,C(ink,dark?.0:.32));gr.addColorStop(1,C(ink,dark?.0:.12));if(dark){gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,"rgba(10,16,30,.85)");gr.addColorStop(1,"rgba(10,16,30,.35)")}}
+  else if(sky==="dusk"){gr.addColorStop(0,C(OCHRE,.28));gr.addColorStop(.6,C(RED,.12));gr.addColorStop(1,C(paper,0))}
+  else if(sky==="dawn"){gr.addColorStop(0,C(GREEN,.10));gr.addColorStop(.7,C(OCHRE,.16));gr.addColorStop(1,C(paper,0))}
+  else{gr.addColorStop(0,C(jade,.07));gr.addColorStop(1,C(paper,0))}
+  g.fillStyle=gr;g.fillRect(0,0,W,H);
+  const hasWater=["river","sea","lake","pond"].some(x=>S.has(x)),desert=S.has("desert");
+  const hz=H*(S.has("sea")?.6:hasWater?.64:.7);
+  // 별
+  if(S.has("stars")){for(let i=0;i<60;i++){g.fillStyle=C(dark?paper:paper,R_(.4,.9));const x=R_(0,W),y=R_(0,hz*.8);g.fillRect(x,y,R_(.8,1.8),R_(.8,1.8))}}
+  // 달·해
+  const mx=W*R_(.62,.82),my=H*R_(.16,.26),mr=Math.min(W,H)*.09;
+  if(S.has("moon")){const halo=g.createRadialGradient(mx,my,mr*.6,mx,my,mr*3.2);halo.addColorStop(0,C(gold,.30));halo.addColorStop(1,C(gold,0));g.fillStyle=halo;g.fillRect(0,0,W,H);
+    g.fillStyle=dark?"rgba(245,236,205,.95)":"rgba(252,247,226,1)";g.beginPath();g.arc(mx,my,mr,0,7);g.fill();g.strokeStyle=C(gold,.6);g.lineWidth=1.2;g.stroke()}
+  if(S.has("sun")){const sx_=S.has("moon")?W*.2:mx,sy=sky==="day"?my:hz-mr*1.4;g.fillStyle=C(RED,.78);g.beginPath();g.arc(sx_,sy,mr*.85,0,7);g.fill()}
+  // 구름·안개
+  const cloud=(x,y,w_,h_,a)=>{const cg=g.createRadialGradient(x,y*w_/h_,1,x,y*w_/h_,w_);const cc=sky==="night"&&!dark?paper:ink;cg.addColorStop(0,C(cc,a*.16));cg.addColorStop(.6,C(cc,a*.08));cg.addColorStop(1,C(cc,0));g.save();g.scale(1,h_/w_);g.fillStyle=cg;g.beginPath();g.arc(x,y*w_/h_,w_,0,7);g.fill();g.restore()};
+  // 산
+  function ridge(base,amp,a,rough,seedOff){g.fillStyle=C(ink,a);g.beginPath();g.moveTo(0,H);const f1=R_(1.5,3),f2=R_(4,7),p1=R_(0,6),p2=R_(0,6);
+    for(let x=0;x<=W;x+=4){const t=x/W;const y=base-amp*(.55+.45*Math.sin(t*f1*Math.PI+p1))*(.7+.3*Math.sin(t*f2*Math.PI+p2))-rough*Math.sin(t*37+p2)*R_(.3,1);g.lineTo(x,y)}
+    g.lineTo(W,H);g.closePath();g.fill()}
+  const nM=S.has("mtn3")?3:S.has("mtn2")?2:S.has("mtn1")?1:0;
+  for(let i=0;i<nM;i++){ridge(hz+2,H*(.32-i*.08),.10+i*.09,2+i*1.5)}
+  if(S.has("clouds")||S.has("mist")){for(let i=0;i<5;i++)cloud(R_(0,W),hz*R_(.35,.85),R_(W*.12,W*.28),R_(8,18),S.has("mist")?.85:.7)}
+  if(S.has("peak")){const px=W*R_(.35,.55),top=H*.08;g.fillStyle=C(ink,.42);g.beginPath();g.moveTo(px-W*.22,hz);g.quadraticCurveTo(px-W*.06,H*.45,px-W*.015,top);g.lineTo(px+W*.02,top+6);g.quadraticCurveTo(px+W*.07,H*.4,px+W*.24,hz);g.closePath();g.fill();
+    g.strokeStyle=C(ink,.25);g.lineWidth=1;for(let i=0;i<9;i++){const yy=R_(top+20,hz-10);g.beginPath();g.moveTo(px+R_(-30,10),yy);g.lineTo(px+R_(-10,40),yy+R_(10,30));g.stroke()}}
+  if(S.has("cliff")){g.fillStyle=dark?"rgba(170,90,70,.55)":"rgba(150,70,50,.55)";g.beginPath();g.moveTo(0,H*.12);g.lineTo(W*.2,H*.2);g.lineTo(W*.26,hz);g.lineTo(0,H);g.closePath();g.fill();
+    g.strokeStyle=C(ink,.35);for(let i=0;i<10;i++){const y=R_(H*.2,hz);g.beginPath();g.moveTo(R_(0,W*.1),y);g.lineTo(R_(W*.12,W*.24),y+R_(-10,10));g.stroke()}}
+  // 땅·물
+  if(desert){g.fillStyle=C(OCHRE,.28);g.fillRect(0,hz,W,H-hz);for(let i=0;i<4;i++){g.strokeStyle=C(OCHRE,.5);g.lineWidth=1.4;g.beginPath();const y=hz+(H-hz)*(i+1)/5;g.moveTo(0,y);for(let x=0;x<=W;x+=10)g.lineTo(x,y+Math.sin(x/W*6+i)*5);g.stroke()}}
+  if(hasWater){const wg=g.createLinearGradient(0,hz,0,H);wg.addColorStop(0,C(jade,.10));wg.addColorStop(1,C(jade,.22));g.fillStyle=wg;g.fillRect(0,hz,W,H-hz);
+    g.strokeStyle=C(ink,.22);g.lineWidth=1;const n=S.has("sea")||S.has("waves")?14:9;for(let i=0;i<n;i++){const y=hz+6+(H-hz)*i/n;const x0=R_(-20,W*.6),len=R_(W*.15,W*.5);g.beginPath();g.moveTo(x0,y);for(let x=0;x<=len;x+=8)g.lineTo(x0+x,y+Math.sin(x*.08+i)*(S.has("waves")?3:1.2));g.stroke()}
+    if(S.has("moon")&&!S.has("sea")){for(let i=0;i<6;i++){g.fillStyle=C(gold,.35-i*.04);g.fillRect(mx-mr*R_(.4,1),hz+8+i*((H-hz)/7),mr*R_(.8,2),2)}}
+    if(S.has("moon")&&S.has("sea")){for(let i=0;i<7;i++){g.fillStyle=C(gold,.4-i*.05);g.fillRect(mx-mr*(.3+i*.15),hz+5+i*((H-hz)/8),mr*(.6+i*.3),2)}}
+    g.strokeStyle=C(ink,.35);g.lineWidth=1.2;g.beginPath();g.moveTo(0,hz);g.lineTo(W,hz);g.stroke()}
+  else if(!desert){g.fillStyle=C(GREEN,.10);g.fillRect(0,hz,W,H-hz);g.strokeStyle=C(ink,.18);g.beginPath();g.moveTo(0,hz);for(let x=0;x<=W;x+=12)g.lineTo(x,hz+Math.sin(x*.02)*3);g.stroke()}
+  if(S.has("pond")){g.strokeStyle=C(ink,.55);g.lineWidth=3;g.beginPath();g.moveTo(W*.08,H*.97);g.lineTo(W*.2,hz+4);g.lineTo(W*.8,hz+4);g.lineTo(W*.92,H*.97);g.stroke();for(let i=0;i<3;i++)cloud(W*R_(.3,.7),hz+(H-hz)*R_(.3,.7),W*.12,6,.9)}
+  if(S.has("waves")){g.strokeStyle=C(paper,.9);g.lineWidth=2;for(let i=0;i<7;i++){const x=R_(0,W),y=R_(hz+10,H-6);g.beginPath();g.arc(x,y,R_(6,12),Math.PI*1.1,Math.PI*1.9);g.stroke()}}
+  if(S.has("deep")){g.fillStyle=C(jade,.18);g.beginPath();g.ellipse(W*.5,H*.86,W*.25,(H-hz)*.25,0,0,7);g.fill()}
+  // 건물
+  const gy=hz+(hasWater?-2:4);
+  function roof(x,y,w_,h_,a){g.fillStyle=C(ink,a);g.beginPath();g.moveTo(x-w_*.62,y);g.quadraticCurveTo(x-w_*.3,y-h_*.2,x-w_*.2,y-h_);g.lineTo(x+w_*.2,y-h_);g.quadraticCurveTo(x+w_*.3,y-h_*.2,x+w_*.62,y);g.quadraticCurveTo(x,y-h_*.25,x-w_*.62,y);g.fill()}
+  function bldg(x,base,w_,floors,a){let y=base;for(let i=0;i<floors;i++){const fw=w_*(1-i*.16),fh=w_*.28;g.fillStyle=C(ink,a*.55);g.fillRect(x-fw*.38,y-fh,fw*.76,fh);g.strokeStyle=C(paper,.5);g.lineWidth=1;for(let k=1;k<4;k++){g.beginPath();g.moveTo(x-fw*.38+fw*.76*k/4,y-fh);g.lineTo(x-fw*.38+fw*.76*k/4,y);g.stroke()}roof(x,y-fh,fw,fw*.2,a);y-=fh+fw*.2}}
+  if(S.has("tower"))bldg(W*R_(.15,.3),gy,Math.min(W,H)*.32,3,.75);
+  if(S.has("pavilion")){const x=W*R_(.6,.75),y=gy-H*.12;g.strokeStyle=C(ink,.7);g.lineWidth=2;[-1,1].forEach(s=>{g.beginPath();g.moveTo(x+s*W*.04,y);g.lineTo(x+s*W*.04,y+H*.12);g.stroke()});roof(x,y,W*.13,H*.07,.8)}
+  if(S.has("temple")){const x=W*R_(.7,.82);bldg(x,gy-H*.05,Math.min(W,H)*.2,1,.6)}
+  if(S.has("house")){for(let i=0;i<(S.has("field")?3:2);i++){const x=W*R_(.5,.9),s=Math.min(W,H)*R_(.1,.14),y=gy+R_(-4,8);g.fillStyle=C(paper,.95);g.fillRect(x-s*.4,y-s*.4,s*.8,s*.4);g.strokeStyle=C(ink,.55);g.lineWidth=1;g.strokeRect(x-s*.4,y-s*.4,s*.8,s*.4);roof(x,y-s*.4,s,s*.25,.65)}}
+  if(S.has("wall")){const y=gy-H*.02;g.fillStyle=C(ink,.5);g.fillRect(W*.05,y-H*.09,W*.55,H*.09);for(let x=W*.05;x<W*.6;x+=10)g.fillRect(x,y-H*.09-5,6,5);bldg(W*.32,y-H*.09,Math.min(W,H)*.2,1,.7)}
+  if(S.has("bridge")){const x=W*.62,y=hz+(H-hz)*.35;g.strokeStyle=C(ink,.7);g.lineWidth=3;g.beginPath();g.moveTo(x-W*.12,y);g.quadraticCurveTo(x,y-H*.1,x+W*.12,y);g.stroke();g.lineWidth=1.2;g.beginPath();g.moveTo(x-W*.09,y);g.quadraticCurveTo(x,y-H*.04,x+W*.09,y);g.stroke()}
+  if(S.has("road")){g.strokeStyle=C(OCHRE,.55);g.lineWidth=3;g.beginPath();g.moveTo(W*.95,H);g.bezierCurveTo(W*.7,hz+(H-hz)*.6,W*.6,hz+10,W*.42,hz+2);g.stroke()}
+  if(S.has("field")){g.strokeStyle=C(GREEN,.5);g.lineWidth=1;for(let i=0;i<8;i++){const y=hz+(H-hz)*(i+1)/9;g.beginPath();g.moveTo(W*.35,y);g.lineTo(W,y+4);g.stroke()}}
+  if(S.has("smoke")){g.strokeStyle=C(ink,.35);g.lineWidth=2;for(let k=0;k<2;k++){const x=W*R_(.55,.8);g.beginPath();g.moveTo(x,hz-10);for(let y=hz-10;y>H*.15;y-=6)g.lineTo(x+Math.sin(y*.08+k)*6+(hz-y)*.08,y);g.stroke()}}
+  // 나무와 풀
+  function branch(x,y,len,ang,depth,wid,col,blos){if(depth===0||len<4){if(blos)blossom(x,y,blos);return}
+    const x2=x+Math.cos(ang)*len,y2=y+Math.sin(ang)*len;g.strokeStyle=col;g.lineWidth=wid;g.lineCap="round";g.beginPath();g.moveTo(x,y);g.quadraticCurveTo((x+x2)/2+R_(-4,4),(y+y2)/2+R_(-4,4),x2,y2);g.stroke();
+    const n=depth>3?2:R_(0,1)>.4?2:3;for(let i=0;i<n;i++)branch(x2,y2,len*R_(.62,.8),ang+R_(-.7,.7),depth-1,wid*.66,col,blos);if(blos&&depth<3&&R_(0,1)>.4)blossom(x2,y2,blos)}
+  function blossom(x,y,b){const n=b.n||4;for(let i=0;i<n;i++){g.fillStyle=C(b.c,R_(.55,.9));g.beginPath();g.arc(x+R_(-6,6),y+R_(-6,6),R_(1.6,b.r||3.2),0,7);g.fill()}}
+  const treeX=S.has("tower")||S.has("cliff")?W*R_(.78,.92):W*R_(.06,.2),treeBase=H*.98,th=H*.55;
+  const trunk=C(ink,.75);
+  if(S.has("willow")){const x=treeX,y=treeBase;g.strokeStyle=trunk;g.lineWidth=6;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+8,y-th*.5,x-4,y-th);g.stroke();
+    for(let i=0;i<34;i++){const sx2=x-4+R_(-th*.45,th*.45),sy2=y-th+R_(-10,th*.2);g.strokeStyle=C(GREEN,R_(.45,.8));g.lineWidth=1.1;g.beginPath();g.moveTo(sx2,sy2);g.bezierCurveTo(sx2+R_(-8,8),sy2+th*.2,sx2+R_(-10,10),sy2+th*.45,sx2+R_(-14,14),sy2+th*R_(.45,.75));g.stroke()}}
+  const bl=S.has("peach")||S.has("blossom")||S.has("apricot")||S.has("begonia");
+  if(bl&&!S.has("willow"))branch(treeX,treeBase,th*.38,-Math.PI/2+R_(-.15,.15),6,6,trunk,{c:PINK,n:5,r:3.4});
+  else if(bl)branch(W-treeX*.8,treeBase,th*.3,-Math.PI/2-.2,5,5,trunk,{c:PINK,n:5,r:3.2});
+  if(S.has("maple"))branch(W*.82,treeBase,th*.34,-Math.PI/2+.1,6,6,trunk,{c:RED,n:5,r:3.4});
+  if(S.has("tree")&&!bl&&!S.has("maple"))branch(treeX,treeBase,th*.38,-Math.PI/2+.1,6,7,trunk,null);
+  if(S.has("pine")){const x=S.has("willow")||bl?W*.86:treeX,y=treeBase;g.strokeStyle=trunk;g.lineWidth=7;g.beginPath();g.moveTo(x,y);g.bezierCurveTo(x+20,y-th*.4,x-20,y-th*.7,x+6,y-th);g.stroke();
+    for(let i=0;i<5;i++){const yy=y-th*(.45+i*.12),xx=x+R_(-10,14);g.fillStyle=C(ink,.65);g.beginPath();g.ellipse(xx,yy,R_(26,40)*(1-i*.1),7,R_(-.2,.2),0,7);g.fill();g.fillStyle=C(GREEN,.45);g.beginPath();g.ellipse(xx+4,yy-2,R_(18,30),4,0,0,7);g.fill()}}
+  if(S.has("bamboo")){const x0=S.has("pine")?W*.08:W*.86;for(let k=0;k<3;k++){const x=x0+k*9,top=H*R_(.12,.3);g.strokeStyle=C(GREEN,.85);g.lineWidth=4;g.beginPath();g.moveTo(x,H);g.lineTo(x+4,top);g.stroke();
+    for(let y=H-20;y>top;y-=22){g.strokeStyle=C(paper,.9);g.lineWidth=1;g.beginPath();g.moveTo(x-2,y);g.lineTo(x+6,y);g.stroke();if(R_(0,1)>.5){g.fillStyle=C(GREEN,.8);g.beginPath();const s=R_(0,1)>.5?1:-1;g.ellipse(x+s*12,y-6,12,2.6,s*.5,0,7);g.fill()}}}}
+  if(S.has("grass")||S.has("reeds")){for(let i=0;i<70;i++){const x=R_(0,W),y=H-R_(0,(H-hz)*.5);g.strokeStyle=C(S.has("reeds")?OCHRE:GREEN,R_(.4,.8));g.lineWidth=1;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+R_(-4,4),y-10,x+R_(-8,8),y-R_(10,S.has("reeds")?36:22));g.stroke()}}
+  if(S.has("fire")){for(let i=0;i<14;i++){const x=W*R_(.1,.9),y=H-R_(2,14);g.fillStyle=C(RED,R_(.35,.7));g.beginPath();g.moveTo(x-5,y);g.quadraticCurveTo(x,y-R_(14,26),x+5,y);g.fill()}}
+  if(S.has("fence")){const y=H*.9;g.strokeStyle=C(ink,.6);g.lineWidth=2;for(let x=W*.02;x<W*.4;x+=12){g.beginPath();g.moveTo(x,y);g.lineTo(x,y-H*.14);g.stroke()}g.lineWidth=1.5;[.05,.1].forEach(d=>{g.beginPath();g.moveTo(W*.02,y-H*d);g.lineTo(W*.4,y-H*d);g.stroke()})}
+  if(S.has("chrys")){for(let k=0;k<6;k++){const x=W*R_(.04,.4),y=H*R_(.78,.95);g.strokeStyle=C(GREEN,.7);g.lineWidth=1.2;g.beginPath();g.moveTo(x,H);g.lineTo(x,y);g.stroke();for(let i=0;i<10;i++){const a=i/10*Math.PI*2;g.strokeStyle=C(gold,.9);g.lineWidth=2;g.beginPath();g.moveTo(x,y);g.lineTo(x+Math.cos(a)*7,y+Math.sin(a)*7);g.stroke()}}}
+  if(S.has("lotus")){for(let k=0;k<9;k++){const x=W*R_(.05,.95),y=hz+(H-hz)*R_(.25,.95);g.fillStyle=C(GREEN,.65);g.beginPath();g.ellipse(x,y,R_(12,22),R_(4,7),0,0,7);g.fill();if(R_(0,1)>.45){g.fillStyle=C(PINK,.85);g.beginPath();g.moveTo(x-6,y-3);g.quadraticCurveTo(x,y-20,x+6,y-3);g.closePath();g.fill()}}}
+  if(S.has("zhuyu")){const x=W*.82,y=H*.82;g.strokeStyle=C(ink,.7);g.lineWidth=2;g.beginPath();g.moveTo(x,H);g.quadraticCurveTo(x+10,y,x-14,y-H*.25);g.stroke();for(let i=0;i<14;i++){g.fillStyle=C(RED,.9);g.beginPath();g.arc(x-14+R_(-14,14),y-H*.25+R_(0,H*.2),3,0,7);g.fill()}}
+  // 배
+  function boat(x,y,s,sail){g.fillStyle=C(ink,.8);g.beginPath();g.moveTo(x-s,y);g.quadraticCurveTo(x,y+s*.35,x+s,y-s*.08);g.lineTo(x+s*.75,y-s*.02);g.quadraticCurveTo(x,y+s*.12,x-s,y);g.fill();
+    if(sail){g.strokeStyle=C(ink,.8);g.lineWidth=1.5;g.beginPath();g.moveTo(x,y);g.lineTo(x,y-s*1.4);g.stroke();g.fillStyle=C(paper,.95);g.strokeStyle=C(ink,.6);g.beginPath();g.moveTo(x+1,y-s*1.35);g.quadraticCurveTo(x+s*.8,y-s*.8,x+1,y-s*.15);g.closePath();g.fill();g.stroke()}}
+  const by=hz+(H-hz)*.4;
+  if(S.has("boat"))boat(W*R_(.4,.6),by,Math.min(W,H)*.09,false);
+  if(S.has("sail"))boat(W*.6,hz+(H-hz)*.3,Math.min(W,H)*.1,true);
+  if(S.has("sails"))for(let i=0;i<6;i++)boat(W*R_(.35,.95),hz+(H-hz)*R_(.1,.6),Math.min(W,H)*R_(.04,.07),true);
+  if(S.has("fishing")){const x=W*.5,y=by;g.strokeStyle=C(ink,.75);g.lineWidth=1.2;g.beginPath();g.moveTo(x+8,y-4);g.quadraticCurveTo(x+W*.14,y-H*.18,x+W*.22,y-H*.12);g.stroke();g.beginPath();g.moveTo(x+W*.22,y-H*.12);g.lineTo(x+W*.22,y+10);g.stroke()}
+  if(S.has("hat")){const x=W*.5-6,y=by-6;g.fillStyle=C(OCHRE,.95);g.beginPath();g.moveTo(x-12,y);g.lineTo(x,y-9);g.lineTo(x+12,y);g.closePath();g.fill();g.strokeStyle=C(ink,.6);g.stroke()}
+  // 새·날씨
+  function bird(x,y,s,col){g.strokeStyle=col;g.lineWidth=1.4;g.beginPath();g.moveTo(x-s,y-s*.4);g.quadraticCurveTo(x-s*.4,y-s*.6,x,y);g.quadraticCurveTo(x+s*.4,y-s*.6,x+s,y-s*.4);g.stroke()}
+  if(S.has("geese")){const x0=W*R_(.25,.45),y0=H*R_(.15,.3);for(let i=0;i<7;i++){const k=i-3;bird(x0+Math.abs(k)*14,y0+k*8*(k<0?-1:1)*.0+Math.abs(k)*7,6,C(ink,.7))}}
+  if(S.has("birds"))for(let i=0;i<5;i++)bird(W*R_(.2,.8),H*R_(.1,.4),R_(4,7),C(ink,.6));
+  if(S.has("crow")){for(let i=0;i<3;i++){const x=W*R_(.08,.25),y=H*R_(.3,.5);g.fillStyle=C(ink,.9);g.beginPath();g.ellipse(x,y,6,4,0,0,7);g.fill();g.beginPath();g.arc(x+5,y-3,2.6,0,7);g.fill()}}
+  if(S.has("butterfly")){for(let i=0;i<2;i++){const x=W*R_(.3,.6),y=H*R_(.25,.5);g.fillStyle=C(gold,.8);[-1,1].forEach(s=>{g.beginPath();g.ellipse(x+s*5,y-3,5,7,s*.5,0,7);g.fill();g.beginPath();g.ellipse(x+s*4,y+4,3,4,s*.3,0,7);g.fill()});g.fillStyle=C(ink,.8);g.fillRect(x-.8,y-6,1.6,12)}}
+  if(S.has("rain")){g.strokeStyle=C(ink,.22);g.lineWidth=1;for(let i=0;i<110;i++){const x=R_(0,W),y=R_(0,H);g.beginPath();g.moveTo(x,y);g.lineTo(x-4,y+14);g.stroke()}}
+  if(S.has("snow")){g.fillStyle=dark?C(paper,.9):"rgba(255,255,255,.95)";for(let i=0;i<140;i++){g.beginPath();g.arc(R_(0,W),R_(0,H),R_(.8,2.4),0,7);g.fill()}if(!dark){g.strokeStyle=C(ink,.08);for(let i=0;i<60;i++){g.beginPath();g.arc(R_(0,W),R_(0,H),R_(1,2),0,7);g.stroke()}}}
+  if(S.has("frost")){g.fillStyle=C(dark?paper:[220,230,240],.7);for(let i=0;i<90;i++){g.fillRect(R_(0,W),R_(hz,H),1.5,1.5)}}
+  if(S.has("wind")||S.has("leaves")||S.has("petals")){const col=S.has("petals")?PINK:S.has("leaves")?OCHRE:GREEN;for(let i=0;i<(S.has("wind")&&!S.has("leaves")&&!S.has("petals")?10:24);i++){const x=R_(0,W),y=R_(0,H*.9);g.fillStyle=C(col,R_(.5,.85));g.beginPath();g.ellipse(x,y,R_(3,5),R_(1.2,2.2),R_(0,3),0,7);g.fill()}
+    if(S.has("wind")){g.strokeStyle=C(ink,.15);g.lineWidth=1;for(let i=0;i<5;i++){const y=R_(H*.2,H*.6),x=R_(0,W*.5);g.beginPath();g.moveTo(x,y);g.bezierCurveTo(x+40,y-8,x+80,y+8,x+R_(120,200),y-4);g.stroke()}}}
+  if(S.has("lanterns")){for(let i=0;i<9;i++){const x=W*(i+.5)/9,y=H*R_(.18,.42);g.strokeStyle=C(ink,.4);g.lineWidth=1;g.beginPath();g.moveTo(x,0);g.lineTo(x,y-8);g.stroke();const lg=g.createRadialGradient(x,y,1,x,y,20);lg.addColorStop(0,C(gold,.45));lg.addColorStop(1,C(gold,0));g.fillStyle=lg;g.beginPath();g.arc(x,y,20,0,7);g.fill();g.fillStyle=C(RED,.92);g.beginPath();g.ellipse(x,y,7,9,0,0,7);g.fill()}}
+  // 창
+  if(S.has("window")){g.strokeStyle=C(ink,.55);g.lineWidth=5;g.strokeRect(6,6,W-12,H-12);g.lineWidth=1.4;for(let i=1;i<6;i++){g.beginPath();g.moveTo(6,6+(H-12)*i/6);g.lineTo(W*.18,6+(H-12)*i/6);g.stroke();g.beginPath();g.moveTo(W*.82,6+(H-12)*i/6);g.lineTo(W-6,6+(H-12)*i/6);g.stroke()}
+    g.beginPath();g.moveTo(W*.18,6);g.lineTo(W*.18,H-6);g.moveTo(W*.82,6);g.lineTo(W*.82,H-6);g.stroke()}
+  // 앞쪽 소품 (오른쪽 아래)
+  const fx=W*.8,fy=H*.93,u=Math.min(W,H)*.12;
+  function table(){g.fillStyle=C(ink,.55);g.fillRect(fx-u*1.6,fy-2,u*3.2,5)}
+  const props=["wine","cup","jar","pipa","qin","konghou","candle","fan","sword","book","pot"].filter(x=>S.has(x));
+  if(props.length&&!S.has("pot"))table();
+  let px=fx+u*.9;
+  if(S.has("jar")){g.fillStyle=C(ink,.75);g.beginPath();g.moveTo(px-u*.3,fy-u*1.1);g.quadraticCurveTo(px-u*.6,fy-u*.5,px-u*.25,fy);g.lineTo(px+u*.25,fy);g.quadraticCurveTo(px+u*.6,fy-u*.5,px+u*.3,fy-u*1.1);g.closePath();g.fill();g.fillStyle=C(RED,.85);g.fillRect(px-u*.18,fy-u*.8,u*.36,u*.36);px-=u*.9}
+  if(S.has("cup")){const c=S.has("desert")?C(jade,.85):C(gold,.9);g.fillStyle=c;g.beginPath();g.moveTo(px-u*.3,fy-u*.55);g.lineTo(px+u*.3,fy-u*.55);g.quadraticCurveTo(px+u*.25,fy-u*.2,px+u*.05,fy-u*.15);g.lineTo(px+u*.05,fy-u*.05);g.lineTo(px+u*.2,fy);g.lineTo(px-u*.2,fy);g.lineTo(px-u*.05,fy-u*.05);g.lineTo(px-u*.05,fy-u*.15);g.quadraticCurveTo(px-u*.25,fy-u*.2,px-u*.3,fy-u*.55);g.fill();px-=u*.8}
+  if(S.has("candle")){g.fillStyle=C(RED,.85);g.fillRect(px-u*.08,fy-u*.8,u*.16,u*.8);const fl=g.createRadialGradient(px,fy-u*.95,1,px,fy-u*.95,u*.6);fl.addColorStop(0,C(gold,.7));fl.addColorStop(1,C(gold,0));g.fillStyle=fl;g.beginPath();g.arc(px,fy-u*.95,u*.6,0,7);g.fill();g.fillStyle=C(gold,1);g.beginPath();g.ellipse(px,fy-u*.92,u*.05,u*.12,0,0,7);g.fill();px-=u*.8}
+  if(S.has("book")){g.fillStyle=C(ink,.7);g.fillRect(px-u*.6,fy-u*.18,u*1.1,u*.18);g.fillStyle=C(paper,1);g.fillRect(px-u*.55,fy-u*.32,u*1,u*.14);g.strokeStyle=C(ink,.5);g.strokeRect(px-u*.55,fy-u*.32,u*1,u*.14);px-=u*1.2}
+  if(S.has("pipa")){const x=W*.68,y=fy-u*.2;g.save();g.translate(x,y);g.rotate(-.5);g.fillStyle=C(OCHRE,.95);g.beginPath();g.ellipse(0,0,u*.45,u*.7,0,0,7);g.fill();g.fillStyle=C(ink,.75);g.fillRect(-u*.06,-u*1.6,u*.12,u*1);g.strokeStyle=C(ink,.5);g.lineWidth=.8;for(let i=-1;i<=2;i++){g.beginPath();g.moveTo(i*u*.05,-u*1.5);g.lineTo(i*u*.05,u*.5);g.stroke()}g.restore()}
+  if(S.has("qin")){g.fillStyle=C(ink,.82);g.beginPath();g.moveTo(W*.42,fy-6);g.quadraticCurveTo(W*.58,fy-u*.35,W*.72,fy-8);g.lineTo(W*.72,fy-2);g.lineTo(W*.42,fy-2);g.closePath();g.fill();g.strokeStyle=C(paper,.7);g.lineWidth=.7;for(let i=0;i<5;i++){g.beginPath();g.moveTo(W*.44,fy-5-i*1.6);g.lineTo(W*.7,fy-7-i*1.6);g.stroke()}}
+  if(S.has("konghou")){const x=W*.62,y=fy;g.strokeStyle=C(OCHRE,1);g.lineWidth=4;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x-u*.2,y-u*1.6,x+u*.9,y-u*1.8);g.stroke();g.lineWidth=2;g.beginPath();g.moveTo(x,y);g.lineTo(x+u*.9,y-u*.1);g.stroke();g.strokeStyle=C(ink,.5);g.lineWidth=.7;for(let i=1;i<9;i++){const t=i/9;g.beginPath();g.moveTo(x+u*.9*t,y-u*.1*t);g.lineTo(x+u*.9*t-u*.1,y-u*1.7*t-u*.1);g.stroke()}}
+  if(S.has("fan")){const x=W*.62,y=H*.88,r=u*1.3;g.fillStyle=C(paper,1);g.strokeStyle=C(ink,.6);g.lineWidth=1.2;g.beginPath();g.moveTo(x,y);g.arc(x,y,r,-Math.PI*.85,-Math.PI*.15);g.closePath();g.fill();g.stroke();for(let i=0;i<=8;i++){const a=-Math.PI*.85+Math.PI*.7*i/8;g.beginPath();g.moveTo(x,y);g.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);g.stroke()}
+    g.fillStyle=C(PINK,.7);for(let i=0;i<6;i++){g.beginPath();g.arc(x+R_(-r*.5,r*.5),y-r*R_(.55,.85),2.6,0,7);g.fill()}}
+  if(S.has("sword")){g.save();g.translate(W*.55,fy-4);g.rotate(-.12);g.fillStyle=C(ink,.85);g.fillRect(0,-3,u*1.8,6);g.fillStyle=C(gold,.9);g.fillRect(-u*.08,-7,u*.08,14);g.fillStyle=C(RED,.8);g.fillRect(-u*.5,-2.5,u*.42,5);g.restore()}
+  if(S.has("pot")){const x=W*.62,y=H*.84;g.fillStyle=C(ink,.85);g.beginPath();g.ellipse(x,y-u*.5,u*.9,u*.2,0,0,7);g.fill();g.beginPath();g.moveTo(x-u*.9,y-u*.5);g.quadraticCurveTo(x,y+u*.5,x+u*.9,y-u*.5);g.fill();
+    g.fillStyle=C(OCHRE,.95);for(let i=0;i<9;i++){g.beginPath();g.arc(x+R_(-u*.6,u*.6),y-u*.55+R_(-2,2),3,0,7);g.fill()}
+    g.strokeStyle=C(OCHRE,.9);g.lineWidth=2;for(let i=0;i<5;i++){g.beginPath();g.moveTo(x-u*.8+i*u*.4,H);g.lineTo(x-u*.6+i*u*.3,y+u*.15);g.stroke()}}
+  // 낙관
+  g.fillStyle=C(RED,.85);const ss=Math.max(14,Math.min(W,H)*.075);g.fillRect(W-ss-10,H-ss-10,ss,ss);g.fillStyle=C(paper,1);g.font=`700 ${ss*.62}px ${tok("--hz")}`;g.textAlign="center";g.textBaseline="middle";g.fillText(w.poet[0],W-10-ss/2,H-10-ss/2+1);
+}
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if(!rd.hidden)paintScene()});
+
+try{const m=/^#w-([a-z0-9_]+)$/.exec(location.hash);if(m&&WKmap[m[1]])openReader(m[1])}catch(e){}
+
+// 인앱 브라우저 → 기본 브라우저
+(function(){const ua=navigator.userAgent||"";if(!/KAKAOTALK|FBAN|FBAV|FB_IAB|NAVER|Instagram|Line\/|DaumApps|everytimeApp|BAND/i.test(ua))return;
+  let url=location.href;try{url=window.top.location.href}catch(e){if(document.referrer)url=document.referrer}
+  const nav=u=>{try{window.top.location.href=u}catch(e){location.href=u}};
+  if(/KAKAOTALK/i.test(ua)){nav("kakaotalk://web/openExternal?url="+encodeURIComponent(url));return}
+  if(/Android/i.test(ua)){nav("intent://"+url.replace(/^https?:\/\//,"")+"#Intent;scheme=https;package=com.android.chrome;end");return}
+  $("#inapp").hidden=false;
+  $("#copyLink").onclick=()=>{navigator.clipboard.writeText(url).then(()=>{$("#copyLink").textContent="복사됨 — 사파리에 붙여 넣으세요"}).catch(()=>{$("#copyLink").textContent=url})};
+  $("#skipInapp").onclick=()=>{$("#inapp").hidden=true};
+})();
+</script>
+
+</body>
+</html>
